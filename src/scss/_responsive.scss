@@ -1,0 +1,16 @@
+@import "./vars/variables";
+@import "./vars/functions";
+
+@for $i from 1 through 60 {
+    @media (min-width: 1600px + ($i * 100)) {
+        html {
+            font-size: #{$browser-context + $i}px;
+        }
+    }
+}
+
+.container {
+    max-width: rem(1320);
+    padding-left: rem(15);
+    padding-right: rem(15);
+}
