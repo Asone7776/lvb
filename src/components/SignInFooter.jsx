@@ -12,4 +12,4 @@ const SignInFooter = () => {
     );
 }
 
-export default SignInFooter;
+export default SignInFooter;    

@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "axios": "^0.27.2",
+    "bootstrap": "^4.6.1",
+    "classnames": "^2.3.1",
     "immer": "^9.0.15",
     "js-cookie": "^3.0.1",
     "react": "^18.2.0",
@@ -14,8 +16,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
-    "redux-thunk": "^2.4.1",
-    "sass": "^1.52.3"
+    "redux-thunk": "^2.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -40,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "sass": "^1.52.3"
   }
 }
