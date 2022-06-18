@@ -1,4 +1,5 @@
-@import "./bootstrap-grid.min.css";
+@import "./bootstrap.min.css";
+@import "./bootstrap-reboot.min.css";
 @import "./vars/variables";
 @import "./vars/functions";
 @import "./fonts";
@@ -159,26 +160,31 @@ html * {
 }
 
 .btn {
-    text-transform: uppercase;
-    background: #fff;
-    border: 0.14rem solid $secondary-color;
     font-size: rem(14);
-    -webkit-border-radius: 0.57rem;
-    -moz-border-radius: 0.57rem;
-    border-radius: 0.57rem;
-    display: inline-block;
-    overflow: hidden;
-    text-align: center;
-    min-width: 18.92rem;
-    padding: 1.2rem;
-    font-weight: 500;
-
+    color: #fff;
+    width: 100%;
+    @include transition();
+    &.btn-primary {
+        background: $primary-color;
+        border-radius: rem(4);
+        border: none;
+        padding-top: rem(14);
+        padding-bottom: rem(14);
+        font: {
+            family: "PT Sans Bold";
+            size: rem(18);
+        }
+        &:hover,
+        &:focus {
+            background: darken($primary-color, 10);
+            color: #fff;
+        }
+        &:disabled {
+            opacity: 0.5;
+        }
+    }
     i {
         @include transition();
-    }
-
-    &.filled {
-        background: $secondary-color;
     }
 
     &:hover,
@@ -197,6 +203,54 @@ html * {
 
     & + & {
         margin-left: rem(30);
+    }
+    &.btn-blue-transparent {
+        border: none;
+        background: transparent;
+        color: $secondary-color;
+        margin: 0;
+        padding: 0;
+        font: {
+            family: "PT Sans";
+            size: rem(16);
+        }
+
+        &:hover,
+        &:focus {
+            background: transparent;
+        }
+    }
+    &.btn-gray {
+        border: none;
+        border-radius: rem(8);
+        background: $gray;
+        color: $black;
+        padding: rem(9) rem(24);
+        font: {
+            family: "Roboto Bold";
+            size: rem(16);
+        }
+        &:hover,
+        &:focus {
+            background: rgba($color: $black, $alpha: 0.2);
+        }
+    }
+    &.btn-gold {
+        display: inline-block;
+        width: auto;
+        border: rem(2) solid $gold;
+        border-radius: rem(100);
+        background: transparent;
+        color: $black;
+        padding: rem(10) rem(40);
+        font: {
+            family: "Roboto";
+            size: rem(14);
+        }
+        &:hover,
+        &:focus {
+            // background: rgba($color: $black, $alpha: 0.2);
+        }
     }
 }
 body > #root > div {
@@ -228,6 +282,7 @@ h4,
 h5,
 h6 {
     font-weight: 400;
+    margin-bottom: 0;
 }
 
 // h1{
@@ -270,7 +325,12 @@ a {
         text-decoration: none !important;
     }
 }
-
+.vertical-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 p {
     line-height: rem(26);
 }
@@ -320,6 +380,64 @@ p {
         width: 50%;
     }
 }
+.sign-in-form {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    h4 {
+        text-align: center;
+        margin-bottom: rem(30);
+        font: {
+            family: "Roboto Bold";
+            size: rem(24);
+        }
+    }
+    .error-message {
+        color: $red;
+        display: block;
+        margin-top: rem(5);
+    }
+    .form-group {
+        margin-bottom: rem(30);
+        label {
+            font: {
+                family: "PT Sans";
+                size: rem(14);
+            }
+            margin-bottom: rem(10);
+        }
+        input {
+            min-height: rem(56);
+        }
+    }
+    button[type="submit"] {
+        min-height: rem(56);
+    }
+    .form-control {
+        font: {
+            family: "PT Sans";
+            size: rem(16);
+        }
+        color: $black;
+        &::placeholder {
+            color: rgba($color: $black, $alpha: 0.3);
+        }
+        &.email-form-control {
+            border-right: 0;
+        }
+    }
+    .input-group-append {
+        .form-control {
+            border-left: 0;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
 .sign-in-footer {
     display: flex;
     .cm-col {
@@ -333,5 +451,70 @@ p {
             family: "Montserrat";
             size: rem(12);
         }
+    }
+}
+.admin-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .admin-footer {
+        padding-top: rem(15);
+        padding-bottom: rem(15);
+        .cm-col {
+            p {
+                margin-bottom: 0;
+            }
+            display: flex;
+            align-items: center;
+            &.right {
+                justify-content: flex-end;
+            }
+        }
+    }
+}
+.content {
+    background-color: $admin-bg;
+    flex: 1;
+}
+.admin-header {
+    background: $white;
+    padding-top: rem(13);
+    padding-bottom: rem(13);
+    .row {
+        display: flex;
+        justify-content: space-between;
+    }
+    .current-user {
+        display: flex;
+        align-items: center;
+        .user-email {
+            padding-right: rem(30);
+            font: {
+                family: "Roboto Bold";
+                size: rem(16);
+            }
+        }
+    }
+}
+
+.no-document {
+    text-align: center;
+    img {
+        margin-bottom: rem(20);
+    }
+    h2 {
+        color: $heading-green;
+        font: {
+            family: "Roboto Bold";
+            size: rem(20);
+        }
+        margin-bottom: rem(5);
+    }
+    p {
+        font: {
+            family: "Roboto";
+            size: rem(12);
+        }
+        margin-bottom: rem(20);
     }
 }

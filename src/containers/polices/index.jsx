@@ -1,6 +1,9 @@
+import NoDocument from "../../components/NoDocument";
 const PolicyPage = () => {
     return (
-        <h1>Policy</h1>
+        <div className="vertical-center">
+            <NoDocument />
+        </div>
     );
 }
 
