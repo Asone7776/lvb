@@ -1,7 +1,9 @@
 import NoDocument from "../../components/NoDocument";
+import { useNavigate } from "react-router-dom";
 import Accordion from "../../components/Accordion";
 import TopInfo from "../../components/TopInfo";
 const PolicyPage = () => {
+    const navigate = useNavigate();
     return (
         <>
             {/* <div className="vertical-center"> */}
@@ -11,7 +13,9 @@ const PolicyPage = () => {
                 <div className="container">
                     <div className="row d-flex justify-content-center">
                         <div className="col-8">
-                            <TopInfo title={"Полисы страхования"} onNewPressed={()=>{}} />
+                            <TopInfo title={"Полисы страхования"} onNewPressed={() => {
+                                navigate('/admin/create');
+                            }} />
                             <Accordion />
                         </div>
                     </div>

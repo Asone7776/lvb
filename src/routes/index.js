@@ -4,6 +4,7 @@ import SignInLayout from '../layouts/SignInLayout';
 import AdminLayout from '../layouts/AdminLayout';
 import Login from "../containers/login";
 import PolicyPage from "../containers/polices";
+import CreatePolicy from "../containers/polices/create";
 
 const RoutesComponent = () => {
     return (
@@ -17,7 +18,10 @@ const RoutesComponent = () => {
                 <Route
                     element={<AdminLayout />}
                 >
-                    <Route path="/admin" element={<PolicyPage />} />
+                    <Route path="/admin">
+                        <Route path="/admin" element={<PolicyPage />} />
+                        <Route path="/admin/create" element={<CreatePolicy />} />
+                    </Route>
                 </Route>
                 <Route
                     path={'*'}
