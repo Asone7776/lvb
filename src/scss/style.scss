@@ -2,6 +2,7 @@
 @import "./vars/functions";
 @import "./fonts";
 @import "./input-range";
+@import "./checkbox";
 
 //Helpers
 .text-left {
@@ -524,7 +525,12 @@ p {
         margin-bottom: rem(20);
     }
 }
-
+.divider {
+    background-color: #d9d9d9;
+    height: rem(1);
+    width: 100%;
+    margin-bottom: rem(15);
+}
 .information {
     display: flex;
     padding-top: rem(30);
@@ -547,12 +553,6 @@ p {
             .card-body {
                 padding: rem(12) rem(24);
                 padding-top: 0;
-                .divider {
-                    background-color: #d9d9d9;
-                    height: rem(1);
-                    width: 100%;
-                    margin-bottom: rem(15);
-                }
                 .row {
                     margin-bottom: rem(15);
                     .item {
@@ -617,6 +617,33 @@ p {
     }
 }
 
+.case-item {
+    border-radius: rem(4);
+    padding: rem(15);
+    border: rem(2) solid $gray;
+    height: 100%;
+    h5 {
+        font: {
+            family: "PT Sans Bold";
+            size: rem(16);
+        }
+        margin-bottom: rem(5);
+    }
+    p {
+        font: {
+            family: "PT Sans";
+            size: rem(10);
+        }
+        line-height: rem(18);
+        margin-bottom: 0;
+    }
+    @include transition();
+    &.active {
+        background-color: rgba(#13ac97, 0.05);
+        border-color: transparent;
+    }
+}
+
 .custom-card {
     border: none;
     padding: rem(30) rem(20);
@@ -624,6 +651,12 @@ p {
     margin-bottom: rem(20);
     .card-body {
         padding: 0;
+    }
+    &-small {
+        border: none;
+        padding: rem(20);
+        border-radius: rem(4);
+        margin-bottom: rem(20);
     }
 }
 .pre-form {
@@ -648,6 +681,35 @@ p {
         font: {
             family: "PT Sans";
             size: rem(14);
+        }
+    }
+}
+.info-wrapper{
+    .info-block{
+        
+        span{
+            display: block;
+            font: {
+                family: "PT Sans";
+                size: rem(14);
+            }   
+            margin-bottom: rem(10);
+        }
+        h4{
+            margin-bottom: rem(15);
+            font: {
+                family: "PT Sans Bold";
+                size: rem(16);
+            }
+            // margin-bottom: 0;
+        }
+        .pre-price{
+            font: {
+                family: "PT Sans Bold";
+                size: rem(32);
+            }  
+            color:$secondary-color;
+            margin-bottom: rem(15);
         }
     }
 }
