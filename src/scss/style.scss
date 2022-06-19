@@ -158,7 +158,21 @@ html * {
         margin-left: auto;
     }
 }
-
+.form-control {
+    border-color: rgba($color: #000000, $alpha: 0.2);
+    font: {
+        family: "PT Sans";
+        size: rem(16);
+    }
+    color: $black;
+    &::placeholder {
+        color: rgba($color: $black, $alpha: 0.3);
+    }
+    &:hover,
+    &:focus {
+        color: $black;
+    }
+}
 .btn {
     font-size: rem(14);
     color: #fff;
@@ -208,6 +222,25 @@ html * {
         &:hover,
         &:focus {
             background: transparent;
+        }
+    }
+    &.btn-blue {
+        background: $secondary-color;
+        border-radius: rem(4);
+        border: none;
+        padding-top: rem(14);
+        padding-bottom: rem(14);
+        font: {
+            family: "PT Sans Bold";
+            size: rem(18);
+        }
+        &:hover,
+        &:focus {
+            background: darken($secondary-color, 10);
+            color: #fff;
+        }
+        &:disabled {
+            opacity: 0.5;
         }
     }
     &.btn-gray {
@@ -421,14 +454,6 @@ p {
         min-height: rem(56);
     }
     .form-control {
-        font: {
-            family: "PT Sans";
-            size: rem(16);
-        }
-        color: $black;
-        &::placeholder {
-            color: rgba($color: $black, $alpha: 0.3);
-        }
         &.email-form-control {
             border-right: 0;
         }
@@ -684,18 +709,17 @@ p {
         }
     }
 }
-.info-wrapper{
-    .info-block{
-        
-        span{
+.info-wrapper {
+    .info-block {
+        span {
             display: block;
             font: {
                 family: "PT Sans";
                 size: rem(14);
-            }   
+            }
             margin-bottom: rem(10);
         }
-        h4{
+        h4 {
             margin-bottom: rem(15);
             font: {
                 family: "PT Sans Bold";
@@ -703,13 +727,48 @@ p {
             }
             // margin-bottom: 0;
         }
-        .pre-price{
+        .pre-price {
             font: {
                 family: "PT Sans Bold";
                 size: rem(32);
-            }  
-            color:$secondary-color;
+            }
+            color: $secondary-color;
             margin-bottom: rem(15);
+        }
+    }
+    &.complete {
+        .info-block {
+            .pre-price {
+                color: $black;
+            }
+        }
+    }
+}
+.create-form {
+    h5 {
+        font: {
+            family: "Roboto Bold";
+            size: rem(14);
+        }
+        margin-bottom: rem(15);
+    }
+    h4 {
+        font: {
+            family: "Roboto Bold";
+            size: rem(20);
+        }
+    }
+    .row {
+        margin-bottom: rem(30);
+    }
+    .form-control {
+        height: rem(50);
+    }
+    .form-group {
+        .btn-primary {
+            width: auto;
+            padding-left: rem(26);
+            padding-right: rem(26);
         }
     }
 }

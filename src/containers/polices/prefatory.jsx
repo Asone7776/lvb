@@ -1,7 +1,6 @@
 import TopInfo from "../../components/TopInfo";
 import PreCreateForm from "../../components/PreCreateForm";
 const PrePolicy = () => {
-
     return (
         <div className="information">
             <div className="container">
