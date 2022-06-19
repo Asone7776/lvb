@@ -55,7 +55,7 @@ const PreCreateForm = () => {
                         </div>
                         <div className="card custom-card mb-0">
                             <div className="card-body">
-                                <div className="form-group">
+                                <div className="form-group small-gutters">
                                     <h4>Страховые риски</h4>
                                     <div className="row d-flex">
                                         {caseItems && caseItems.map((item, index) => (

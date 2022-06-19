@@ -23,7 +23,7 @@ const CreateForm = () => {
         <div className="pre-form create-form">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
-                    <div className="col-8">
+                    <div className="col-8 small-gutters">
                         <div className="card custom-card">
                             <div className="card-body">
                                 <div className="form-group">
