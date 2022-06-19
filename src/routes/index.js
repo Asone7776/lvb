@@ -4,6 +4,7 @@ import SignInLayout from '../layouts/SignInLayout';
 import AdminLayout from '../layouts/AdminLayout';
 import Login from "../containers/login";
 import PolicyPage from "../containers/polices";
+import PrePolicy from "../containers/polices/prefatory";
 import CreatePolicy from "../containers/polices/create";
 
 const RoutesComponent = () => {
@@ -20,6 +21,7 @@ const RoutesComponent = () => {
                 >
                     <Route path="/admin">
                         <Route path="/admin" element={<PolicyPage />} />
+                        <Route path="/admin/pre-create" element={<PrePolicy />} />
                         <Route path="/admin/create" element={<CreatePolicy />} />
                     </Route>
                 </Route>

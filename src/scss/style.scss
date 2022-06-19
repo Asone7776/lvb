@@ -1,6 +1,7 @@
 @import "./vars/variables";
 @import "./vars/functions";
 @import "./fonts";
+@import "./input-range";
 
 //Helpers
 .text-left {
@@ -612,6 +613,41 @@ p {
                 family: "PT Sans";
                 size: rem(24);
             }
+        }
+    }
+}
+
+.custom-card {
+    border: none;
+    padding: rem(30) rem(20);
+    border-radius: rem(4);
+    margin-bottom: rem(20);
+    .card-body {
+        padding: 0;
+    }
+}
+.pre-form {
+    .form-group {
+        margin-bottom: rem(20);
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    h4,
+    label {
+        margin-bottom: rem(20);
+    }
+    h4 {
+        font: {
+            family: "PT Sans";
+            size: rem(20);
+        }
+    }
+    label {
+        display: block;
+        font: {
+            family: "PT Sans";
+            size: rem(14);
         }
     }
 }

@@ -10,7 +10,7 @@ const NoDocument = () => {
                 После успешного создания полиса информация о нём будет<br /> отображатся на этой странице
             </p>
             <button className="btn btn-gold" onClick={() => {
-                navigate('/admin/create');
+                navigate('/admin/pre-create');
             }}>
                 Создать новый
             </button>

@@ -1,0 +1,98 @@
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3px;
+    background: #f1f4f8;
+    border-radius: 100px;
+    background-image: linear-gradient($secondary-color, $secondary-color);
+    background-size: 70% 100%;
+    background-repeat: no-repeat;
+}
+
+/* Input Thumb */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    border: none;
+    background: $secondary-color;
+    cursor: ew-resize;
+    transition: background 0.3s ease-in-out;
+}
+
+input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    border: none;
+    background: $secondary-color;
+    cursor: ew-resize;
+    transition: background 0.3s ease-in-out;
+}
+
+input[type="range"]::-ms-thumb {
+    -webkit-appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    border: none;
+    background: $secondary-color;
+    cursor: ew-resize;
+    transition: background 0.3s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: $secondary-color;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+    background: $secondary-color;
+}
+
+input[type="range"]::-ms-thumb:hover {
+    background: $secondary-color;
+}
+
+/* Input Track */
+input[type="range"]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+
+input[type="range"]::-moz-range-track {
+    -webkit-appearance: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+
+input[type="range"]::-ms-track {
+    -webkit-appearance: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+.custom-range-input {
+    .values {
+        margin-top: rem(10);
+    }
+    .left,
+    .right {
+        font: {
+            family: "PT Sans";
+            size: rem(14);
+        }
+        opacity: 0.3;
+    }
+
+    .center {
+        font: {
+            family: "PT Sans";
+            size: rem(16);
+        }
+    }
+}

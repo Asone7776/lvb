@@ -14,7 +14,7 @@ const PolicyPage = () => {
                     <div className="row d-flex justify-content-center">
                         <div className="col-8">
                             <TopInfo title={"Полисы страхования"} onNewPressed={() => {
-                                navigate('/admin/create');
+                                navigate('/admin/pre-create');
                             }} />
                             <Accordion />
                         </div>
