@@ -6,9 +6,11 @@ import CaseItem from './CaseItem';
 import InfoCard from './InfoCard';
 import axios from 'axios';
 import { successNotify } from '../notifications';
+import Cookies from 'js-cookie'
 const PreCreateForm = () => {
     const [loading, setLoading] = useState(false);
     const [price, setPrice] = useState(0);
+    const [success, setSuccess] = useState(false);
     const options = [
         { value: '0', label: 'Физическое лицо' },
         { value: '1', label: 'Юридическое лицо' }
@@ -22,6 +24,7 @@ const PreCreateForm = () => {
             holder: { value: '0', label: 'Физическое лицо' },
             "case-0": true,
             limit: 500000,
+            term: 12
         }
     });
 
@@ -30,6 +33,7 @@ const PreCreateForm = () => {
     };
     const allFields = watch();
     const sendData = async (data) => {
+        Cookies.set('pre-data', JSON.stringify(data));
         let objectToSend = {
             ...data,
             holder: data.holder ? data.holder.value : 0
@@ -37,12 +41,14 @@ const PreCreateForm = () => {
         setLoading(true);
         try {
             const response = await axios.post('https://vsk-trust.ru/api/calculate_policy_lb', objectToSend);
+            setSuccess(true);
             setPrice(response.data.data);
             setLoading(false);
             successNotify('Успешно');
 
         } catch (error) {
             setLoading(false);
+            setSuccess(false);
             console.log(error);
         }
     }
@@ -106,10 +112,9 @@ const PreCreateForm = () => {
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCard allFields={allFields} complete={false} loading={loading} price={price} />
+                        <InfoCard success={success} allFields={allFields} complete={false} loading={loading} price={price} />
                     </div>
                 </div>
-                {/* <input type="submit" /> */}
             </form>
         </div>
     );

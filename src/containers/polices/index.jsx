@@ -5,11 +5,11 @@ import TopInfo from "../../components/TopInfo";
 import { useEffect, useState } from "react";
 import axios from "axios";
 const PolicyPage = () => {
-    const [list, setList] = useState([]);
+    const [list, setList] = useState([1,2,3]);
     const navigate = useNavigate();
-    useEffect(() => {
-        getData();
-    }, []);
+    // useEffect(() => {
+    //     getData();
+    // }, []);
     const getData = async () => {
         try {
             const response = await axios.get('https://vsk-trust.ru/api/');

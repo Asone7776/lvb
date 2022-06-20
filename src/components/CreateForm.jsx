@@ -1,51 +1,77 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import ParentSelect from './ParentSelect';
 import InfoCardCreate from './InfoCardCreate';
 import NumberFormat from 'react-number-format';
-import { emailPattern, requiredPattern } from '../ functions';
+import { emailPattern, requiredPattern, openBase64NewTab } from '../ functions';
 import axios from 'axios';
 import { successNotify, failureNotify } from '../notifications';
+import Cookies from 'js-cookie';
 const CreateForm = () => {
+    const [loading, setLoading] = useState(false);
+    const [parsedData, setParsedData] = useState(null);
     const options = [
         { value: '0', label: 'Физическое лицо' },
         { value: '1', label: 'Юридическое лицо' }
     ];
     const maleOptions = [
-        { value: 'GENDER_MALE', label: 'Мужской' },
-        { value: 'GENDER_FEMALE', label: 'Женский' }
+        { value: '1', label: 'Мужской' },
+        { value: '2', label: 'Женский' }
     ];
     const { control, watch, register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             holder: { value: '0', label: 'Физическое лицо' },
-            male: { value: 'GENDER_MALE', label: 'Мужской' },
+            male: { value: '1', label: 'Мужской' },
             phone: "+7(___)___-__-__"
         }
     });
 
+    useEffect(() => {
+        let preData = Cookies.get('pre-data');
+        if (preData) {
+            setParsedData(JSON.parse(preData));
+        }
+    }, []);
     const allFields = watch();
     const onSubmit = data => {
-        // console.log(data);
         const objectToSend = {
             ...data,
+            limit: parsedData ? parsedData.limit : null,
+            'case-0': parsedData ? parsedData['case-0'] : null,
+            'case-1': parsedData ? parsedData['case-1'] : null,
+            term: parsedData ? parsedData.term : null,
             holder: data.holder.value,
             male: data.male.value,
         };
-        console.log(objectToSend);
-        // sendData(data);
+        sendData(objectToSend);
     };
 
     const sendData = async (data) => {
+        setLoading(true);
         try {
-            const response = await axios.post('url', data);
-            console.log(response.data);
+            const response = await axios.post('https://vsk-trust.ru/api/save_policy_lb', data);
             successNotify('Успешно');
-
-        } catch (error) {
-            if (error.message) {
-                failureNotify(error.message);
+            if (data.holder === '0') {
+                openUrl(response.data.data);
+            } else {
+                openPdf(response.data.data);
             }
-            console.log(error);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            if (error.response.data) {
+                failureNotify(error.response.data.errors);
+            }
+        }
+    }
+    const openUrl = (result) => {
+        if (result) {
+            window.open(result);
+        }
+    }
+    const openPdf = (result) => {
+        if (result) {
+            openBase64NewTab(result);
         }
     }
     return (
@@ -198,6 +224,14 @@ const CreateForm = () => {
                                             <input className='form-control' type="number" placeholder='Год'  {...register('birthday_year', {
                                                 valueAsNumber: true,
                                                 required: requiredPattern,
+                                                minLength: {
+                                                    value: 4,
+                                                    message: "Не верный формат"
+                                                },
+                                                maxLength: {
+                                                    value: 4,
+                                                    message: "Не верный формат"
+                                                },
                                                 max: {
                                                     value: new Date().getFullYear(),
                                                     message: `Максимальный год ${new Date().getFullYear()}`
@@ -303,6 +337,14 @@ const CreateForm = () => {
                                             <input className='form-control' type="number" placeholder='Год' {...register('passport_year', {
                                                 valueAsNumber: true,
                                                 required: requiredPattern,
+                                                minLength: {
+                                                    value: 4,
+                                                    message: "Не верный формат"
+                                                },
+                                                maxLength: {
+                                                    value: 4,
+                                                    message: "Не верный формат"
+                                                },
                                                 max: {
                                                     value: new Date().getFullYear(),
                                                     message: `Максимальный год ${new Date().getFullYear()}`
@@ -334,7 +376,7 @@ const CreateForm = () => {
                                     </div>
                                 </div>
                                 <div className="row mb-3">
-                                    <div className="col-4">
+                                    <div className="col-3">
                                         <div className="form-group">
                                             <input className='form-control' type="text" placeholder='Дом' {...register('house', {
                                                 required: requiredPattern
@@ -342,7 +384,7 @@ const CreateForm = () => {
                                             {errors.house && <span className="error-message">{errors.house.message}</span>}
                                         </div>
                                     </div>
-                                    <div className="col-4">
+                                    <div className="col-3">
                                         <div className="form-group">
                                             <input className='form-control' type="text" placeholder='Корпус' {...register('building', {
                                                 required: requiredPattern
@@ -350,12 +392,20 @@ const CreateForm = () => {
                                             {errors.building && <span className="error-message">{errors.building.message}</span>}
                                         </div>
                                     </div>
-                                    <div className="col-4">
+                                    <div className="col-3">
                                         <div className="form-group">
                                             <input className='form-control' type="text" placeholder='Квартира' {...register('flat', {
                                                 required: requiredPattern
                                             })} />
                                             {errors.flat && <span className="error-message">{errors.flat.message}</span>}
+                                        </div>
+                                    </div>
+                                    <div className="col-3">
+                                        <div className="form-group">
+                                            <input className='form-control' type="text" placeholder='Индекс' {...register('index', {
+                                                required: requiredPattern
+                                            })} />
+                                            {errors.index && <span className="error-message">{errors.index.message}</span>}
                                         </div>
                                     </div>
                                 </div>
@@ -381,7 +431,56 @@ const CreateForm = () => {
                                     })} />
                                     {errors.credit_name && <span className="error-message">{errors.credit_name.message}</span>}
                                 </div>
-                                <div className="row mb-3">
+                                <div className="form-group">
+                                    <input className='form-control' min={1} max={31} type="number" placeholder='День кредита' {...register('credit_day', {
+                                        valueAsNumber: true,
+                                        required: requiredPattern,
+                                        min: {
+                                            value: 1,
+                                            message: 'Минимальный день 1'
+                                        },
+                                        max: {
+                                            value: 31,
+                                            message: 'Максимальный день 31'
+                                        },
+                                    })} />
+                                    {errors.credit_day && <span className="error-message">{errors.credit_day.message}</span>}
+                                </div>
+                                <div className="form-group">
+                                    <input className='form-control' min={1} max={12} type="number" placeholder='Месяц кредита' {...register('credit_month', {
+                                        valueAsNumber: true,
+                                        required: requiredPattern,
+                                        min: {
+                                            value: 1,
+                                            message: 'Минимальный месяц 1'
+                                        },
+                                        max: {
+                                            value: 12,
+                                            message: 'Максимальный месяц 12'
+                                        },
+                                    })} />
+                                    {errors.credit_month && <span className="error-message">{errors.credit_month.message}</span>}
+                                </div>
+                                <div className="form-group">
+                                    <input className='form-control' min={1} type="number" placeholder='Год кредита' {...register('credit_year', {
+                                        valueAsNumber: true,
+                                        required: requiredPattern,
+                                        minLength: {
+                                            value: 4,
+                                            message: "Не верный формат"
+                                        },
+                                        maxLength: {
+                                            value: 4,
+                                            message: "Не верный формат"
+                                        },
+                                        max: {
+                                            value: new Date().getFullYear(),
+                                            message: `Максимальный год ${new Date().getFullYear()}`
+                                        },
+                                    })} />
+                                    {errors.credit_year && <span className="error-message">{errors.credit_year.message}</span>}
+                                </div>
+                                {/* <div className="row mb-3">
                                     <div className="col-12">
                                         <h5>Адрес регистрации</h5>
                                     </div>
@@ -403,7 +502,7 @@ const CreateForm = () => {
                                     </div>
                                 </div>
                                 <div className="row mb-3">
-                                    <div className="col-4">
+                                    <div className="col-3">
                                         <div className="form-group">
                                             <input className='form-control' type="text" placeholder='Дом' {...register('second_house', {
                                                 required: requiredPattern
@@ -411,7 +510,7 @@ const CreateForm = () => {
                                             {errors.second_house && <span className="error-message">{errors.second_house.message}</span>}
                                         </div>
                                     </div>
-                                    <div className="col-4">
+                                    <div className="col-3">
                                         <div className="form-group">
                                             <input className='form-control' type="text" placeholder='Корпус' {...register('second_building', {
                                                 required: requiredPattern
@@ -419,7 +518,7 @@ const CreateForm = () => {
                                             {errors.second_building && <span className="error-message">{errors.second_building.message}</span>}
                                         </div>
                                     </div>
-                                    <div className="col-4">
+                                    <div className="col-3">
                                         <div className="form-group">
                                             <input className='form-control' type="text" placeholder='Квартира' {...register('second_flat', {
                                                 required: requiredPattern
@@ -427,15 +526,20 @@ const CreateForm = () => {
                                             {errors.second_flat && <span className="error-message">{errors.second_flat.message}</span>}
                                         </div>
                                     </div>
-                                </div>
-                                <div className="form-group">
-                                    <button className='btn btn-primary' type='submit'>Продолжить</button>
-                                </div>
+                                    <div className="col-3">
+                                        <div className="form-group">
+                                            <input className='form-control' type="text" placeholder='Индекс' {...register('second_index', {
+                                                required: requiredPattern
+                                            })} />
+                                            {errors.second_index && <span className="error-message">{errors.second_index.message}</span>}
+                                        </div>
+                                    </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCardCreate allFields={allFields} complete={true} />
+                        <InfoCardCreate data={parsedData} complete={true} loading={loading} />
                     </div>
                 </div>
                 {/* <input type="submit" /> */}

@@ -766,6 +766,12 @@ p {
         padding: rem(20);
         border-radius: rem(4);
         margin-bottom: rem(20);
+        .btn{
+            margin-bottom: rem(15);
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
     }
 }
 .pre-form {

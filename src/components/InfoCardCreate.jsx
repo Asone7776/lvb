@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { formatPrice } from "../ functions";
-const InfoCardCreate = ({ allFields, complete, onSubmit }) => {
+const InfoCardCreate = ({ loading, data, complete }) => {
     const [risk, setRisk] = useState('Смерть');
     useEffect(() => {
-        console.log(allFields);
-        formatRisk(allFields['case-0'], allFields['case-1']);
-    }, [allFields]);
+        if (data) {
+            formatRisk(data['case-0'], data['case-1']);
+        }
+    }, [data]);
     const formatRisk = (death, invalid) => {
         if (death && !invalid) {
             setRisk('Смерть')
@@ -26,11 +27,11 @@ const InfoCardCreate = ({ allFields, complete, onSubmit }) => {
             <div className={cn('info-wrapper', { 'complete': complete })}>
                 <div className="info-block">
                     <span>Страхователь</span>
-                    <h4>{allFields.holder ? allFields.holder.label : '-'}</h4>
+                    <h4>{data && data.holder ? data.holder.label : '-'}</h4>
                 </div>
                 <div className="info-block">
                     <span>Лимит</span>
-                    <h4>{allFields.limit ? formatPrice(allFields.limit) : '500 000'}</h4>
+                    <h4>{data && data.limit ? formatPrice(data.limit) : '500 000'}</h4>
                 </div>
                 <div className="divider"></div>
                 <div className="info-block">
@@ -39,15 +40,9 @@ const InfoCardCreate = ({ allFields, complete, onSubmit }) => {
                 </div>
                 <div className="info-block">
                     <span>Срок страхования</span>
-                    <h4>{allFields.term ? `${allFields.term} месяца` : '24 месяца'}</h4>
+                    <h4>{data && data.term ? `${data.term} месяца` : '24 месяца'}</h4>
                 </div>
-                <div className="divider"></div>
-                <div className="info-block">
-                    <span className='mb-0'>Предварительный расчёт</span>
-                    <div className='pre-price'>₽</div>
-                    {/* <div className='pre-price'>15 000 ₽</div> */}
-                </div>
-                <button className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })} onClick={onSubmit}>
+                <button type="submit" disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })}>
                     Оформить полис
                 </button>
             </div>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
+import { Link } from "react-router-dom";
 import { formatPrice } from "../ functions";
-const InfoCard = ({ allFields, complete, onSubmit, price, loading }) => {
+const InfoCard = ({ allFields, complete, onSubmit, price, loading, success }) => {
     const [risk, setRisk] = useState('Смерть');
     useEffect(() => {
-        console.log(allFields);
         formatRisk(allFields['case-0'], allFields['case-1']);
     }, [allFields]);
     const formatRisk = (death, invalid) => {
@@ -45,11 +45,17 @@ const InfoCard = ({ allFields, complete, onSubmit, price, loading }) => {
                 <div className="info-block">
                     <span className='mb-0'>Предварительный расчёт</span>
                     <div className='pre-price'>{price ? `${formatPrice(price)}₽` : '0₽'}</div>
-                    {/* <div className='pre-price'>15 000 ₽</div> */}
                 </div>
                 <button disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })} onClick={onSubmit}>
-                    Оформить полис
+                    Рассчитать
                 </button>
+                {success && (
+                    <Link to={'/admin/create'}>
+                        <button disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })} onClick={onSubmit}>
+                            Оформить полис
+                        </button>
+                    </Link>
+                )}
             </div>
         </div>
     );

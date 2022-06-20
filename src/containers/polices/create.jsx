@@ -8,7 +8,7 @@ const CreatePolicy = () => {
             <div className="container">
                 <div className="row d-flex justify-content-center">
                     <div className="col-8">
-                        <TopInfo title={"Новый полис: ID1234566"} onNewPressed={() => {
+                        <TopInfo title={"Новый полис"} onNewPressed={() => {
                             navigate('/admin/pre-create');
                         }} onCancelPressed={() => {
                             navigate('/admin/pre-create');
