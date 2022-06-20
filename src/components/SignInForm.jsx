@@ -1,11 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { requiredPattern, emailPattern } from "../ functions";
-import { Link } from "react-router-dom";
+import { successNotify } from "../notifications";
 
 const SignInForm = () => {
+    const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+        navigate('/admin');
+        successNotify('Вы успешно авторизовались');
+    };
     return (
         <div className="sign-in-form">
             <h4>Войти в личный кабинет</h4>
@@ -31,10 +36,7 @@ const SignInForm = () => {
                     })} />
                     {errors.password && <span className="error-message">{errors.password.message}</span>}
                 </div>
-                <Link to={'/admin'}>
-                    {/* <button type="submit" className="btn btn-primary">Войти</button> */}
-                    <button className="btn btn-primary">Войти</button>
-                </Link>
+                <button type="submit" className="btn btn-primary">Войти</button>
             </form>
         </div>
     );

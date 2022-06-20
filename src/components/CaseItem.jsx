@@ -5,7 +5,7 @@ const CaseItem = forwardRef(({ item, onChange, ...rest }, ref) => {
     const [active, setActive] = useState(false);
     let checkRef = useRef(null);
     return (
-        <div className={cn('case-item', { 'active': active })} onClick={()=>{
+        <div className={cn('case-item', { 'active': active })} onClick={() => {
             checkRef.current.click();
         }}>
             <label className="check-wrapper">
@@ -16,6 +16,9 @@ const CaseItem = forwardRef(({ item, onChange, ...rest }, ref) => {
                 }} ref={(e) => {
                     ref(e);
                     checkRef.current = e;
+                    if (e && e.checked) {
+                        setActive(e.checked);
+                    }
                 }} checked={active} {...rest} />
                 <span className="checkmark">
                     <svg width="10" height="7" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg">

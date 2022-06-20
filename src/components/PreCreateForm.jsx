@@ -4,6 +4,9 @@ import ParentSelect from './ParentSelect';
 import InputRange from './InputRange';
 import CaseItem from './CaseItem';
 import InfoCard from './InfoCard';
+import axios from 'axios';
+import { successNotify } from '../notifications';
+import { requiredPattern } from '../ functions';
 const PreCreateForm = () => {
     const options = [
         { value: '0', label: 'Физическое лицо' },
@@ -16,10 +19,24 @@ const PreCreateForm = () => {
     const { control, register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             holder: { value: '0', label: 'Физическое лицо' },
+            "case-0": true
         }
     });
 
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+        console.log(data);
+        // sendData(data);
+    };
+    const sendData = async (data) => {
+        try {
+            const response = await axios.post('url', data);
+            console.log(response.data);
+            successNotify('Успешно');
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <div className="pre-form">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -43,10 +60,17 @@ const PreCreateForm = () => {
                                         }}
                                     />
                                 </div>
-                                <div className="form-group">
+                                {/* <div className="form-group">
+                                    <h4>Email</h4>
+                                    <input placeholder='Введите email' className='form-control' type="email" {...register('email', {
+                                        required: requiredPattern
+                                    })} />
+                                    {errors.email && <span className="error-message">{errors.email.message}</span>}
+                                </div> */}
+                                {/* <div className="form-group">
                                     <label>Возраст застрахованного</label>
                                     <InputRange suffix={'лет'} needToFormat={false} defaultValue={28} min={18} max={65} {...register('age')} />
-                                </div>
+                                </div> */}
                                 <div className="form-group">
                                     <label>Лимит покрытия (рубли)</label>
                                     <InputRange step={'50000'} suffix={''} needToFormat={true} defaultValue={500000} min={150000} max={10000000} {...register('limit')} />

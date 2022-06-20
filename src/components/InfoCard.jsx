@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import cn from "classnames";
-const InfoCard = ({ complete }) => {
+const InfoCard = ({ complete, onSubmit }) => {
     return (
         <div className='card custom-card-small'>
             <div className={cn('info-wrapper', { 'complete': complete })}>
@@ -27,11 +27,9 @@ const InfoCard = ({ complete }) => {
                     <span className='mb-0'>Предварительный расчёт</span>
                     <div className='pre-price'>15 000 ₽</div>
                 </div>
-                <Link to={'/admin/create'}>
-                    <button className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })}>
-                        Оформить полис
-                    </button>
-                </Link>
+                <button className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })} onClick={onSubmit}>
+                    Оформить полис
+                </button>
             </div>
         </div>
     );

@@ -458,6 +458,10 @@ p {
 }
 .lvb-logo {
     display: flex;
+    a {
+        display: flex;
+        color: #000;
+    }
     .logo-txt {
         display: flex;
         flex-direction: column;
@@ -498,6 +502,11 @@ p {
         width: 50%;
     }
 }
+.error-message {
+    color: $red;
+    display: block;
+    margin-top: rem(5);
+}
 .sign-in-form {
     width: 60%;
     margin-left: auto;
@@ -510,11 +519,7 @@ p {
             size: rem(24);
         }
     }
-    .error-message {
-        color: $red;
-        display: block;
-        margin-top: rem(5);
-    }
+
     .form-group {
         margin-bottom: rem(30);
         label {

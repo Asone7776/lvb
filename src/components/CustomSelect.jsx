@@ -6,8 +6,7 @@ const customStyles = {
     control: (provided) => ({
         ...provided,
         minHeight: '50px',
-        height: '50px',
-        // padding: '2px 14.5px'
+        height: '50px'
       }),
       dropdownIndicator:(provided)=>({
         ...provided,
