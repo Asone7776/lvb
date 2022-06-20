@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm, Controller } from "react-hook-form";
 import ParentSelect from './ParentSelect';
-import InfoCard from './InfoCard';
+import InfoCardCreate from './InfoCardCreate';
 import NumberFormat from 'react-number-format';
 import { emailPattern, requiredPattern } from '../ functions';
 import axios from 'axios';
@@ -15,10 +15,6 @@ const CreateForm = () => {
         { value: 'GENDER_MALE', label: 'Мужской' },
         { value: 'GENDER_FEMALE', label: 'Женский' }
     ];
-    const caseItems = [
-        { title: 'Смерть', content: 'Смерть Застрахованного в результате несчастного случая произошедшего в период страхования' },
-        { title: 'Инвалидность', content: 'Установление инвалидности 1 или 2 группы в результате несчастного случая произошедшего с Застрахованным в период страхования' },
-    ];
     const { control, watch, register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             holder: { value: '0', label: 'Физическое лицо' },
@@ -26,9 +22,8 @@ const CreateForm = () => {
             phone: "+7(___)___-__-__"
         }
     });
-    const whoHolder = watch("holder");
 
-
+    const allFields = watch();
     const onSubmit = data => {
         // console.log(data);
         const objectToSend = {
@@ -76,7 +71,7 @@ const CreateForm = () => {
                                         }}
                                     />
                                 </div>
-                                {whoHolder.value === "0" ? null : (
+                                {allFields.holder.value === "0" ? null : (
                                     <div className="row">
                                         <div className="col-4">
                                             <div className="form-group">
@@ -116,7 +111,7 @@ const CreateForm = () => {
                                         </div>
                                     </div>
                                 )}
-                                {whoHolder.value === "1" && (
+                                {allFields.holder.value === "1" && (
                                     <h4>Застрахованный</h4>
                                 )}
                                 <div className="form-group">
@@ -440,7 +435,7 @@ const CreateForm = () => {
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCard complete={true} />
+                        <InfoCardCreate allFields={allFields} complete={true} />
                     </div>
                 </div>
                 {/* <input type="submit" /> */}

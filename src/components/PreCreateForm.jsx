@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import ParentSelect from './ParentSelect';
 import InputRange from './InputRange';
@@ -6,8 +6,9 @@ import CaseItem from './CaseItem';
 import InfoCard from './InfoCard';
 import axios from 'axios';
 import { successNotify } from '../notifications';
-import { requiredPattern } from '../ functions';
 const PreCreateForm = () => {
+    const [loading, setLoading] = useState(false);
+    const [price, setPrice] = useState(0);
     const options = [
         { value: '0', label: 'Физическое лицо' },
         { value: '1', label: 'Юридическое лицо' }
@@ -16,24 +17,32 @@ const PreCreateForm = () => {
         { title: 'Смерть', content: 'Смерть Застрахованного в результате несчастного случая произошедшего в период страхования' },
         { title: 'Инвалидность', content: 'Установление инвалидности 1 или 2 группы в результате несчастного случая произошедшего с Застрахованным в период страхования' },
     ];
-    const { control, register, handleSubmit, formState: { errors } } = useForm({
+    const { control, watch, register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             holder: { value: '0', label: 'Физическое лицо' },
-            "case-0": true
+            "case-0": true,
+            limit: 500000,
         }
     });
 
     const onSubmit = data => {
-        console.log(data);
-        // sendData(data);
+        sendData(data);
     };
+    const allFields = watch();
     const sendData = async (data) => {
+        let objectToSend = {
+            ...data,
+            holder: data.holder ? data.holder.value : 0
+        };
+        setLoading(true);
         try {
-            const response = await axios.post('url', data);
-            console.log(response.data);
+            const response = await axios.post('https://vsk-trust.ru/api/calculate_policy_lb', objectToSend);
+            setPrice(response.data.data);
+            setLoading(false);
             successNotify('Успешно');
 
         } catch (error) {
+            setLoading(false);
             console.log(error);
         }
     }
@@ -91,13 +100,13 @@ const PreCreateForm = () => {
                                 </div>
                                 <div className="form-group">
                                     <label>Срок страхования</label>
-                                    <InputRange suffix={'месяцев'} needToFormat={false} defaultValue={24} min={12} max={36} {...register('term')} />
+                                    <InputRange suffix={'месяцев'} needToFormat={false} defaultValue={12} min={1} max={36} {...register('term')} />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCard complete={false} />
+                        <InfoCard allFields={allFields} complete={false} loading={loading} price={price} />
                     </div>
                 </div>
                 {/* <input type="submit" /> */}

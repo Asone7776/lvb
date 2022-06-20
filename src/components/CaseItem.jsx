@@ -1,6 +1,5 @@
 import React, { useState, forwardRef, useRef } from 'react';
 import cn from 'classnames';
-
 const CaseItem = forwardRef(({ item, onChange, ...rest }, ref) => {
     const [active, setActive] = useState(false);
     let checkRef = useRef(null);
@@ -9,7 +8,7 @@ const CaseItem = forwardRef(({ item, onChange, ...rest }, ref) => {
             checkRef.current.click();
         }}>
             <label className="check-wrapper">
-                <input type="checkbox" onChange={(e) => {
+                <input disabled={rest.name === 'case-0'} type="checkbox" onChange={(e) => {
                     let { checked } = e.target;
                     setActive(checked);
                     onChange(e);

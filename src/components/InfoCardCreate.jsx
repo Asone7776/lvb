@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { formatPrice } from "../ functions";
-const InfoCard = ({ allFields, complete, onSubmit, price, loading }) => {
+const InfoCardCreate = ({ allFields, complete, onSubmit }) => {
     const [risk, setRisk] = useState('Смерть');
     useEffect(() => {
         console.log(allFields);
@@ -39,15 +39,15 @@ const InfoCard = ({ allFields, complete, onSubmit, price, loading }) => {
                 </div>
                 <div className="info-block">
                     <span>Срок страхования</span>
-                    <h4>{allFields.term ? `${allFields.term} месяцев` : '24 месяцев'}</h4>
+                    <h4>{allFields.term ? `${allFields.term} месяца` : '24 месяца'}</h4>
                 </div>
                 <div className="divider"></div>
                 <div className="info-block">
                     <span className='mb-0'>Предварительный расчёт</span>
-                    <div className='pre-price'>{price ? `${formatPrice(price)}₽` : '0₽'}</div>
+                    <div className='pre-price'>₽</div>
                     {/* <div className='pre-price'>15 000 ₽</div> */}
                 </div>
-                <button disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })} onClick={onSubmit}>
+                <button className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })} onClick={onSubmit}>
                     Оформить полис
                 </button>
             </div>
@@ -55,4 +55,4 @@ const InfoCard = ({ allFields, complete, onSubmit, price, loading }) => {
     );
 }
 
-export default InfoCard;
+export default InfoCardCreate;
