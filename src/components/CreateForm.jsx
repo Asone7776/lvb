@@ -22,7 +22,8 @@ const CreateForm = () => {
         defaultValues: {
             holder: { value: '0', label: 'Физическое лицо' },
             male: { value: '1', label: 'Мужской' },
-            phone: "+7(___)___-__-__"
+            phone: "+7(___)___-__-__",
+            credit_name: 'Банк Левобережный (ПАО) г.Новосибирск, Кирова, 48'
         }
     });
 
@@ -66,7 +67,7 @@ const CreateForm = () => {
     }
     const openUrl = (result) => {
         if (result) {
-            window.open(result);
+            window.open(result, "_self");
         }
     }
     const openPdf = (result) => {
@@ -98,44 +99,64 @@ const CreateForm = () => {
                                     />
                                 </div>
                                 {allFields.holder.value === "0" ? null : (
-                                    <div className="row">
-                                        <div className="col-4">
-                                            <div className="form-group">
-                                                <input className='form-control' type="text" placeholder='ИНН' {...register('inn', {
-                                                    required: requiredPattern,
-                                                    maxLength: {
-                                                        value: 10,
-                                                        message: 'Максимальная длинна 10'
-                                                    }
-                                                })} />
-                                                {errors.inn && <span className="error-message">{errors.inn.message}</span>}
+                                    <>
+                                        <div className="row mb-3">
+                                            <div className="col-4">
+                                                <div className="form-group">
+                                                    <input className='form-control' type="text" placeholder='ИНН' {...register('inn', {
+                                                        required: requiredPattern,
+                                                        minLength: {
+                                                            value: 10,
+                                                            message: 'Минимальная длина 10'
+                                                        },
+                                                        maxLength: {
+                                                            value: 10,
+                                                            message: 'Максимальная длина 10'
+                                                        }
+                                                    })} />
+                                                    {errors.inn && <span className="error-message">{errors.inn.message}</span>}
+                                                </div>
+                                            </div>
+                                            <div className="col-4">
+                                                <div className="form-group">
+                                                    <input className='form-control' type="text" placeholder='КПП' {...register('kpp', {
+                                                        required: requiredPattern,
+                                                        minLength: {
+                                                            value: 9,
+                                                            message: 'Минимальная длина 9'
+                                                        },
+                                                        maxLength: {
+                                                            value: 9,
+                                                            message: 'Максимальная длина 9'
+                                                        }
+                                                    })} />
+                                                    {errors.kpp && <span className="error-message">{errors.kpp.message}</span>}
+                                                </div>
+                                            </div>
+                                            <div className="col-4">
+                                                <div className="form-group">
+                                                    <input className='form-control' type="text" placeholder='ОРГН' {...register('ogrn', {
+                                                        required: requiredPattern,
+                                                        minLength: {
+                                                            value: 13,
+                                                            message: 'Минимальная длина 13'
+                                                        },
+                                                        maxLength: {
+                                                            value: 13,
+                                                            message: 'Максимальная длина 13'
+                                                        }
+                                                    })} />
+                                                    {errors.ogrn && <span className="error-message">{errors.ogrn.message}</span>}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-4">
-                                            <div className="form-group">
-                                                <input className='form-control' type="text" placeholder='КПП' {...register('kpp', {
-                                                    required: requiredPattern,
-                                                    maxLength: {
-                                                        value: 9,
-                                                        message: 'Максимальная длинна 9'
-                                                    }
-                                                })} />
-                                                {errors.kpp && <span className="error-message">{errors.kpp.message}</span>}
-                                            </div>
+                                        <div className="form-group">
+                                            <input className='form-control' type="text" placeholder='Название организации' {...register('organization_name', {
+                                                required: requiredPattern
+                                            })} />
+                                            {errors.organization_name && <span className="error-message">{errors.organization_name.message}</span>}
                                         </div>
-                                        <div className="col-4">
-                                            <div className="form-group">
-                                                <input className='form-control' type="text" placeholder='ОРГН' {...register('ogrn', {
-                                                    required: requiredPattern,
-                                                    maxLength: {
-                                                        value: 13,
-                                                        message: 'Максимальная длинна 13'
-                                                    }
-                                                })} />
-                                                {errors.ogrn && <span className="error-message">{errors.ogrn.message}</span>}
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </>
                                 )}
                                 {allFields.holder.value === "1" && (
                                     <h4>Застрахованный</h4>
@@ -296,7 +317,7 @@ const CreateForm = () => {
                                 </div>
                                 <div className="row">
                                     <div className="col-12">
-                                        <h5>Дата выдачи пасспорта</h5>
+                                        <h5>Дата выдачи паспорта</h5>
                                     </div>
                                     <div className="col-4">
                                         <div className="form-group">
@@ -387,7 +408,7 @@ const CreateForm = () => {
                                     <div className="col-3">
                                         <div className="form-group">
                                             <input className='form-control' type="text" placeholder='Корпус' {...register('building', {
-                                                required: requiredPattern
+                                                required: false
                                             })} />
                                             {errors.building && <span className="error-message">{errors.building.message}</span>}
                                         </div>
@@ -431,54 +452,65 @@ const CreateForm = () => {
                                     })} />
                                     {errors.credit_name && <span className="error-message">{errors.credit_name.message}</span>}
                                 </div>
-                                <div className="form-group">
-                                    <input className='form-control' min={1} max={31} type="number" placeholder='День кредита' {...register('credit_day', {
-                                        valueAsNumber: true,
-                                        required: requiredPattern,
-                                        min: {
-                                            value: 1,
-                                            message: 'Минимальный день 1'
-                                        },
-                                        max: {
-                                            value: 31,
-                                            message: 'Максимальный день 31'
-                                        },
-                                    })} />
-                                    {errors.credit_day && <span className="error-message">{errors.credit_day.message}</span>}
-                                </div>
-                                <div className="form-group">
-                                    <input className='form-control' min={1} max={12} type="number" placeholder='Месяц кредита' {...register('credit_month', {
-                                        valueAsNumber: true,
-                                        required: requiredPattern,
-                                        min: {
-                                            value: 1,
-                                            message: 'Минимальный месяц 1'
-                                        },
-                                        max: {
-                                            value: 12,
-                                            message: 'Максимальный месяц 12'
-                                        },
-                                    })} />
-                                    {errors.credit_month && <span className="error-message">{errors.credit_month.message}</span>}
-                                </div>
-                                <div className="form-group">
-                                    <input className='form-control' min={1} type="number" placeholder='Год кредита' {...register('credit_year', {
-                                        valueAsNumber: true,
-                                        required: requiredPattern,
-                                        minLength: {
-                                            value: 4,
-                                            message: "Не верный формат"
-                                        },
-                                        maxLength: {
-                                            value: 4,
-                                            message: "Не верный формат"
-                                        },
-                                        max: {
-                                            value: new Date().getFullYear(),
-                                            message: `Максимальный год ${new Date().getFullYear()}`
-                                        },
-                                    })} />
-                                    {errors.credit_year && <span className="error-message">{errors.credit_year.message}</span>}
+                                <div className="row">
+                                    <div className="col-12">
+                                        <h4>Дата выдачи кредита</h4>
+                                    </div>
+                                    <div className="col-4">
+                                        <div className="form-group">
+                                            <input className='form-control' min={1} max={31} type="number" placeholder='День' {...register('credit_day', {
+                                                valueAsNumber: true,
+                                                required: requiredPattern,
+                                                min: {
+                                                    value: 1,
+                                                    message: 'Минимальный день 1'
+                                                },
+                                                max: {
+                                                    value: 31,
+                                                    message: 'Максимальный день 31'
+                                                },
+                                            })} />
+                                            {errors.credit_day && <span className="error-message">{errors.credit_day.message}</span>}
+                                        </div>
+                                    </div>
+                                    <div className="col-4">
+                                        <div className="form-group">
+                                            <input className='form-control' min={1} max={12} type="number" placeholder='Месяц' {...register('credit_month', {
+                                                valueAsNumber: true,
+                                                required: requiredPattern,
+                                                min: {
+                                                    value: 1,
+                                                    message: 'Минимальный месяц 1'
+                                                },
+                                                max: {
+                                                    value: 12,
+                                                    message: 'Максимальный месяц 12'
+                                                },
+                                            })} />
+                                            {errors.credit_month && <span className="error-message">{errors.credit_month.message}</span>}
+                                        </div>
+                                    </div>
+                                    <div className="col-4">
+                                        <div className="form-group">
+                                            <input className='form-control' min={1} type="number" placeholder='Год' {...register('credit_year', {
+                                                valueAsNumber: true,
+                                                required: requiredPattern,
+                                                minLength: {
+                                                    value: 4,
+                                                    message: "Не верный формат"
+                                                },
+                                                maxLength: {
+                                                    value: 4,
+                                                    message: "Не верный формат"
+                                                },
+                                                max: {
+                                                    value: new Date().getFullYear(),
+                                                    message: `Максимальный год ${new Date().getFullYear()}`
+                                                },
+                                            })} />
+                                            {errors.credit_year && <span className="error-message">{errors.credit_year.message}</span>}
+                                        </div>
+                                    </div>
                                 </div>
                                 {/* <div className="row mb-3">
                                     <div className="col-12">

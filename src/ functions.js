@@ -23,7 +23,7 @@ export function openBase64NewTab(base64Pdf) {
         window.navigator.msSaveOrOpenBlob(blob, "pdfBase64.pdf");
     } else {
         const blobUrl = URL.createObjectURL(blob);
-        window.open(blobUrl);
+        window.open(blobUrl,'_self');
     }
 }
 
