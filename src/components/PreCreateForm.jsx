@@ -7,7 +7,10 @@ import InfoCard from './InfoCard';
 import axios from 'axios';
 import { successNotify } from '../notifications';
 import Cookies from 'js-cookie'
+// import { passData } from '../redux/slices/policeSlice';
+import { useDispatch } from 'react-redux';
 const PreCreateForm = () => {
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [price, setPrice] = useState(0);
     const [success, setSuccess] = useState(false);
@@ -34,6 +37,7 @@ const PreCreateForm = () => {
     const allFields = watch();
     const sendData = async (data) => {
         Cookies.set('pre-data', JSON.stringify(data));
+        // dispatch(passData(data));
         let objectToSend = {
             ...data,
             holder: data.holder ? data.holder.value : 0

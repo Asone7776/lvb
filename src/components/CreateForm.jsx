@@ -3,13 +3,18 @@ import { useForm, Controller } from "react-hook-form";
 import ParentSelect from './ParentSelect';
 import InfoCardCreate from './InfoCardCreate';
 import NumberFormat from 'react-number-format';
-import { emailPattern, requiredPattern, openBase64NewTab } from '../ functions';
+import { emailPattern, requiredPattern } from '../ functions';
 import axios from 'axios';
 import { successNotify, failureNotify } from '../notifications';
 import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { passCreateFormData } from '../redux/slices/policeSlice';
+import CustomModal from './CustomModal';
 const CreateForm = () => {
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [parsedData, setParsedData] = useState(null);
+    const [modalIsOpen, setIsOpen] = useState(false);
     const options = [
         { value: '0', label: 'Физическое лицо' },
         { value: '1', label: 'Юридическое лицо' }
@@ -34,6 +39,8 @@ const CreateForm = () => {
         }
     }, []);
     const allFields = watch();
+    const savedFields = watch(['holder', 'email']);
+
     const onSubmit = data => {
         const objectToSend = {
             ...data,
@@ -44,19 +51,29 @@ const CreateForm = () => {
             holder: data.holder.value,
             male: data.male.value,
         };
+        // setSavedData({
+        //     holder: data.holder,
+        //     email: data.email,
+        //     limit: parsedData ? parsedData.limit : null,
+        //     'case-0': parsedData ? parsedData['case-0'] : null,
+        //     'case-1': parsedData ? parsedData['case-1'] : null,
+        // })
         sendData(objectToSend);
     };
-
     const sendData = async (data) => {
         setLoading(true);
         try {
             const response = await axios.post('https://vsk-trust.ru/api/save_policy_lb', data);
+            dispatch(passCreateFormData({
+                limit: parsedData ? parsedData.limit : null,
+                'case-0': parsedData ? parsedData['case-0'] : null,
+                'case-1': parsedData ? parsedData['case-1'] : null,
+                holder: savedFields[0] ? savedFields[0] : null,
+                email: savedFields[1] ? savedFields[1] : null,
+                ...response.data.data
+            }))
             successNotify('Успешно');
-            if (data.holder === '0') {
-                openUrl(response.data.data);
-            } else {
-                openPdf(response.data.data);
-            }
+            setIsOpen(true);
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -65,14 +82,19 @@ const CreateForm = () => {
             }
         }
     }
-    const openUrl = (result) => {
-        if (result) {
-            window.open(result, "_self");
-        }
-    }
-    const openPdf = (result) => {
-        if (result) {
-            openBase64NewTab(result);
+
+    const savePolice = async (id) => {
+        try {
+            const response = await axios.patch('https://vsk-trust.ru/api/orders', {
+                order_id: id
+            });
+            setIsOpen(false);
+            successNotify(response.data.data);
+        } catch (error) {
+            setIsOpen(false);
+            if (error.response.data) {
+                failureNotify(error.response.data.errors);
+            }
         }
     }
     return (
@@ -208,7 +230,7 @@ const CreateForm = () => {
                                     </div>
                                     <div className="col-4">
                                         <div className="form-group">
-                                            <input className='form-control' type="number" placeholder='День'  {...register('birthday_day', {
+                                            <input className='form-control' min={1} max={31} type="number" placeholder='День'  {...register('birthday_day', {
                                                 valueAsNumber: true,
                                                 required: requiredPattern,
                                                 min: {
@@ -225,7 +247,7 @@ const CreateForm = () => {
                                     </div>
                                     <div className="col-4">
                                         <div className="form-group">
-                                            <input className='form-control' type="number" placeholder='Месяц'  {...register('birthday_month', {
+                                            <input className='form-control' min={1} max={12} type="number" placeholder='Месяц'  {...register('birthday_month', {
                                                 valueAsNumber: true,
                                                 required: requiredPattern,
                                                 min: {
@@ -233,7 +255,7 @@ const CreateForm = () => {
                                                     message: "Минимальный месяц 1"
                                                 },
                                                 max: {
-                                                    value: 31,
+                                                    value: 12,
                                                     message: "Максимальный месяц 12"
                                                 },
                                             })} />
@@ -321,7 +343,7 @@ const CreateForm = () => {
                                     </div>
                                     <div className="col-4">
                                         <div className="form-group">
-                                            <input className='form-control' type="number" placeholder='День' {...register('passport_day', {
+                                            <input className='form-control' min={1} max={31} type="number" placeholder='День' {...register('passport_day', {
                                                 valueAsNumber: true,
                                                 required: requiredPattern,
                                                 min: {
@@ -338,7 +360,7 @@ const CreateForm = () => {
                                     </div>
                                     <div className="col-4">
                                         <div className="form-group">
-                                            <input className='form-control' type="number" placeholder='Месяц' {...register('passport_month', {
+                                            <input className='form-control' min={1} max={12} type="number" placeholder='Месяц' {...register('passport_month', {
                                                 valueAsNumber: true,
                                                 required: requiredPattern,
                                                 min: {
@@ -346,8 +368,8 @@ const CreateForm = () => {
                                                     message: "Минимальный месяц 1"
                                                 },
                                                 max: {
-                                                    value: 31,
-                                                    message: "Максимальный месяц 31"
+                                                    value: 12,
+                                                    message: "Максимальный месяц 12"
                                                 },
                                             })} />
                                             {errors.passport_month && <span className="error-message">{errors.passport_month.message}</span>}
@@ -574,8 +596,8 @@ const CreateForm = () => {
                         <InfoCardCreate data={parsedData} complete={true} loading={loading} />
                     </div>
                 </div>
-                {/* <input type="submit" /> */}
             </form>
+            <CustomModal modalIsOpen={modalIsOpen} onClose={() => { setIsOpen(false) }} onSaveClick={(id) => savePolice(id)} />
         </div>
     );
 }

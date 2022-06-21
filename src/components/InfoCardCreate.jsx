@@ -43,7 +43,7 @@ const InfoCardCreate = ({ loading, data, complete }) => {
                     <h4>{data && data.term ? `${data.term} месяца` : '24 месяца'}</h4>
                 </div>
                 <button type="submit" disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })}>
-                    Оформить полис
+                    Сформировать счёт
                 </button>
             </div>
         </div>
