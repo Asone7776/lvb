@@ -110,11 +110,9 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick }) => {
                 <div className="row">
                     <div className="col-6">
                         {policeData.pdf && (
-                            <button className="btn btn-blue" onClick={() => {
-                                openBase64NewTab(policeData.pdf);
-                            }}>
+                            <a href={`data:application/pdf;base64,${policeData.pdf}`} download className="btn btn-blue">
                                 Скачать полис
-                            </button>
+                            </a>
                         )}
                     </div>
                     <div className="col-6">
