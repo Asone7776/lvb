@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import cn from "classnames";
-import { formatPrice, formatDate } from "../ functions";
+import { formatPrice, formatDate, getStatusName } from "../ functions";
 const AccordionItem = ({ item }) => {
     const [active, setActive] = useState(false);
     const [risk, setRisk] = useState('Смерть');
@@ -44,16 +44,12 @@ const AccordionItem = ({ item }) => {
                             {item.amount ? `${formatPrice(item.amount)}₽` : null}
                         </div>
                         <div className="col col-2 status text-right">
-                            {item.status ? (
-                                <span className="completed">Успешно</span>
-                            ) : (
-                                <span className="not-completed">Не завершён</span>
-                            )}
+                            <span className={cn({ 'completed': item.status === 3, 'not-completed': item.status === -1 })}>{getStatusName(item.status)}</span>
                         </div>
                         <div className="col col-1">
                             <div className='arrow'>
-                                <svg className={cn({ 'active': active })} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11.9987 14.071L8.17769 10.25C7.76369 9.83595 7.09169 9.83595 6.67769 10.25C6.26369 10.664 6.26369 11.336 6.67769 11.75L11.2917 16.364C11.6827 16.755 12.3157 16.755 12.7057 16.364L17.3197 11.75C17.7337 11.336 17.7337 10.664 17.3197 10.25C16.9057 9.83595 16.2337 9.83595 15.8197 10.25L11.9987 14.071Z" fill="black" />
+                                <svg className={cn({ 'active': active })} width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.25752 8.9225L9.91252 13.5775C10.2384 13.9033 10.7659 13.9033 11.0909 13.5775L15.7459 8.9225C16.2709 8.3975 15.8992 7.5 15.1567 7.5H5.84669C5.10419 7.5 4.73252 8.3975 5.25752 8.9225Z" fill="#E1BA00" />
                                 </svg>
                             </div>
                         </div>
@@ -104,6 +100,14 @@ const AccordionItem = ({ item }) => {
                             </div>
                         </div>
                     </div>
+                    <div className="row">
+                        <div className="col-5">
+                            <div className="item">
+                                <div className="sub-heading">E-mail</div>
+                                <div className="heading">{item.email ? item.email : null}</div>
+                            </div>
+                        </div>
+                    </div>
                     <div className="divider"></div>
                     <div className="row">
                         <div className="col-5">
@@ -118,12 +122,53 @@ const AccordionItem = ({ item }) => {
                                 <div className="heading">{item.credit_institution ? item.credit_institution : null}</div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-5">
+                        <div className="col-4">
                             <div className="item">
                                 <div className="sub-heading">Адрес</div>
                                 <div className="heading">{item.address ? item.address : null}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="divider"></div>
+                    <div className="row">
+                        <div className="col-5">
+                            <div className="item">
+                                <div className="sub-heading">Ссылка для онлайн оплаты</div>
+                                {item.url && (
+                                    <a href={item.url}>{item.url}</a>
+                                )}
+                            </div>
+                        </div>
+                        <div className="col-3">
+                            <div className="item">
+                                <div className="sub-heading">Полис</div>
+                                {item.policy_url && (
+                                    <a href={item.policy_url}>{item.policy_url}</a>
+                                )}
+                            </div>
+                        </div>
+                        <div className="col-4">
+                            <div className="item">
+                                <div className="sub-heading">Счёт на оплату</div>
+                                {item.invoice_url && (
+                                    <a href={item.invoice_url}>{item.invoice_url}</a>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="item">
+                                <div className="sub-heading">Статус оплаты</div>
+                                <div className="btn btn-blue">
+                                    Оплачен
+                                </div>
+                                <div className="btn btn-gray-transparent">
+                                    Не оплачен
+                                </div>
+                                <div className="btn btn-gray-transparent">
+                                    Отменён
+                                </div>
                             </div>
                         </div>
                     </div>

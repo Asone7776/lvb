@@ -19,6 +19,13 @@ export const policeSlice = createSlice({
         },
         passCreateFormData: (state, action) => {
             state.createFormData = action.payload
+        },
+        resetCalculatePolicy: (state) => {
+            state.calculatePolicy = {
+                loading: false,
+                data: null,
+                error: null,
+            }
         }
     },
     extraReducers: (builder) => {
@@ -31,14 +38,14 @@ export const policeSlice = createSlice({
         })
         builder.addCase(calculatePolicy.fulfilled, (state, action) => {
             state.calculatePolicy = {
-                loading: true,
+                loading: false,
                 data: action.payload,
                 error: null,
             }
         })
         builder.addCase(calculatePolicy.rejected, (state, action) => {
             state.calculatePolicy = {
-                loading: true,
+                loading: false,
                 data: null,
                 error: action.payload,
             }
@@ -46,6 +53,6 @@ export const policeSlice = createSlice({
     },
 })
 
-export const { passPreFormData, passCreateFormData } = policeSlice.actions;
+export const { passPreFormData, passCreateFormData, resetCalculatePolicy } = policeSlice.actions;
 
 export default policeSlice.reducer;

@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import ParentSelect from './ParentSelect';
 import InputRange from './InputRange';
 import CaseItem from './CaseItem';
 import InfoCard from './InfoCard';
-import axios from 'axios';
-import { successNotify } from '../notifications';
 import Cookies from 'js-cookie'
-// import { passData } from '../redux/slices/policeSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetCalculatePolicy } from '../redux/slices/policeSlice';
+import { calculatePolicy } from '../redux/actions/policeActions';
 const PreCreateForm = () => {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
-    const [price, setPrice] = useState(0);
-    const [success, setSuccess] = useState(false);
+    const calculatePolicyData = useSelector((state) => state.police.calculatePolicy);
     const options = [
         { value: '0', label: 'Физическое лицо' },
         { value: '1', label: 'Юридическое лицо' }
@@ -31,30 +28,22 @@ const PreCreateForm = () => {
         }
     });
 
+    useEffect(() => {
+        return () => {
+            dispatch(resetCalculatePolicy());
+        }
+    }, []);
     const onSubmit = data => {
         sendData(data);
     };
     const allFields = watch();
     const sendData = async (data) => {
         Cookies.set('pre-data', JSON.stringify(data));
-        // dispatch(passData(data));
         let objectToSend = {
             ...data,
             holder: data.holder ? data.holder.value : 0
         };
-        setLoading(true);
-        try {
-            const response = await axios.post('https://vsk-trust.ru/api/calculate_policy_lb', objectToSend);
-            setSuccess(true);
-            setPrice(response.data.data);
-            setLoading(false);
-            successNotify('Успешно');
-
-        } catch (error) {
-            setLoading(false);
-            setSuccess(false);
-            console.log(error);
-        }
+        dispatch(calculatePolicy(objectToSend));
     }
     return (
         <div className="pre-form">
@@ -79,17 +68,6 @@ const PreCreateForm = () => {
                                         }}
                                     />
                                 </div>
-                                {/* <div className="form-group">
-                                    <h4>Email</h4>
-                                    <input placeholder='Введите email' className='form-control' type="email" {...register('email', {
-                                        required: requiredPattern
-                                    })} />
-                                    {errors.email && <span className="error-message">{errors.email.message}</span>}
-                                </div> */}
-                                {/* <div className="form-group">
-                                    <label>Возраст застрахованного</label>
-                                    <InputRange suffix={'лет'} needToFormat={false} defaultValue={28} min={18} max={65} {...register('age')} />
-                                </div> */}
                                 <div className="form-group">
                                     <label>Лимит покрытия (рубли)</label>
                                     <InputRange step={'50000'} suffix={''} needToFormat={true} defaultValue={500000} min={150000} max={10000000} {...register('limit')} />
@@ -116,7 +94,7 @@ const PreCreateForm = () => {
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCard success={success} allFields={allFields} complete={false} loading={loading} price={price} />
+                        <InfoCard success={!!calculatePolicyData.data} allFields={allFields} complete={true} loading={calculatePolicyData.loading} price={calculatePolicyData.data} />
                     </div>
                 </div>
             </form>

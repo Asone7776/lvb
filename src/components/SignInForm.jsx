@@ -4,22 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { requiredPattern, emailPattern } from "../ functions";
 import { login } from '../redux/actions/userActions';
 import { useDispatch, useSelector } from "react-redux";
-import { successNotify } from "../notifications";
+import Cookies from "js-cookie";
 const SignInForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const currentUser = useSelector((state) => state.currentUser);
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        defaultValues: {
-            email: "test@gmail.com",
-            password: '123456'
-        }
-    });
+    const { register, handleSubmit, formState: { errors } } = useForm({});
     useEffect(() => {
-        if (currentUser.data) {
+        if (currentUser.success || Cookies.get('token')) {
             navigate('/admin');
         }
-    }, [currentUser.data]);
+    }, [currentUser.success]);
     const onSubmit = data => {
         dispatch(login(data));
     };
@@ -33,13 +28,8 @@ const SignInForm = () => {
                         <input placeholder="Введите e-mail" className="form-control email-form-control" {...register("email", {
                             required: requiredPattern, pattern: emailPattern
                         })} />
-                        {/* <div className="input-group-append">
-                            <div className="form-control">
-                                <button className="btn btn-blue-transparent" type="button">Подтвердить</button>
-                            </div>
-                        </div> */}
                     </div>
-                    {errors.login && <span className="error-message">{errors.login.message}</span>}
+                    {errors.email && <span className="error-message">{errors.email.message}</span>}
                 </div>
                 <div className="form-group">
                     <label>Пароль</label>

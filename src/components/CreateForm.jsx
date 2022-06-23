@@ -4,12 +4,12 @@ import ParentSelect from './ParentSelect';
 import InfoCardCreate from './InfoCardCreate';
 import NumberFormat from 'react-number-format';
 import { emailPattern, requiredPattern } from '../ functions';
-import axios from 'axios';
 import { successNotify, failureNotify } from '../notifications';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { passCreateFormData } from '../redux/slices/policeSlice';
 import CustomModal from './CustomModal';
+import { axiosAuth } from '../axios-instances';
 const CreateForm = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -51,19 +51,18 @@ const CreateForm = () => {
             holder: data.holder.value,
             male: data.male.value,
         };
-        // setSavedData({
-        //     holder: data.holder,
-        //     email: data.email,
-        //     limit: parsedData ? parsedData.limit : null,
-        //     'case-0': parsedData ? parsedData['case-0'] : null,
-        //     'case-1': parsedData ? parsedData['case-1'] : null,
-        // })
+        if (data.holder.value === '0') {
+            delete objectToSend.inn;
+            delete objectToSend.kpp;
+            delete objectToSend.ogrn;
+            delete objectToSend.organization_name;
+        }
         sendData(objectToSend);
     };
     const sendData = async (data) => {
         setLoading(true);
         try {
-            const response = await axios.post('https://vsk-trust.ru/api/save_policy_lb', data);
+            const response = await axiosAuth.post('save_policy_lb', data);
             dispatch(passCreateFormData({
                 limit: parsedData ? parsedData.limit : null,
                 'case-0': parsedData ? parsedData['case-0'] : null,
@@ -85,8 +84,9 @@ const CreateForm = () => {
 
     const savePolice = async (id) => {
         try {
-            const response = await axios.patch('https://vsk-trust.ru/api/orders', {
-                order_id: id
+            const response = await axiosAuth.patch('orders', {
+                order_id: id,
+                status: 1
             });
             setIsOpen(false);
             successNotify(response.data.data);

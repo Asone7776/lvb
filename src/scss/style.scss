@@ -265,16 +265,40 @@ html * {
         border: none;
         padding-top: rem(10);
         padding-bottom: rem(10);
-        padding-left: rem(40);
-        padding-right: rem(40);
+        padding-left: rem(20);
+        padding-right: rem(20);
         font: {
             family: "PT Sans Bold";
             size: rem(14);
         }
         &:hover,
         &:focus {
-            // background: darken($primary-color, 10);
+            background: darken($primary-color, 10);
             color: #fff;
+        }
+        &:disabled {
+            opacity: 0.5;
+        }
+    }
+    &.btn-primary-transparent {
+        background: transparent;
+        border-radius: rem(4);
+        border: none;
+        padding-top: rem(10);
+        padding-bottom: rem(10);
+        padding-left: rem(20);
+        padding-right: rem(20);
+        color: $primary-color !important;
+        border: rem(2) solid $primary-color;
+        font: {
+            family: "PT Sans Bold";
+            size: rem(14);
+        }
+        &:hover,
+        &:focus {
+            background: darken($primary-color, 10);
+            color: #fff !important;
+            border-color: transparent;
         }
         &:disabled {
             opacity: 0.5;
@@ -289,7 +313,7 @@ html * {
     }
 
     & + & {
-        margin-left: rem(30);
+        margin-left: rem(15);
     }
     &.btn-blue-transparent {
         border: none;
@@ -311,11 +335,13 @@ html * {
         background: $secondary-color;
         border-radius: rem(4);
         border: none;
-        padding-top: rem(14);
-        padding-bottom: rem(14);
+        padding-top: rem(10);
+        padding-bottom: rem(10);
+        padding-left: rem(20);
+        padding-right: rem(20);
         font: {
             family: "PT Sans Bold";
-            size: rem(18);
+            size: rem(14);
         }
         &:hover,
         &:focus {
@@ -353,12 +379,35 @@ html * {
         color: $black;
         padding: rem(9) rem(24);
         font: {
-            family: "Roboto Bold";
-            size: rem(16);
+            family: "PT Sans";
+            size: rem(14);
         }
         &:hover,
         &:focus {
             background: rgba($color: $black, $alpha: 0.2);
+        }
+    }
+    &.btn-gray-transparent {
+        background: transparent;
+        border-radius: rem(4);
+        border: none;
+        padding-top: rem(10);
+        padding-bottom: rem(10);
+        padding-left: rem(20);
+        padding-right: rem(20);
+        border: rem(2) solid $black;
+        color: #000000;
+        opacity: 0.4;
+        font: {
+            family: "PT Sans Bold";
+            size: rem(14);
+        }
+        &:hover,
+        &:focus {
+            background: rgba($color: $black, $alpha: 0.2);
+        }
+        &:disabled {
+            opacity: 0.5;
         }
     }
     &.btn-gold {
@@ -634,9 +683,12 @@ p {
         .user-email {
             padding-right: rem(30);
             font: {
-                family: "Roboto Bold";
+                family: "PT Sans Bold";
                 size: rem(16);
             }
+        }
+        .btn {
+            font-family: "PT Sans Bold";
         }
     }
 }
@@ -672,6 +724,14 @@ p {
     display: flex;
     padding-top: rem(30);
     padding-bottom: rem(60);
+    &.list-wrapper {
+        .info-top-header {
+            .btn {
+                padding-left: rem(40);
+                padding-right: rem(40);
+            }
+        }
+    }
     .accordion {
         width: 100%;
         .card {
@@ -719,6 +779,9 @@ p {
             }
             &.status {
                 span {
+                    color: $black;
+                }
+                .not-completed {
                     color: $red;
                 }
                 .completed {
@@ -734,7 +797,7 @@ p {
                     &.active {
                         transform: rotate(180deg);
                         path {
-                            fill: $dark-red;
+                            fill: #e1ba00;
                         }
                     }
                 }
@@ -745,6 +808,17 @@ p {
         margin-bottom: rem(30);
         display: flex;
         align-items: center;
+        .btn {
+            padding-left: rem(20);
+            padding-right: rem(20);
+            border-radius: rem(4);
+            padding-top: rem(9);
+            padding-bottom: rem(9);
+            font: {
+                family: "PT Sans Bold";
+                size: rem(14);
+            }
+        }
         h3 {
             font: {
                 family: "PT Sans";
@@ -798,6 +872,7 @@ p {
         .btn {
             margin-bottom: rem(15);
             width: 100%;
+            font-size: rem(18);
             &:last-child {
                 margin-bottom: 0;
             }
@@ -918,6 +993,7 @@ p {
     a {
         display: block;
         color: $secondary-color;
+        word-wrap: break-word;
         font: {
             family: "PT Sans";
             size: rem(18);
@@ -939,6 +1015,12 @@ p {
         height: rem(48);
         padding-top: 0;
         padding-bottom: 0;
+        &.btn-primary-transparent {
+            width: 100%;
+        }
+        &.btn-primary {
+            width: 100%;
+        }
     }
 }
 
@@ -961,5 +1043,41 @@ p {
     align-items: center;
     h3 {
         margin: rem(15) 0;
+    }
+}
+.order-filters {
+    input,
+    button {
+        height: rem(44);
+    }
+    input {
+        border: none;
+    }
+    .filter-select {
+        svg {
+            path {
+                fill: rgba($color: #000000, $alpha: 0.3);
+            }
+        }
+    }
+
+    .input-group {
+        .input-group-text {
+            background-color: #fff;
+            border: none;
+            padding-right: 0;
+        }
+        .form-control {
+            border-left: none;
+        }
+    }
+    .react-datepicker-wrapper {
+        // input{
+        //     font-size: rem(13);
+        // }
+        // .react-datepicker__close-icon{
+        //     right:rem(-30);
+        //     z-index: 200;
+        // }
     }
 }

@@ -2,8 +2,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosAuth } from '../../axios-instances';
 export const getOrders = createAsyncThunk(
     "orders/all",
-    async () => {
-        const response = await axiosAuth.get('orders');
+    async (params) => {
+        const response = await axiosAuth.get('orders', {
+            params
+        });
         return response.data;
     }
 );

@@ -107,21 +107,32 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick }) => {
                         </div>
                     </div>
                 </div>
-                <div className="row">
+                <div className="row mb-3">
                     <div className="col-6">
-                        {policeData.pdf && (
-                            <a href={`data:application/pdf;base64,${policeData.pdf}`} download className="btn btn-blue">
-                                Скачать полис
-                            </a>
-                        )}
+                        <a href={policeData.order && policeData.order.policy_url ? policeData.order.policy_url : '#'} download className="btn btn-blue">
+                            Черновик полиса
+                        </a>
                     </div>
                     <div className="col-6">
-                        <button className="btn btn-blue-white" onClick={() => {
+                        <a href={policeData.order && policeData.order.invoice_url ? policeData.order.invoice_url : '#'} download className="btn btn-blue">
+                            Счёт на оплату
+                        </a>
+                    </div>
+                </div>
+                <div className="divider"></div>
+                <div className="row">
+                    <div className="col-6">
+                        <button className="btn btn-primary-transparent">
+                            Редактировать
+                        </button>
+                    </div>
+                    <div className="col-6">
+                        <button className="btn btn-primary" onClick={() => {
                             if (policeData.order && policeData.order.id) {
                                 onSaveClick(policeData.order.id);
                             }
                         }}>
-                            Сохранить
+                            Отправить страхователю
                         </button>
                     </div>
                 </div>

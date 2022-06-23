@@ -52,3 +52,48 @@ export const formatDate = date => {
     let modifiedDate = moment(date).format('DD.MM.yyyy HH:mm');
     return modifiedDate;
 }
+
+export const debounce = (func, wait, immediate) => {
+    let timeout;
+
+    return function executedFunction() {
+        const context = this;
+        const args = arguments;
+
+        const later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+
+        const callNow = immediate && !timeout;
+
+        clearTimeout(timeout);
+
+        timeout = setTimeout(later, wait);
+
+        if (callNow) func.apply(context, args);
+    };
+};
+
+export const withDebounce = debounce((action) => {
+    action();
+}, 300, false);
+
+export const getStatusName = (id) => {
+    console.log(id);
+    let statusName = '';
+    switch (id) {
+        case -1:
+            statusName = 'Отменено';
+            break;
+        case 0:
+            statusName = 'Не оплачено';
+        case 2:
+            statusName = 'Подтверждено'
+        case 3:
+            statusName = 'Оплачено'
+        default:
+            statusName = 'Сохранено'
+    }
+    return statusName;
+}

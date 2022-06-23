@@ -47,7 +47,7 @@ const InfoCard = ({ allFields, complete, onSubmit, price, loading, success }) =>
                     <div className='pre-price'>{price ? `${formatPrice(price)}₽` : '0₽'}</div>
                 </div>
                 <button disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })} onClick={onSubmit}>
-                    Рассчитать
+                    Посчитать
                 </button>
                 {success && (
                     <Link to={'/admin/create'}>
