@@ -8,8 +8,9 @@ import PrePolicy from "../containers/polices/prefatory";
 import CreatePolicy from "../containers/polices/create";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { useSelector } from "react-redux";
+import NotFound from "../components/NotFound";
 const RoutesComponent = () => {
-    const user = useSelector((state)=>state.currentUser.data);
+    const user = useSelector((state) => state.currentUser.data);
     return (
         <BrowserRouter>
             <Routes>
@@ -21,7 +22,7 @@ const RoutesComponent = () => {
                 <Route
                     element={<AdminLayout />}
                 >
-                    <Route path="/admin" element={<ProtectedRoute user={user}/>}>
+                    <Route path="/admin" element={<ProtectedRoute user={user} />}>
                         <Route path="/admin" element={<PolicyPage />} />
                         <Route path="/admin/pre-create" element={<PrePolicy />} />
                         <Route path="/admin/create" element={<CreatePolicy />} />
@@ -29,7 +30,7 @@ const RoutesComponent = () => {
                 </Route>
                 <Route
                     path={'*'}
-                    element={<h1>Not found</h1>}
+                    element={<NotFound />}
                 />
             </Routes>
         </BrowserRouter>

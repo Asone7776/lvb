@@ -953,3 +953,13 @@ p {
     justify-content: center;
     align-items: center;
 }
+
+.not-found-page {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h3 {
+        margin: rem(15) 0;
+    }
+}

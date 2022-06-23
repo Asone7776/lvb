@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
-
+import { calculatePolicy } from '../actions/policeActions';
 const initialState = {
     preFormData: {},
-    createFormData: {}
+    createFormData: {},
+    calculatePolicy: {
+        loading: false,
+        data: null,
+        error: null
+    }
 }
 
 export const policeSlice = createSlice({
@@ -15,6 +20,29 @@ export const policeSlice = createSlice({
         passCreateFormData: (state, action) => {
             state.createFormData = action.payload
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(calculatePolicy.pending, (state) => {
+            state.calculatePolicy = {
+                loading: true,
+                data: null,
+                error: null,
+            }
+        })
+        builder.addCase(calculatePolicy.fulfilled, (state, action) => {
+            state.calculatePolicy = {
+                loading: true,
+                data: action.payload,
+                error: null,
+            }
+        })
+        builder.addCase(calculatePolicy.rejected, (state, action) => {
+            state.calculatePolicy = {
+                loading: true,
+                data: null,
+                error: action.payload,
+            }
+        })
     },
 })
 
