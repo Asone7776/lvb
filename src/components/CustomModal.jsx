@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from 'react-modal';
 import { useSelector } from 'react-redux';
-import { formatPrice, openBase64NewTab } from "../ functions";
+import { formatPrice } from "../ functions";
 Modal.setAppElement('#root');
 const CustomModal = ({ modalIsOpen, onClose, onSaveClick }) => {
     const policeData = useSelector((state) => state.police.createFormData);

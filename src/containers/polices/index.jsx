@@ -2,24 +2,25 @@ import NoDocument from "../../components/NoDocument";
 import { useNavigate } from "react-router-dom";
 import Accordion from "../../components/Accordion";
 import TopInfo from "../../components/TopInfo";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
+import Spinner from '../../components/Spinner';
+import { getOrders } from "../../redux/actions/orderActions";
+import { useDispatch, useSelector } from "react-redux";
 const PolicyPage = () => {
-    const [list, setList] = useState([1,2,3]);
+    const dispatch = useDispatch();
+    const orders = useSelector((state) => state.orders);
     const navigate = useNavigate();
-    // useEffect(() => {
-    //     getData();
-    // }, []);
-    const getData = async () => {
-        try {
-            const response = await axios.get('https://vsk-trust.ru/api/');
-
-            setList(response.data);
-        } catch (error) {
-            console.log(error);
-        }
+    useEffect(() => {
+        dispatch(getOrders());
+    }, []);
+    if (orders.loading) {
+        return (
+            <div className="vertical-center">
+                <Spinner />
+            </div>
+        )
     }
-    if (list && list.length === 0) {
+    if (!orders.loading && orders.data.length === 0) {
         return (
             <div className="vertical-center">
                 <NoDocument />
@@ -35,7 +36,7 @@ const PolicyPage = () => {
                             <TopInfo title={"Полисы страхования"} onNewPressed={() => {
                                 navigate('/admin/pre-create');
                             }} />
-                            <Accordion />
+                            <Accordion list={orders.data} />
                         </div>
                     </div>
                 </div>

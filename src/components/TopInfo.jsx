@@ -17,12 +17,12 @@ const TopInfo = ({ title, onNewPressed, onCancelPressed }) => {
                     </div>
                     <div className="col-6 text-right">
                         {onNewPressed && (
-                            <button className="btn btn-gold" onClick={onNewPressed}>
+                            <button className="btn btn-primary" onClick={onNewPressed}>
                                 Создать новый
                             </button>
                         )}
                         {onCancelPressed && (
-                            <button className="btn btn-cancel" onClick={onCancelPressed}>
+                            <button className="btn btn-gray" onClick={onCancelPressed}>
                                 Отмена
                             </button>
                         )}

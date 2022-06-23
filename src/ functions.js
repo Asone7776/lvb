@@ -1,3 +1,4 @@
+import moment from "moment";
 export const requiredPattern = {
     value: true,
     message: "Поле обязательно для заполнения"
@@ -23,7 +24,7 @@ export function openBase64NewTab(base64Pdf) {
         window.navigator.msSaveOrOpenBlob(blob, "pdfBase64.pdf");
     } else {
         const blobUrl = URL.createObjectURL(blob);
-        window.open(blobUrl,'_self');
+        window.open(blobUrl, '_self');
     }
 }
 
@@ -45,4 +46,9 @@ function base64toBlob(base64Data) {
         byteArrays[sliceIndex] = new Uint8Array(bytes);
     }
     return new Blob(byteArrays, { type: "application/pdf" });
+}
+
+export const formatDate = date => {
+    let modifiedDate = moment(date).format('DD.MM.yyyy HH:mm');
+    return modifiedDate;
 }

@@ -1,7 +1,14 @@
 import LvbLogo from "./LvbLogo";
-import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { resetUser } from "../redux/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 const Header = () => {
-    const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const user = useSelector((state) => state.currentUser.data);
+    const logout = () => {
+        Cookies.remove('token');    
+        dispatch(resetUser());
+    }
     return (
         <div className="admin-header">
             <div className="container">
@@ -11,10 +18,8 @@ const Header = () => {
                     </div>
                     <div className="col-3">
                         <div className="current-user">
-                            <span className="user-email">test@gmail.com</span>
-                            <button className="btn btn-gray" onClick={()=>{
-                                navigate('/');
-                            }}>Выйти</button>
+                            <span className="user-email">{user && user.email}</span>
+                            <button className="btn btn-gray" onClick={logout}>Выйти</button>
                         </div>
                     </div>
                 </div>

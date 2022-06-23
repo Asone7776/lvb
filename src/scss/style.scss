@@ -3,6 +3,7 @@
 @import "./fonts";
 @import "./input-range";
 @import "./checkbox";
+@import "./spinner";
 
 //Helpers
 .text-left {
@@ -255,22 +256,24 @@ html * {
 .btn {
     font-size: rem(14);
     color: #fff;
-    width: 100%;
+    // width: 100%;
 
     @include transition();
     &.btn-primary {
         background: $primary-color;
         border-radius: rem(4);
         border: none;
-        padding-top: rem(14);
-        padding-bottom: rem(14);
+        padding-top: rem(10);
+        padding-bottom: rem(10);
+        padding-left: rem(40);
+        padding-right: rem(40);
         font: {
             family: "PT Sans Bold";
-            size: rem(18);
+            size: rem(14);
         }
         &:hover,
         &:focus {
-            background: darken($primary-color, 10);
+            // background: darken($primary-color, 10);
             color: #fff;
         }
         &:disabled {
@@ -295,8 +298,8 @@ html * {
         margin: 0;
         padding: 0;
         font: {
-            family: "PT Sans";
-            size: rem(16);
+            family: "PT Sans Bold";
+            size: rem(14);
         }
 
         &:hover,
@@ -533,6 +536,10 @@ p {
     width: 60%;
     margin-left: auto;
     margin-right: auto;
+    .btn {
+        width: 100%;
+        font-size: rem(18);
+    }
     h4 {
         text-align: center;
         margin-bottom: rem(30);
@@ -790,6 +797,7 @@ p {
         margin-bottom: rem(20);
         .btn {
             margin-bottom: rem(15);
+            width: 100%;
             &:last-child {
                 margin-bottom: 0;
             }

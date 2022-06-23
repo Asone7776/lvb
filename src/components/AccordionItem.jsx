@@ -1,9 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import cn from "classnames";
+import { formatPrice, formatDate } from "../ functions";
 const AccordionItem = ({ item }) => {
     const [active, setActive] = useState(false);
+    const [risk, setRisk] = useState('Смерть');
     const onToggle = () => {
         setActive(!active);
+    }
+    useEffect(() => {
+        if (item && item.options && item.options.length > 1) {
+            formatRisk(item.options[0].value, item.options[1].value);
+        }
+    }, [item]);
+    const formatRisk = (death, invalid) => {
+        if (death && !invalid) {
+            setRisk('Смерть')
+        }
+        if (invalid && !death) {
+            setRisk('Инвалидность')
+        }
+        if (death && invalid) {
+            setRisk('Смерть, Инвалидность');
+        }
+        if (!death && !invalid) {
+            setRisk('Не указан');
+        }
     }
     return (
         <div className="card">
@@ -11,19 +32,19 @@ const AccordionItem = ({ item }) => {
                 <div className="collapsed" data-toggle="collapse" data-target={`#collapse-${item.id}`} aria-expanded="true" aria-controls={`collapse-${item.id}`} onClick={onToggle}>
                     <div className="row">
                         <div className="col id">
-                            ID {item.id}
+                            ID {item.policy_id}
                         </div>
                         <div className="col col-3 risk text-right">
-                            {item.risk}
+                            {risk}
                         </div>
                         <div className="col col-2 date text-center">
-                            {item.date}
+                            {item.created_at ? formatDate(item.created_at) : null}
                         </div>
                         <div className="col col-2 price">
-                            {item.price}
+                            {item.amount ? `${formatPrice(item.amount)}₽` : null}
                         </div>
                         <div className="col col-2 status text-right">
-                            {item.completed ? (
+                            {item.status ? (
                                 <span className="completed">Успешно</span>
                             ) : (
                                 <span className="not-completed">Не завершён</span>
@@ -47,19 +68,19 @@ const AccordionItem = ({ item }) => {
                         <div className="col-5">
                             <div className="item">
                                 <div className="sub-heading">Тип страхования</div>
-                                <div className="heading">Инвалидность</div>
+                                <div className="heading">{risk}</div>
                             </div>
                         </div>
                         <div className="col-3">
                             <div className="item">
                                 <div className="sub-heading">Срок страхования</div>
-                                <div className="heading">24 месяца</div>
+                                <div className="heading">{item.term ? `${item.term} месяцев` : null}</div>
                             </div>
                         </div>
                         <div className="col-4">
                             <div className="item">
                                 <div className="sub-heading">Сумма страхования</div>
-                                <div className="heading">2 000 000 ₽</div>
+                                {item.limit_amount ? `${formatPrice(item.limit_amount)}₽` : null}
                             </div>
                         </div>
                     </div>
@@ -67,19 +88,19 @@ const AccordionItem = ({ item }) => {
                         <div className="col-5">
                             <div className="item">
                                 <div className="sub-heading">Страхователь</div>
-                                <div className="heading">Смирнов Иван Петрович</div>
+                                <div className="heading">{item.insurer ? item.insurer : null}</div>
                             </div>
                         </div>
                         <div className="col-3">
                             <div className="item">
                                 <div className="sub-heading">Паспорт</div>
-                                <div className="heading">51 1234567</div>
+                                <div className="heading">{item.passport ? item.passport : null}</div>
                             </div>
                         </div>
                         <div className="col-4">
                             <div className="item">
                                 <div className="sub-heading">Номер телефона</div>
-                                <div className="heading">8 (925) 123-45-67</div>
+                                <div className="heading">{item.phone ? item.phone : null}</div>
                             </div>
                         </div>
                     </div>
@@ -88,13 +109,13 @@ const AccordionItem = ({ item }) => {
                         <div className="col-5">
                             <div className="item">
                                 <div className="sub-heading">Кредитный договор</div>
-                                <div className="heading">№12334543534</div>
+                                <div className="heading">{item.credit_number ? `№${item.credit_number}` : null}</div>
                             </div>
                         </div>
                         <div className="col-3">
                             <div className="item">
                                 <div className="sub-heading">Кредитное учереждение</div>
-                                <div className="heading">Банк Банк</div>
+                                <div className="heading">{item.credit_institution ? item.credit_institution : null}</div>
                             </div>
                         </div>
                     </div>
@@ -102,7 +123,7 @@ const AccordionItem = ({ item }) => {
                         <div className="col-5">
                             <div className="item">
                                 <div className="sub-heading">Адрес</div>
-                                <div className="heading">г. Москва, пр-т Мира, корп. 14, д 15, кв. 145</div>
+                                <div className="heading">{item.address ? item.address : null}</div>
                             </div>
                         </div>
                     </div>

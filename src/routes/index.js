@@ -6,8 +6,10 @@ import Login from "../containers/login";
 import PolicyPage from "../containers/polices";
 import PrePolicy from "../containers/polices/prefatory";
 import CreatePolicy from "../containers/polices/create";
-
+import ProtectedRoute from "../components/ProtectedRoute";
+import { useSelector } from "react-redux";
 const RoutesComponent = () => {
+    const user = useSelector((state)=>state.currentUser.data);
     return (
         <BrowserRouter>
             <Routes>
@@ -19,7 +21,7 @@ const RoutesComponent = () => {
                 <Route
                     element={<AdminLayout />}
                 >
-                    <Route path="/admin">
+                    <Route path="/admin" element={<ProtectedRoute user={user}/>}>
                         <Route path="/admin" element={<PolicyPage />} />
                         <Route path="/admin/pre-create" element={<PrePolicy />} />
                         <Route path="/admin/create" element={<CreatePolicy />} />

@@ -1,31 +1,56 @@
 import { createSlice } from "@reduxjs/toolkit"
-
+import { getCurrentUser, login } from "../actions/userActions"
 const userSlice = createSlice({
-    name: 'currentUser',
+    name: 'user',
     initialState: {
         loading: false,
-        data: {},
-        error: null
+        data: null,
+        error: null,
+        success: false,
     },
     reducers: {
-        getCurrentUserLoading(state, action) {
-            // Use a "state machine" approach for loading state instead of booleans
-            state.loading = true
-        },
-        getCurrentUserSuccess(state, action) {
+        resetUser: (state) => {
+            state.loading = false;
+            state.data = null;
+            state.error = null;
+            state.success = false;
+        }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(getCurrentUser.pending, (state) => {
+            state.loading = true;
+            state.data = {};
+            state.error = null;
+        })
+        builder.addCase(getCurrentUser.fulfilled, (state, action) => {
             state.loading = false
             state.data = action.payload
             state.error = null
-        },
-        getCurrentUserFailure(state, action) {
+        })
+        builder.addCase(getCurrentUser.rejected, (state, action) => {
             state.loading = false
             state.data = {}
             state.error = action.payload
-        }
+        })
+        builder.addCase(login.pending, (state) => {
+            state.loading = true;
+            state.data = null;
+            state.error = null;
+            state.success = false;
+        })
+        builder.addCase(login.fulfilled, (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+            state.error = null;
+            state.success = true;
+        })
+        builder.addCase(login.rejected, (state, action) => {
+            state.loading = false;
+            state.data = null;
+            state.error = action.payload;
+            state.success = false;
+        })
     },
-})
-
-// Destructure and export the plain action creators
-export const { getCurrentUserLoading, getCurrentUserSuccess, getCurrentUserFailure } = userSlice.actions
+});
+export const { resetUser } = userSlice.actions;
 export default userSlice.reducer;
-// Define a thunk that dispatches those action creators
