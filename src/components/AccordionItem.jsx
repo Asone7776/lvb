@@ -133,21 +133,13 @@ const AccordionItem = ({ item }) => {
                     <div className="row">
                         <div className="col-5">
                             <div className="item">
-                                <div className="sub-heading">Ссылка для онлайн оплаты</div>
-                                {item.url && (
-                                    <a href={item.url}>{item.url}</a>
-                                )}
-                            </div>
-                        </div>
-                        <div className="col-3">
-                            <div className="item">
                                 <div className="sub-heading">Полис</div>
                                 {item.policy_url && (
                                     <a href={item.policy_url}>{item.policy_url}</a>
                                 )}
                             </div>
                         </div>
-                        <div className="col-4">
+                        <div className="col-3">
                             <div className="item">
                                 <div className="sub-heading">Счёт на оплату</div>
                                 {item.invoice_url && (

@@ -89,17 +89,6 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick }) => {
                 <div className="row">
                     <div className="col-12">
                         <div className="form-group">
-                            <label>Ссылка для онлайн оплаты</label>
-                            {policeData.url && (
-                                <a href={policeData.url} target={'_blank'}>{policeData.url}</a>
-                            )}
-                        </div>
-                    </div>
-                </div>
-                <div className="divider"></div>
-                <div className="row">
-                    <div className="col-12">
-                        <div className="form-group">
                             <label>Стоимость полиса</label>
                             <div className="pre-price">
                                 <h5>{policeData.order && policeData.order.amount ? `${formatPrice(policeData.order.amount)}₽` : null}</h5>
@@ -109,12 +98,12 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick }) => {
                 </div>
                 <div className="row mb-3">
                     <div className="col-6">
-                        <a href={policeData.order && policeData.order.policy_url ? policeData.order.policy_url : '#'} download className="btn btn-blue">
+                        <a target={'_blank'} href={policeData.order && policeData.order.policy_url ? policeData.order.policy_url : '#'} download className="btn btn-blue">
                             Черновик полиса
                         </a>
                     </div>
                     <div className="col-6">
-                        <a href={policeData.order && policeData.order.invoice_url ? policeData.order.invoice_url : '#'} download className="btn btn-blue">
+                        <a target={'_blank'} href={policeData.order && policeData.order.invoice_url ? policeData.order.invoice_url : '#'} download className="btn btn-blue">
                             Счёт на оплату
                         </a>
                     </div>
@@ -122,7 +111,10 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick }) => {
                 <div className="divider"></div>
                 <div className="row">
                     <div className="col-6">
-                        <button className="btn btn-primary-transparent">
+                        <button className="btn btn-primary-transparent" onClick={() => {
+                            {/* TODO: delete current order */ }
+                            onClose();
+                        }}>
                             Редактировать
                         </button>
                     </div>
