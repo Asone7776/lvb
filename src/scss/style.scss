@@ -256,7 +256,16 @@ html * {
 .btn {
     font-size: rem(14);
     color: #fff;
+    position: relative;
     // width: 100%;
+    .spinner {
+        width: rem(30);
+        height: rem(30);
+        margin: -15px 0 0 -15px;
+        circle {
+            stroke: #fff;
+        }
+    }
 
     @include transition();
     &.btn-primary {
@@ -870,6 +879,7 @@ p {
         border-radius: rem(4);
         margin-bottom: rem(20);
         .btn {
+            min-height: rem(47);
             margin-bottom: rem(15);
             width: 100%;
             font-size: rem(18);
@@ -1087,11 +1097,11 @@ p {
     .page-item {
         .page-link {
             border-color: $primary-color;
-            color:$primary-color;
+            color: $primary-color;
         }
         &.active {
             .page-link {
-                color:#fff;
+                color: #fff;
                 background-color: $primary-color;
             }
         }

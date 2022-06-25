@@ -5,6 +5,9 @@ import { requiredPattern, emailPattern } from "../ functions";
 import { login } from '../redux/actions/userActions';
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import cn from 'classnames';
+import Spinner from "./Spinner";
+
 const SignInForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -38,7 +41,11 @@ const SignInForm = () => {
                     })} />
                     {errors.password && <span className="error-message">{errors.password.message}</span>}
                 </div>
-                <button disabled={currentUser.loading} type="submit" className="btn btn-primary">Войти</button>
+                <button disabled={currentUser.loading} type="submit" className={cn('btn btn-primary', { 'loading': true })}>
+                    {currentUser.loading ? (
+                        <Spinner />
+                    ) : 'Войти'}
+                </button>
             </form>
         </div>
     );

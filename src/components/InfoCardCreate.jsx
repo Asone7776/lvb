@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { formatPrice } from "../ functions";
+import Spinner from "./Spinner";
 const InfoCardCreate = ({ loading, data, complete }) => {
     const [risk, setRisk] = useState('Смерть');
     useEffect(() => {
@@ -42,8 +43,10 @@ const InfoCardCreate = ({ loading, data, complete }) => {
                     <span>Срок страхования</span>
                     <h4>{data && data.term ? `${data.term} месяца` : '24 месяца'}</h4>
                 </div>
-                <button type="submit" disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })}>
-                    Сформировать
+                <button type="submit" disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete, 'loading': loading })}>
+                    {loading ? (
+                        <Spinner />
+                    ) : 'Сформировать'}
                 </button>
             </div>
         </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../ functions";
+import Spinner from "./Spinner";
 const InfoCard = ({ allFields, complete, onSubmit, price, loading, success }) => {
     const [risk, setRisk] = useState('Смерть');
     useEffect(() => {
@@ -46,12 +47,14 @@ const InfoCard = ({ allFields, complete, onSubmit, price, loading, success }) =>
                     <span className='mb-0'>Предварительный расчёт</span>
                     <div className='pre-price'>{price ? `${formatPrice(price)}₽` : '0₽'}</div>
                 </div>
-                <button disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })} onClick={onSubmit}>
-                    Рассчитать
+                <button disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete, 'loading': loading })} onClick={onSubmit}>
+                    {loading ? (
+                        <Spinner />
+                    ) : 'Рассчитать'}
                 </button>
                 {success && (
                     <Link to={'/admin/create'}>
-                        <button disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete })} onClick={onSubmit}>
+                        <button disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete, 'loading': loading })} onClick={onSubmit}>
                             Оформить полис
                         </button>
                     </Link>
