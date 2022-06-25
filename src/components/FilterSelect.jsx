@@ -36,7 +36,7 @@ const DropdownIndicator = (props) => {
         </components.DropdownIndicator>
     );
 };
-const FilterSelect = ({ options, onChange }) => {
+const FilterSelect = ({ options, onChange, ...props }) => {
     return (
         <Select
             styles={customStyles}
@@ -49,6 +49,7 @@ const FilterSelect = ({ options, onChange }) => {
             onChange={(val) => {
                 onChange(val);
             }}
+            {...props}
         />
     );
 }

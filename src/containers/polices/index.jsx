@@ -4,22 +4,27 @@ import { useNavigate } from "react-router-dom";
 import Accordion from "../../components/Accordion";
 import TopInfo from "../../components/TopInfo";
 import { useEffect } from "react";
-import Spinner from '../../components/Spinner';
 import { getOrders } from "../../redux/actions/orderActions";
 import { useDispatch, useSelector } from "react-redux";
 import OrderFilters from '../../components/OrderFilters';
+import { getUsers } from "../../redux/actions/usersActions";
+import OrdersPagination from "../../components/OrdersPagination";
 const PolicyPage = () => {
     const dispatch = useDispatch();
     const orders = useSelector((state) => state.orders);
+    const users = useSelector((state) => state.users);
     const navigate = useNavigate();
-    const [filterProps, setFilterProps] = useState({});
+    const [filterProps, setFilterProps] = useState({
+        paginated: true
+    });
     useEffect(() => {
         dispatch(getOrders(filterProps));
     }, [filterProps]);
 
     useEffect(() => {
-        console.log(filterProps);
-    }, [filterProps]);
+        dispatch(getUsers());
+    }, []);
+
     const onFilterChange = (prop, value) => {
         setFilterProps({
             ...filterProps,
@@ -28,20 +33,12 @@ const PolicyPage = () => {
     };
 
     const onDateRange = (arr) => {
-
         setFilterProps({
             ...filterProps,
             from: arr[0] ? arr[0] : null,
             to: arr[1] ? arr[1] : null,
         })
     };
-    // if (orders.loading) {
-    //     return (
-    //         <div className="vertical-center">
-    //             <Spinner />
-    //         </div>
-    //     )
-    // }
     if (!orders.loading && orders.data.length === 0 && Object.keys(filterProps).length === 0) {
         return (
             <div className="vertical-center">
@@ -58,8 +55,9 @@ const PolicyPage = () => {
                             <TopInfo title={"Полисы страхования"} titleNew={'Создать новый'} onNewPressed={() => {
                                 navigate('/admin/pre-create');
                             }} />
-                            <OrderFilters onFilterChange={onFilterChange} onDateRange={onDateRange} />
-                            <Accordion list={orders.data} />
+                            <OrderFilters users={users} onFilterChange={onFilterChange} onDateRange={onDateRange} />
+                            <Accordion loading={orders.loading} list={orders.data.data} />
+                            <OrdersPagination last_page={orders.data.last_page} items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]} />
                         </div>
                     </div>
                 </div>

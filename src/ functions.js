@@ -80,7 +80,6 @@ export const withDebounce = debounce((action) => {
 }, 300, false);
 
 export const getStatusName = (id) => {
-    console.log(id);
     let statusName = '';
     switch (id) {
         case -1:

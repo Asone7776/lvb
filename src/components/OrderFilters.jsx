@@ -6,7 +6,7 @@ import { withDebounce } from '../ functions';
 import { setDefaultLocale } from "react-datepicker";
 import ru from 'date-fns/locale/ru';
 setDefaultLocale('ru');
-const OrderFilters = ({ onFilterChange, onDateRange }) => {
+const OrderFilters = ({ users, onFilterChange, onDateRange }) => {
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange;
 
@@ -21,11 +21,11 @@ const OrderFilters = ({ onFilterChange, onDateRange }) => {
         const search = event.target.value;
         if (search.length >= 3 || search.length === 0) {
             withDebounce(() => {
-                onFilterChange("search", search);
+                onFilterChange("search", search ? search : null);
             });
         }
     };
- 
+
     return (
         <div className="order-filters small-gutters">
             <div className="row">
@@ -61,6 +61,18 @@ const OrderFilters = ({ onFilterChange, onDateRange }) => {
                         }}
                         isClearable={true}
                     />
+                </div>
+                <div className="col-12 mb-3">
+                    <FilterSelect
+                        defaultValue={[]}
+                        placeholder={'Пользователи'}
+                        isMulti options={users.data} onChange={(val) => {
+                            let valueToSend = null
+                            if (val.length > 0) {
+                                valueToSend = val.map((item) => item.value).join();
+                            }
+                            onFilterChange('users', valueToSend);
+                        }} />
                 </div>
             </div>
         </div>

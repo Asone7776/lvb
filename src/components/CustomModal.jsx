@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { useSelector } from 'react-redux';
 import { formatPrice } from "../ functions";
 Modal.setAppElement('#root');
-const CustomModal = ({ modalIsOpen, onClose, onSaveClick }) => {
+const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete }) => {
     const policeData = useSelector((state) => state.police.createFormData);
     const [risk, setRisk] = useState('Смерть');
     useEffect(() => {
@@ -112,8 +112,9 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick }) => {
                 <div className="row">
                     <div className="col-6">
                         <button className="btn btn-primary-transparent" onClick={() => {
-                            {/* TODO: delete current order */ }
-                            onClose();
+                            if (policeData.order && policeData.order.id) {
+                                onDelete(policeData.order.id);
+                            }
                         }}>
                             Редактировать
                         </button>

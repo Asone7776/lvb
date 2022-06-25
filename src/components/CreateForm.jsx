@@ -115,10 +115,19 @@ const CreateForm = () => {
 
     const savePolice = async (id) => {
         try {
-            const response = await axiosAuth.patch('orders', {
-                order_id: id,
-                status: 1
-            });
+            const response = await axiosAuth.get(`orders/send/${id}`);
+            setIsOpen(false);
+            successNotify(response.data.data);
+        } catch (error) {
+            setIsOpen(false);
+            if (error.response.data) {
+                failureNotify(error.response.data.errors);
+            }
+        }
+    }
+    const deletePolicy = async (id) => {
+        try {
+            const response = await axiosAuth.delete(`orders/${id}`);
             setIsOpen(false);
             successNotify(response.data.data);
         } catch (error) {
@@ -652,7 +661,7 @@ const CreateForm = () => {
                     </div>
                 </div>
             </form>
-            <CustomModal modalIsOpen={modalIsOpen} onClose={() => { setIsOpen(false) }} onSaveClick={(id) => savePolice(id)} />
+            <CustomModal modalIsOpen={modalIsOpen} onClose={() => { setIsOpen(false) }} onDelete={(id) => deletePolicy(id)} onSaveClick={(id) => savePolice(id)} />
         </div>
     );
 }
