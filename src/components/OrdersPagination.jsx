@@ -1,26 +1,9 @@
-import React, { useState,useEffect } from "react";
+import React from "react";
 import ReactPaginate from 'react-paginate';
-const OrdersPagination = ({items,last_page}) => {
-    const itemsPerPage = 1;
-    const [currentItems, setCurrentItems] = useState(null);
-    // Here we use item offsets; we could also use page offsets
-    // following the API or data you're working with.
-    const [itemOffset, setItemOffset] = useState(0);
+const OrdersPagination = ({ last_page, onFilterChange, initialPage }) => {
 
-    useEffect(() => {
-        // Fetch items from another resources.
-        const endOffset = itemOffset + itemsPerPage;
-        // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-        console.log(endOffset);
-    }, [itemOffset, itemsPerPage]);
-
-    // Invoke when user click to request another page.
     const handlePageClick = (event) => {
-        const newOffset = (event.selected * itemsPerPage) % items.length;
-        console.log(
-            `User requested page number ${event.selected}, which is offset ${newOffset}`
-        );
-        setItemOffset(newOffset);
+        onFilterChange('page', event.selected + 1)
     };
 
     return (
@@ -28,7 +11,8 @@ const OrdersPagination = ({items,last_page}) => {
             breakLabel="..."
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
-            pageCount={last_page}
+            forcePage={initialPage - 1}
+            pageCount={last_page ? last_page : 0}
             pageClassName="page-item"
             pageLinkClassName="page-link"
             previousLinkClassName="page-link"

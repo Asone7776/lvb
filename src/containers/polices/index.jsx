@@ -15,7 +15,8 @@ const PolicyPage = () => {
     const users = useSelector((state) => state.users);
     const navigate = useNavigate();
     const [filterProps, setFilterProps] = useState({
-        paginated: true
+        paginated: true,
+        page: 1
     });
     useEffect(() => {
         dispatch(getOrders(filterProps));
@@ -35,10 +36,20 @@ const PolicyPage = () => {
     const onDateRange = (arr) => {
         setFilterProps({
             ...filterProps,
+            page: 1,
             from: arr[0] ? arr[0] : null,
             to: arr[1] ? arr[1] : null,
         })
     };
+
+    const onTopFiltersChange = (prop, value) => {
+        setFilterProps({
+            ...filterProps,
+            page: 1,
+            [prop]: value
+        })
+    };
+
     if (!orders.loading && orders.data.length === 0 && Object.keys(filterProps).length === 0) {
         return (
             <div className="vertical-center">
@@ -55,9 +66,11 @@ const PolicyPage = () => {
                             <TopInfo title={"Полисы страхования"} titleNew={'Создать новый'} onNewPressed={() => {
                                 navigate('/admin/pre-create');
                             }} />
-                            <OrderFilters users={users} onFilterChange={onFilterChange} onDateRange={onDateRange} />
+                            <OrderFilters users={users} onFilterChange={onTopFiltersChange} onDateRange={onDateRange} />
                             <Accordion loading={orders.loading} list={orders.data.data} />
-                            <OrdersPagination last_page={orders.data.last_page} items={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]} />
+                            {orders.data.total >20 &&(
+                                <OrdersPagination last_page={orders.data.last_page} onFilterChange={onFilterChange} initialPage={filterProps.page} />
+                            )}
                         </div>
                     </div>
                 </div>
