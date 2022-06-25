@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import ParentSelect from './ParentSelect';
+import ParentCreateSelect from './ParentCreateSelect';
 import InfoCardCreate from './InfoCardCreate';
 import NumberFormat from 'react-number-format';
 import { emailPattern, requiredPattern } from '../ functions';
@@ -15,12 +16,12 @@ const CreateForm = () => {
     const [loading, setLoading] = useState(false);
     const [parsedData, setParsedData] = useState(null);
     const [modalIsOpen, setIsOpen] = useState(false);
-
-    const companyOptions = [
+    const [companyOptions, setCompanyOptions] = useState([
         { value: 'ООО', label: 'ООО' },
         { value: 'ОАО', label: 'ОАО' },
         { value: 'ЗАО', label: 'ЗАО' },
-    ];
+    ]);
+
     const options = [
         { value: '0', label: 'Физическое лицо' },
         { value: '1', label: 'Юридическое лицо' }
@@ -45,9 +46,21 @@ const CreateForm = () => {
             setParsedData(JSON.parse(preData));
         }
     }, []);
+
     const allFields = watch();
     const savedFields = watch(['holder', 'email']);
-
+    const prefix = watch(['organization_prefix']);
+    useEffect(() => {
+        if (prefix[0] && prefix[0].__isNew__) {
+            setCompanyOptions((prevState) => {
+                let array = [
+                    ...prevState,
+                    prefix[0]
+                ];
+                return array.filter((v, i, a) => a.indexOf(v) === i);
+            })
+        }
+    }, [prefix[0]])
     const onSubmit = data => {
         const objectToSend = {
             ...data,
@@ -138,6 +151,7 @@ const CreateForm = () => {
                                         }}
                                     />
                                 </div>
+
                                 {allFields.holder.value === "0" ? null : (
                                     <>
                                         <div className="row mb-3">
@@ -147,7 +161,7 @@ const CreateForm = () => {
                                                     control={control}
                                                     render={({ field }) => {
                                                         return (
-                                                            <ParentSelect
+                                                            <ParentCreateSelect
                                                                 name="organization_prefix"
                                                                 options={companyOptions}
                                                                 {...field}
