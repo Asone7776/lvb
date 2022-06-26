@@ -80,6 +80,7 @@ export const withDebounce = debounce((action) => {
 }, 300, false);
 
 export const getStatusName = (id) => {
+
     let statusName = '';
     switch (id) {
         case -1:
@@ -87,12 +88,16 @@ export const getStatusName = (id) => {
             break;
         case 0:
             statusName = 'Не оплачено';
+            break;
         case 2:
-            statusName = 'Подтверждено'
+            statusName = 'Подтверждено';
+            break;
         case 3:
-            statusName = 'Оплачено'
+            statusName = 'Оплачено';
+            break;
         default:
-            statusName = 'Сохранено'
+            statusName = 'Сохранено';
+            break;
     }
     return statusName;
 }

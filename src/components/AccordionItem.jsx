@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import cn from "classnames";
 import { formatPrice, formatDate, getStatusName } from "../ functions";
-const AccordionItem = ({ item }) => {
+import orderSlice from "../redux/slices/orderSlice";
+const AccordionItem = ({ item, onStatusChange }) => {
     const [active, setActive] = useState(false);
     const [risk, setRisk] = useState('Смерть');
     const onToggle = () => {
@@ -152,14 +153,22 @@ const AccordionItem = ({ item }) => {
                         <div className="col-12">
                             <div className="item">
                                 <div className="sub-heading">Статус оплаты</div>
-                                <div className="btn btn-blue">
-                                    Оплачен
-                                </div>
-                                <div className="btn btn-gray-transparent">
-                                    Не оплачен
-                                </div>
-                                <div className="btn btn-gray-transparent">
-                                    Отменён
+                                <div className="d-flex">
+                                    <div className={cn('btn', { 'btn-blue': item.status === 3, 'btn-gray-transparent': item.status !== 3 })} onClick={() => {
+                                        onStatusChange(3);
+                                    }}>
+                                        Оплачен
+                                    </div>
+                                    <div className={cn('btn', { 'btn-blue': item.status === 0, 'btn-gray-transparent': item.status !== 0 })} onClick={() => {
+                                        onStatusChange(0);
+                                    }}>
+                                        Не оплачен
+                                    </div>
+                                    <div className={cn('btn', { 'btn-blue': item.status === -1, 'btn-gray-transparent': item.status !== -1 })} onClick={() => {
+                                        onStatusChange(-1);
+                                    }}>
+                                        Отменён
+                                    </div>
                                 </div>
                             </div>
                         </div>

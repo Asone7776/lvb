@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import OrderFilters from '../../components/OrderFilters';
 import { getUsers } from "../../redux/actions/usersActions";
 import OrdersPagination from "../../components/OrdersPagination";
+import { resetStatus } from '../../redux/slices/orderSlice';
 const PolicyPage = () => {
     const dispatch = useDispatch();
     const orders = useSelector((state) => state.orders);
@@ -20,12 +21,16 @@ const PolicyPage = () => {
     });
     useEffect(() => {
         dispatch(getOrders(filterProps));
-    }, [filterProps]);
+    }, [filterProps, orders.changeStatus.success]);
 
     useEffect(() => {
         dispatch(getUsers());
     }, []);
-
+    useEffect(() => {
+        if (orders.changeStatus.success) {
+            dispatch(resetStatus());
+        }
+    }, [orders.changeStatus]);
     const onFilterChange = (prop, value) => {
         setFilterProps({
             ...filterProps,
@@ -68,7 +73,7 @@ const PolicyPage = () => {
                             }} />
                             <OrderFilters users={users} onFilterChange={onTopFiltersChange} onDateRange={onDateRange} />
                             <Accordion loading={orders.loading} list={orders.data.data} />
-                            {orders.data.total >20 &&(
+                            {orders.data.total > 20 && (
                                 <OrdersPagination last_page={orders.data.last_page} onFilterChange={onFilterChange} initialPage={filterProps.page} />
                             )}
                         </div>

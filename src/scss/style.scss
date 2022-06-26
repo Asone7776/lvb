@@ -1107,3 +1107,13 @@ p {
         }
     }
 }
+
+.collapse {
+    .item {
+        .btn {
+            height: rem(45);
+            display: flex;
+            align-items: center;
+        }
+    }
+}
