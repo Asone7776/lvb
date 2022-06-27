@@ -18,8 +18,8 @@ const CreateForm = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [companyOptions, setCompanyOptions] = useState([
         { value: 'ООО', label: 'ООО' },
-        { value: 'ОАО', label: 'ОАО' },
-        { value: 'ЗАО', label: 'ЗАО' },
+        { value: 'ИП', label: 'ИП' },
+        { value: 'АО', label: 'АО' },
     ]);
 
     const options = [
@@ -30,7 +30,7 @@ const CreateForm = () => {
         { value: '1', label: 'Мужской' },
         { value: '2', label: 'Женский' }
     ];
-    const { control, watch, register, handleSubmit, formState: { errors } } = useForm({
+    const { control, setValue, watch, register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             holder: { value: '0', label: 'Физическое лицо' },
             male: { value: '1', label: 'Мужской' },
@@ -46,7 +46,11 @@ const CreateForm = () => {
             setParsedData(JSON.parse(preData));
         }
     }, []);
-
+    useEffect(() => {
+        if (parsedData && parsedData.holder) {
+            setValue('holder', parsedData.holder);
+        }
+    }, [parsedData]);
     const allFields = watch();
     const savedFields = watch(['holder', 'email']);
     const prefix = watch(['organization_prefix']);
@@ -657,7 +661,7 @@ const CreateForm = () => {
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCardCreate data={parsedData} complete={true} loading={loading} />
+                        <InfoCardCreate holder={savedFields[0]}  data={parsedData} complete={true} loading={loading} />
                     </div>
                 </div>
             </form>

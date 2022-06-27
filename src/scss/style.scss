@@ -252,7 +252,12 @@ html * {
         color: $black;
     }
 }
-
+.is-sticky {
+    position: fixed;
+    top: 10px;
+    z-index: 999;
+    animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
+}
 .btn {
     font-size: rem(14);
     color: #fff;
@@ -874,6 +879,8 @@ p {
         padding: 0;
     }
     &-small {
+        position: sticky;
+        top: rem(10);
         border: none;
         padding: rem(20);
         border-radius: rem(4);

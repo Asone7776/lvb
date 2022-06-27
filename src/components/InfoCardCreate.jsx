@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { formatPrice } from "../ functions";
 import Spinner from "./Spinner";
-const InfoCardCreate = ({ loading, data, complete }) => {
+const InfoCardCreate = ({ holder, loading, data, complete }) => {
     const [risk, setRisk] = useState('Смерть');
     useEffect(() => {
         if (data) {
@@ -28,7 +28,7 @@ const InfoCardCreate = ({ loading, data, complete }) => {
             <div className={cn('info-wrapper', { 'complete': complete })}>
                 <div className="info-block">
                     <span>Страхователь</span>
-                    <h4>{data && data.holder ? data.holder.label : '-'}</h4>
+                    <h4>{holder ? holder.label : '-'}</h4>
                 </div>
                 <div className="info-block">
                     <span>Лимит</span>
