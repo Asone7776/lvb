@@ -244,6 +244,65 @@ const CreateForm = () => {
                                         </div>
                                     </>
                                 )}
+                                  {allFields.holder.value === "1" && (
+                                    <>
+                                        <div className="row mb-3">
+                                            <div className="col-12">
+                                                <h5>Адрес</h5>
+                                            </div>
+                                            <div className="col-6">
+                                                <div className="form-group">
+                                                    <input className='form-control' type="text" placeholder='Город' {...register('second_city', {
+                                                        required: requiredPattern
+                                                    })} />
+                                                    {errors.second_city && <span className="error-message">{errors.second_city.message}</span>}
+                                                </div>
+                                            </div>
+                                            <div className="col-6">
+                                                <div className="form-group">
+                                                    <input className='form-control' type="text" placeholder='Улица' {...register('second_street', {
+                                                        required: requiredPattern
+                                                    })} />
+                                                    {errors.second_street && <span className="error-message">{errors.second_street.message}</span>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row mb-3">
+                                            <div className="col-3">
+                                                <div className="form-group">
+                                                    <input className='form-control' type="text" placeholder='Дом' {...register('second_house', {
+                                                        required: requiredPattern
+                                                    })} />
+                                                    {errors.second_house && <span className="error-message">{errors.second_house.message}</span>}
+                                                </div>
+                                            </div>
+                                            <div className="col-3">
+                                                <div className="form-group">
+                                                    <input className='form-control' type="text" placeholder='Корпус' {...register('second_building', {
+                                                        required: false
+                                                    })} />
+                                                    {errors.second_building && <span className="error-message">{errors.second_building.message}</span>}
+                                                </div>
+                                            </div>
+                                            <div className="col-3">
+                                                <div className="form-group">
+                                                    <input className='form-control' type="text" placeholder='Квартира' {...register('second_flat', {
+                                                        required: requiredPattern
+                                                    })} />
+                                                    {errors.second_flat && <span className="error-message">{errors.second_flat.message}</span>}
+                                                </div>
+                                            </div>
+                                            <div className="col-3">
+                                                <div className="form-group">
+                                                    <input className='form-control' type="text" placeholder='Индекс' {...register('second_index', {
+                                                        required: requiredPattern
+                                                    })} />
+                                                    {errors.second_index && <span className="error-message">{errors.second_index.message}</span>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                                 {allFields.holder.value === "1" && (
                                     <h4>Застрахованный</h4>
                                 )}
@@ -598,65 +657,6 @@ const CreateForm = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {allFields.holder.value === "1" && (
-                                    <>
-                                        <div className="row mb-3">
-                                            <div className="col-12">
-                                                <h5>Адрес регистрации</h5>
-                                            </div>
-                                            <div className="col-6">
-                                                <div className="form-group">
-                                                    <input className='form-control' type="text" placeholder='Город' {...register('second_city', {
-                                                        required: requiredPattern
-                                                    })} />
-                                                    {errors.second_city && <span className="error-message">{errors.second_city.message}</span>}
-                                                </div>
-                                            </div>
-                                            <div className="col-6">
-                                                <div className="form-group">
-                                                    <input className='form-control' type="text" placeholder='Улица' {...register('second_street', {
-                                                        required: requiredPattern
-                                                    })} />
-                                                    {errors.second_street && <span className="error-message">{errors.second_street.message}</span>}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row mb-3">
-                                            <div className="col-3">
-                                                <div className="form-group">
-                                                    <input className='form-control' type="text" placeholder='Дом' {...register('second_house', {
-                                                        required: requiredPattern
-                                                    })} />
-                                                    {errors.second_house && <span className="error-message">{errors.second_house.message}</span>}
-                                                </div>
-                                            </div>
-                                            <div className="col-3">
-                                                <div className="form-group">
-                                                    <input className='form-control' type="text" placeholder='Корпус' {...register('second_building', {
-                                                        required: false
-                                                    })} />
-                                                    {errors.second_building && <span className="error-message">{errors.second_building.message}</span>}
-                                                </div>
-                                            </div>
-                                            <div className="col-3">
-                                                <div className="form-group">
-                                                    <input className='form-control' type="text" placeholder='Квартира' {...register('second_flat', {
-                                                        required: requiredPattern
-                                                    })} />
-                                                    {errors.second_flat && <span className="error-message">{errors.second_flat.message}</span>}
-                                                </div>
-                                            </div>
-                                            <div className="col-3">
-                                                <div className="form-group">
-                                                    <input className='form-control' type="text" placeholder='Индекс' {...register('second_index', {
-                                                        required: requiredPattern
-                                                    })} />
-                                                    {errors.second_index && <span className="error-message">{errors.second_index.message}</span>}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </>
-                                )}
                             </div>
                         </div>
                     </div>
