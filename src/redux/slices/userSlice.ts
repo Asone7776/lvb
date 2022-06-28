@@ -1,13 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getCurrentUser, login } from "../actions/userActions"
+import { userInitialStateType } from "../../types/user";
+import { getCurrentUser, login } from "../actions/userActions";
+
+const initialState: userInitialStateType = {
+    loading: false,
+    data: null,
+    error: null,
+    success: false,
+};
+
 const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        loading: false,
-        data: null,
-        error: null,
-        success: false,
-    },
+    initialState,
     reducers: {
         resetUser: (state) => {
             state.loading = false;
@@ -19,7 +23,7 @@ const userSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getCurrentUser.pending, (state) => {
             state.loading = true;
-            state.data = {};
+            state.data = null;
             state.error = null;
         })
         builder.addCase(getCurrentUser.fulfilled, (state, action) => {
@@ -29,7 +33,7 @@ const userSlice = createSlice({
         })
         builder.addCase(getCurrentUser.rejected, (state, action) => {
             state.loading = false
-            state.data = {}
+            state.data = null;
             state.error = action.payload
         })
         builder.addCase(login.pending, (state) => {

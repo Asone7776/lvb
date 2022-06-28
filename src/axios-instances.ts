@@ -20,7 +20,9 @@ axiosAuth.interceptors.response.use(
 
 axiosAuth.interceptors.request.use(function (request) {
     const token = Cookies.get("token");
-    request.headers["Authorization"] = `Bearer ${token}`;
+    if (request.headers) {
+        request.headers["Authorization"] = `Bearer ${token}`;
+    }
     return request;
 });
 

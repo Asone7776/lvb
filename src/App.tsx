@@ -1,10 +1,11 @@
+import React, { FC } from "react";
 import RoutesComponent from "./routes";
 import { getCurrentUser } from "./redux/actions/userActions";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "./redux/store";
 import { useEffect } from "react";
-const App = () => {
-  const dispatch = useDispatch();
+const App: FC = () => {
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (Cookies.get('token')) {
       dispatch(getCurrentUser());

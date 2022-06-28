@@ -1,17 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit"
-import { getUsers } from "../actions/usersActions"
+import { createSlice } from "@reduxjs/toolkit";
+import { getUsers } from "../actions/usersActions";
+import { usersInitialStateType } from "../../types/users";
+
+const initialState: usersInitialStateType = {
+    loading: false,
+    data: null,
+    error: null
+}
+
 const usersSlice = createSlice({
     name: 'users',
-    initialState: {
-        loading: false,
-        data: null,
-        error: null
-    },
+    initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getUsers.pending, (state) => {
             state.loading = true;
-            state.data = {};
+            state.data = null;
             state.error = null;
         })
         builder.addCase(getUsers.fulfilled, (state, action) => {
@@ -21,7 +25,7 @@ const usersSlice = createSlice({
         })
         builder.addCase(getUsers.rejected, (state, action) => {
             state.loading = false
-            state.data = {}
+            state.data = null
             state.error = action.payload
         })
     },
