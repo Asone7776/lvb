@@ -227,7 +227,7 @@ const CreateForm = () => {
                                             </div>
                                             <div className="col-4">
                                                 <div className="form-group">
-                                                    <input className='form-control' type="text" placeholder='ОРГН' {...register('ogrn', {
+                                                    <input className='form-control' type="text" placeholder='ОГРН' {...register('ogrn', {
                                                         required: requiredPattern,
                                                         minLength: {
                                                             value: 13,
