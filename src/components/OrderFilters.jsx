@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { withDebounce } from '../ functions';
 import { setDefaultLocale } from "react-datepicker";
 import ru from 'date-fns/locale/ru';
+import moment from "moment";
 setDefaultLocale('ru');
 const OrderFilters = ({ users, onFilterChange, onDateRange }) => {
     const [dateRange, setDateRange] = useState([null, null]);

@@ -7,7 +7,7 @@ const PrePolicy = () => {
         <div className="information">
             <div className="container">
                 <div className="row d-flex justify-content-center">
-                    <div className="col-8">
+                    <div className="col-9">
                         <TopInfo title={"Расчёт стоимости полиса"} onNewPressed={() => { }} onCancelPressed={() => {navigate('/admin')}} />
                         <PreCreateForm />
                     </div>

@@ -33,7 +33,7 @@ const AccordionItem = ({ item, onStatusChange }) => {
                 <div className="collapsed" data-toggle="collapse" data-target={`#collapse-${item.id}`} aria-expanded="true" aria-controls={`collapse-${item.id}`} onClick={onToggle}>
                     <div className="row">
                         <div className="col id">
-                            ID {item.policy_id}
+                            {item.policy_number}
                         </div>
                         <div className="col col-3 risk text-right">
                             {risk}
@@ -41,7 +41,7 @@ const AccordionItem = ({ item, onStatusChange }) => {
                         <div className="col col-2 date text-center">
                             {item.created_at ? formatDate(item.created_at) : null}
                         </div>
-                        <div className="col col-2 price">
+                        <div className="col price">
                             {item.amount ? `${formatPrice(item.amount)}₽` : null}
                         </div>
                         <div className="col col-2 status text-right">

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import moment from "moment";
 import NoDocument from "../../components/NoDocument";
 import { useNavigate } from "react-router-dom";
 import Accordion from "../../components/Accordion";
@@ -42,8 +43,8 @@ const PolicyPage = () => {
         setFilterProps({
             ...filterProps,
             page: 1,
-            from: arr[0] ? arr[0] : null,
-            to: arr[1] ? arr[1] : null,
+            from: arr[0] ? moment(arr[0]).format('DD.MM.YYYY') : null,
+            to: arr[1] ? moment(arr[1]).format('DD.MM.YYYY') : null,
         })
     };
 
@@ -67,7 +68,7 @@ const PolicyPage = () => {
             <div className="information list-wrapper">
                 <div className="container">
                     <div className="row d-flex justify-content-center">
-                        <div className="col-8">
+                        <div className="col-9">
                             <TopInfo title={"Полисы страхования"} titleNew={'Создать новый'} onNewPressed={() => {
                                 navigate('/admin/pre-create');
                             }} />
