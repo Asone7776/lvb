@@ -55,7 +55,7 @@ const OrderFilters = ({ users, onFilterChange, onDateRange }) => {
                         endDate={endDate}
                         placeholderText={'Дата'}
                         className={'form-control'}
-                        dateFormat="Y-MM-dd"
+                        dateFormat="dd-MM-Y"
                         onChange={(update) => {
                             onDateRange(update);
                             setDateRange(update);
