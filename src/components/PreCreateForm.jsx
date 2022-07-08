@@ -19,14 +19,24 @@ const PreCreateForm = () => {
         { title: 'Смерть', content: 'Смерть Застрахованного в результате несчастного случая произошедшего в период страхования' },
         { title: 'Инвалидность', content: 'Установление инвалидности 1 или 2 группы в результате несчастного случая произошедшего с Застрахованным в период страхования' },
     ];
-    const { control, watch, register, handleSubmit, formState: { errors } } = useForm({
+    const { setValue, control, watch, register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             holder: { value: '0', label: 'Физическое лицо' },
             "case-0": true,
+            "case-1": true,
             limit: 500000,
-            term: 12
+            term: 12,
+            limit: 500000,
         }
     });
+    const allFields = watch();
+    const limitValue = watch("limit");
+    const termValue = watch("term");
+    
+    useEffect(() => {
+        register("limit");
+        register("term");
+    }, [register]);
 
     useEffect(() => {
         return () => {
@@ -36,7 +46,7 @@ const PreCreateForm = () => {
     const onSubmit = data => {
         sendData(data);
     };
-    const allFields = watch();
+    const cases = watch(['case-0', 'case-1']);
     const sendData = async (data) => {
         Cookies.set('pre-data', JSON.stringify(data));
         let objectToSend = {
@@ -70,7 +80,16 @@ const PreCreateForm = () => {
                                 </div>
                                 <div className="form-group">
                                     <label>Лимит покрытия (рубли)</label>
-                                    <InputRange step={'50000'} suffix={''} needToFormat={true} defaultValue={500000} min={150000} max={10000000} {...register('limit')} />
+                                    <InputRange
+                                        withInput={true}
+                                        step={'50000'}
+                                        suffix={''}
+                                        needToFormat={true}
+                                        defaultValue={limitValue}
+                                        min={150000}
+                                        max={10000000}
+                                        onChangeValue={(value) => { setValue('limit', value ? value : 150000) }}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -81,14 +100,21 @@ const PreCreateForm = () => {
                                     <div className="row d-flex">
                                         {caseItems && caseItems.map((item, index) => (
                                             <div className="col-6" key={index}>
-                                                <CaseItem item={item} {...register('case-' + index)} />
+                                                <CaseItem cases={cases} item={item} {...register('case-' + index)} />
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <label>Срок страхования</label>
-                                    <InputRange suffix={'месяцев'} needToFormat={false} defaultValue={12} min={1} max={36} {...register('term')} />
+                                    <InputRange
+                                        suffix={'месяцев'}
+                                        needToFormat={false}
+                                        defaultValue={12}
+                                        min={1}
+                                        max={36}
+                                        onChangeValue={(value) => { setValue('term', value) }}
+                                    />
                                 </div>
                             </div>
                         </div>

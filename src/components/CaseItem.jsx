@@ -1,8 +1,26 @@
-import React, { useState, forwardRef, useRef } from 'react';
+import React, { useState, forwardRef, useRef, useEffect } from 'react';
 import cn from 'classnames';
-const CaseItem = forwardRef(({ item, onChange, ...rest }, ref) => {
+const CaseItem = forwardRef(({ cases, item, onChange, ...rest }, ref) => {
     const [active, setActive] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(false);
     let checkRef = useRef(null);
+    // useEffect(() => {
+    //     if (rest.name === 'case-0') {
+    //         if (cases[0] && cases[1]) {
+    //             setIsDisabled(false);
+    //         }
+    //         else if (cases[0] && !cases[1]) {
+    //             setIsDisabled(true);
+    //         }
+    //     } else {
+    //         if (cases[0] && cases[1]) {
+    //             setIsDisabled(false);
+    //         }
+    //         else if (!cases[0] && cases[1]) {
+    //             setIsDisabled(true);
+    //         }
+    //     }
+    // }, [cases]);
     return (
         <div className={cn('case-item', { 'active': active })} onClick={() => {
             checkRef.current.click();

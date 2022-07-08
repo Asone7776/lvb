@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { userInitialStateType } from "../../types/user";
 import { getCurrentUser, login } from "../actions/userActions";
 
-const initialState: userInitialStateType = {
+const initialState = {
     loading: false,
     data: null,
     error: null,

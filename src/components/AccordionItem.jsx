@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import cn from "classnames";
 import { formatPrice, formatDate, getStatusName } from "../ functions";
-import orderSlice from "../redux/slices/orderSlice";
+import { saveEditData } from "../redux/slices/policeSlice";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 const AccordionItem = ({ item, onStatusChange }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [active, setActive] = useState(false);
     const [risk, setRisk] = useState('Смерть');
     const onToggle = () => {
@@ -26,6 +30,13 @@ const AccordionItem = ({ item, onStatusChange }) => {
         if (!death && !invalid) {
             setRisk('Не указан');
         }
+    }
+    const toEditMode = () => {
+        dispatch(saveEditData({
+            policy_number: item.policy_number,
+            ...item.form
+        }));
+        navigate(`/admin/edit/${item.id}`);
     }
     return (
         <div className="card">
@@ -150,7 +161,7 @@ const AccordionItem = ({ item, onStatusChange }) => {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-12">
+                        <div className="col-6">
                             <div className="item">
                                 <div className="sub-heading">Статус оплаты</div>
                                 <div className="d-flex">
@@ -171,6 +182,13 @@ const AccordionItem = ({ item, onStatusChange }) => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div className="col-6 d-flex justify-content-end align-items-end">
+                            {item.form && Object.keys(item.form).length > 0 ? (
+                                <button className='btn btn-blue' onClick={toEditMode}>
+                                    Редактировать
+                                </button>
+                            ) : null}
                         </div>
                     </div>
                 </div>

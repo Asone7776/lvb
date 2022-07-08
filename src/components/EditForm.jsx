@@ -1,77 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import ParentSelect from './ParentSelect';
-import ParentCreateSelect from './ParentCreateSelect';
 import InfoCardCreate from './InfoCardCreate';
 import NumberFormat from 'react-number-format';
 import { emailPattern, requiredPattern } from '../ functions';
 import { successNotify, failureNotify } from '../notifications';
-import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { passCreateFormData } from '../redux/slices/policeSlice';
 import CustomModal from './CustomModal';
 import { axiosAuth } from '../axios-instances';
-const CreateForm = () => {
+import { options, maleOptions } from '../constants';
+import { useNavigate, useParams } from 'react-router-dom';
+const EditForm = () => {
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const [orderId, setOrderId] = useState(id);
+    const editData = useSelector(state => state.police.editPolice);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
-    const [parsedData, setParsedData] = useState(null);
     const [modalIsOpen, setIsOpen] = useState(false);
-    const [companyOptions, setCompanyOptions] = useState([
-        { value: 'ООО', label: 'ООО' },
-        { value: 'ИП', label: 'ИП' },
-        { value: 'АО', label: 'АО' },
-    ]);
+    const defaultValues = editData ? editData : {
+        holder: { value: '0', label: 'Физическое лицо' },
+        male: { value: '1', label: 'Мужской' },
+        phone: "+7(___)___-__-__",
+        credit_name: 'Банк Левобережный (ПАО) г.Новосибирск, Кирова, 48',
+        organization_prefix: { value: 'ООО', label: 'ООО' },
+    }
 
-    const options = [
-        { value: '0', label: 'Физическое лицо' },
-        { value: '1', label: 'Юридическое лицо' }
-    ];
-    const maleOptions = [
-        { value: '1', label: 'Мужской' },
-        { value: '2', label: 'Женский' }
-    ];
     const { control, setValue, watch, register, handleSubmit, formState: { errors } } = useForm({
-        defaultValues: {
-            holder: { value: '0', label: 'Физическое лицо' },
-            male: { value: '1', label: 'Мужской' },
-            phone: "+7(___)___-__-__",
-            credit_name: 'Банк Левобережный (ПАО) г.Новосибирск, Кирова, 48',
-            organization_prefix: { value: 'ООО', label: 'ООО' },
-        }
+        defaultValues
     });
 
-    useEffect(() => {
-        let preData = Cookies.get('pre-data');
-        if (preData) {
-            setParsedData(JSON.parse(preData));
-        }
-    }, []);
-    useEffect(() => {
-        if (parsedData && parsedData.holder) {
-            setValue('holder', parsedData.holder);
-        }
-    }, [parsedData]);
+
+
+
     const allFields = watch();
     const savedFields = watch(['holder', 'email']);
-    const prefix = watch(['organization_prefix']);
-    useEffect(() => {
-        if (prefix[0] && prefix[0].__isNew__) {
-            setCompanyOptions((prevState) => {
-                let array = [
-                    ...prevState,
-                    prefix[0]
-                ];
-                return array.filter((v, i, a) => a.indexOf(v) === i);
-            })
-        }
-    }, [prefix[0]])
+
     const onSubmit = data => {
         const objectToSend = {
             ...data,
-            limit: parsedData ? parsedData.limit : null,
-            'case-0': parsedData ? parsedData['case-0'] : null,
-            'case-1': parsedData ? parsedData['case-1'] : null,
-            term: parsedData ? parsedData.term : null,
+            limit: editData ? editData.limit : null,
+            'case-0': editData ? editData['case-0'] : null,
+            'case-1': editData ? editData['case-1'] : null,
+            term: editData ? editData.term : null,
             holder: data.holder.value,
             male: data.male.value,
         };
@@ -86,22 +58,17 @@ const CreateForm = () => {
             delete objectToSend.second_building;
             delete objectToSend.second_flat;
             delete objectToSend.second_index;
-        } else {
-            if (data.organization_name && data.organization_prefix) {
-                objectToSend.organization_name = `${data.organization_prefix.value} ${data.organization_name}`;
-            }
         }
-        delete objectToSend.organization_prefix;
         sendData(objectToSend);
     };
     const sendData = async (data) => {
         setLoading(true);
         try {
-            const response = await axiosAuth.post('save_policy_lb', data);
+            const response = await axiosAuth.post(`update_policy_lb/${orderId}`, data);
             dispatch(passCreateFormData({
-                limit: parsedData ? parsedData.limit : null,
-                'case-0': parsedData ? parsedData['case-0'] : null,
-                'case-1': parsedData ? parsedData['case-1'] : null,
+                limit: editData ? editData.limit : null,
+                'case-0': editData ? editData['case-0'] : null,
+                'case-1': editData ? editData['case-1'] : null,
                 holder: savedFields[0] ? savedFields[0] : null,
                 email: savedFields[1] ? savedFields[1] : null,
                 ...response.data.data
@@ -122,6 +89,7 @@ const CreateForm = () => {
             const response = await axiosAuth.get(`orders/send/${id}`);
             setIsOpen(false);
             successNotify(response.data.data);
+            navigate('/admin');
         } catch (error) {
             setIsOpen(false);
             if (error.response.data) {
@@ -129,18 +97,18 @@ const CreateForm = () => {
             }
         }
     }
-    const deletePolicy = async (id) => {
-        try {
-            const response = await axiosAuth.delete(`orders/${id}`);
-            setIsOpen(false);
-            successNotify(response.data.data);
-        } catch (error) {
-            setIsOpen(false);
-            if (error.response.data) {
-                failureNotify(error.response.data.errors);
-            }
-        }
-    }
+    // const deletePolicy = async (id) => {
+    //     try {
+    //         const response = await axiosAuth.delete(`orders/${id}`);
+    //         setIsOpen(false);
+    //         successNotify(response.data.data);
+    //     } catch (error) {
+    //         setIsOpen(false);
+    //         if (error.response.data) {
+    //             failureNotify(error.response.data.errors);
+    //         }
+    //     }
+    // }
     return (
         <div className="pre-form create-form">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -168,22 +136,7 @@ const CreateForm = () => {
                                 {allFields.holder.value === "0" ? null : (
                                     <>
                                         <div className="row mb-3">
-                                            <div className="col-4">
-                                                <Controller
-                                                    name="organization_prefix"
-                                                    control={control}
-                                                    render={({ field }) => {
-                                                        return (
-                                                            <ParentCreateSelect
-                                                                name="organization_prefix"
-                                                                options={companyOptions}
-                                                                {...field}
-                                                            />
-                                                        );
-                                                    }}
-                                                />
-                                            </div>
-                                            <div className="col-8">
+                                            <div className="col-12">
                                                 <div className="form-group">
                                                     <input className='form-control' type="text" placeholder='Наименование организации' {...register('organization_name', {
                                                         required: requiredPattern
@@ -381,6 +334,10 @@ const CreateForm = () => {
                                                     value: 12,
                                                     message: "Максимальный месяц 12"
                                                 },
+                                                validate: {
+                                                    positive: value => new Date().getFullYear() - value >= 18 || 'Возраст должен быть больше 18',
+                                                    lessThan: value => new Date().getFullYear() - value <= 65 || 'Возраст должен быть меньше 65',
+                                                }
                                             })} />
                                             {errors.birthday_month && <span className="error-message">{errors.birthday_month.message}</span>}
                                         </div>
@@ -402,10 +359,6 @@ const CreateForm = () => {
                                                     value: new Date().getFullYear(),
                                                     message: `Максимальный год ${new Date().getFullYear()}`
                                                 },
-                                                validate: {
-                                                    positive: value => new Date().getFullYear() - value >= 18 || 'Возраст должен быть больше 18',
-                                                    lessThan: value => new Date().getFullYear() - value <= 65 || 'Возраст должен быть меньше 65',
-                                                }
                                             })} />
                                             {errors.birthday_year && <span className="error-message">{errors.birthday_year.message}</span>}
                                         </div>
@@ -665,13 +618,16 @@ const CreateForm = () => {
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCardCreate holder={savedFields[0]} data={parsedData} complete={true} loading={loading} />
+                        <InfoCardCreate holder={editData.holder} data={editData} complete={true} loading={loading} />
                     </div>
                 </div>
             </form>
-            <CustomModal modalIsOpen={modalIsOpen} onClose={() => { setIsOpen(false) }} onDelete={(id) => deletePolicy(id)} onSaveClick={(id) => savePolice(id)} />
+            <CustomModal modalIsOpen={modalIsOpen} onClose={() => { setIsOpen(false) }} onDelete={(id) => {
+                setOrderId(id);
+                setIsOpen(false)
+            }} onSaveClick={(id) => savePolice(id)} />
         </div>
     );
 }
 
-export default CreateForm;
+export default EditForm;

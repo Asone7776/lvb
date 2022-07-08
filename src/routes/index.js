@@ -6,6 +6,7 @@ import Login from "../containers/login";
 import PolicyPage from "../containers/polices";
 import PrePolicy from "../containers/polices/prefatory";
 import CreatePolicy from "../containers/polices/create";
+import EditPolicy from "../containers/polices/edit";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { useSelector } from "react-redux";
 import NotFound from "../components/NotFound";
@@ -26,6 +27,7 @@ const RoutesComponent = () => {
                         <Route path="/admin" element={<PolicyPage />} />
                         <Route path="/admin/pre-create" element={<PrePolicy />} />
                         <Route path="/admin/create" element={<CreatePolicy />} />
+                        <Route path="/admin/edit/:id" element={<EditPolicy />} />
                     </Route>
                 </Route>
                 <Route
