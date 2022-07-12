@@ -11,7 +11,9 @@ import { useDispatch } from 'react-redux';
 import { passCreateFormData } from '../redux/slices/policeSlice';
 import CustomModal from './CustomModal';
 import { axiosAuth } from '../axios-instances';
+import { useNavigate } from 'react-router-dom';
 const CreateForm = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [parsedData, setParsedData] = useState(null);
@@ -122,6 +124,7 @@ const CreateForm = () => {
             const response = await axiosAuth.get(`orders/send/${id}`);
             setIsOpen(false);
             successNotify(response.data.data);
+            navigate('/admin');
         } catch (error) {
             setIsOpen(false);
             if (error.response.data) {
@@ -141,6 +144,7 @@ const CreateForm = () => {
             }
         }
     }
+
     return (
         <div className="pre-form create-form">
             <form onSubmit={handleSubmit(onSubmit)}>

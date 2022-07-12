@@ -147,7 +147,7 @@ const AccordionItem = ({ item, onStatusChange }) => {
                             <div className="item">
                                 <div className="sub-heading">Полис</div>
                                 {item.policy_url && (
-                                    <a href={item.policy_url}>{item.policy_url}</a>
+                                    <a target={"_blank"} href={item.policy_url}>{item.policy_url}</a>
                                 )}
                             </div>
                         </div>
@@ -155,7 +155,7 @@ const AccordionItem = ({ item, onStatusChange }) => {
                             <div className="item">
                                 <div className="sub-heading">Счёт на оплату</div>
                                 {item.invoice_url && (
-                                    <a href={item.invoice_url}>{item.invoice_url}</a>
+                                    <a target={"_blank"} href={item.invoice_url}>{item.invoice_url}</a>
                                 )}
                             </div>
                         </div>
