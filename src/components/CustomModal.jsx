@@ -98,14 +98,18 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete }) => {
                 </div>
                 <div className="row mb-3">
                     <div className="col-6">
-                        <a target={'_blank'} href={policeData.order && policeData.order.policy_url ? policeData.order.policy_url : '#'} download className="btn btn-blue">
-                            Черновик полиса
-                        </a>
+                        {policeData.order && policeData.order.policy_url ? (
+                            <a target={'_blank'} href={policeData.order.policy_url} download className="btn btn-blue">
+                                Черновик полиса
+                            </a>
+                        ) : null}
                     </div>
                     <div className="col-6">
-                        <a target={'_blank'} href={policeData.order && policeData.order.invoice_url ? policeData.order.invoice_url : '#'} download className="btn btn-blue">
-                            Счёт на оплату
-                        </a>
+                        {policeData.order && policeData.order.invoice_url ? (
+                            <a target={'_blank'} href={policeData.order.invoice_url} download className="btn btn-blue">
+                                Счёт на оплату
+                            </a>
+                        ) : null}
                     </div>
                 </div>
                 <div className="divider"></div>
