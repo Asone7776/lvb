@@ -165,16 +165,20 @@ const AccordionItem = ({ item, onStatusChange }) => {
                             <div className="item">
                                 <div className="sub-heading">Статус оплаты</div>
                                 <div className="d-flex">
-                                    <div className={cn('btn', { 'btn-blue': item.status === 3, 'btn-gray-transparent': item.status !== 3 })} onClick={() => {
-                                        onStatusChange(3);
-                                    }}>
-                                        Оплачен
-                                    </div>
-                                    <div className={cn('btn', { 'btn-blue': item.status === 0, 'btn-gray-transparent': item.status !== 0 })} onClick={() => {
-                                        onStatusChange(0);
-                                    }}>
-                                        Не оплачен
-                                    </div>
+                                    {item.status !== -1 ? (
+                                        <>
+                                            <div className={cn('btn', { 'btn-blue': item.status === 3, 'btn-gray-transparent': item.status !== 3 })} onClick={() => {
+                                                onStatusChange(3);
+                                            }}>
+                                                Оплачен
+                                            </div>
+                                            <div className={cn('btn', { 'btn-blue': item.status === 0, 'btn-gray-transparent': item.status !== 0 })} onClick={() => {
+                                                onStatusChange(0);
+                                            }}>
+                                                Не оплачен
+                                            </div>
+                                        </>
+                                    ) : null}
                                     <div className={cn('btn', { 'btn-blue': item.status === -1, 'btn-gray-transparent': item.status !== -1 })} onClick={() => {
                                         onStatusChange(-1);
                                     }}>

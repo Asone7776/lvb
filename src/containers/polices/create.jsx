@@ -9,9 +9,7 @@ const CreatePolicy = () => {
             <div className="container">
                 <div className="row d-flex justify-content-center">
                     <div className="col-9">
-                        <TopInfo title={"Новый полис"} onNewPressed={() => {
-                            navigate('/admin/pre-create');
-                        }} onCancelPressed={() => {
+                        <TopInfo title={"Новый полис"} onCancelPressed={() => {
                             navigate('/admin/pre-create');
                         }} />
                         <CreateForm />

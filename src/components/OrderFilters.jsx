@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import FilterSelect from "./FilterSelect";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { withDebounce } from '../ functions';
 import { setDefaultLocale } from "react-datepicker";
 import ru from 'date-fns/locale/ru';
-import moment from "moment";
 setDefaultLocale('ru');
 const OrderFilters = ({ users, onFilterChange, onDateRange }) => {
     const [dateRange, setDateRange] = useState([null, null]);
@@ -13,7 +12,6 @@ const OrderFilters = ({ users, onFilterChange, onDateRange }) => {
 
     const statuses = [
         { value: null, label: 'Все' },
-        { value: 2, label: 'Подтверждено' },
         { value: -1, label: 'Отменено' },
         { value: 0, label: 'Не оплачено' },
         { value: 3, label: 'Оплачено' },
