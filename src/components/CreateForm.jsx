@@ -46,6 +46,10 @@ const CreateForm = () => {
         let preData = Cookies.get('pre-data');
         if (preData) {
             setParsedData(JSON.parse(preData));
+        } else {
+            setParsedData({
+                term: 12
+            })
         }
     }, []);
     useEffect(() => {
@@ -66,7 +70,7 @@ const CreateForm = () => {
                 return array.filter((v, i, a) => a.indexOf(v) === i);
             })
         }
-    }, [prefix[0]])
+    }, [prefix[0]]);
     const onSubmit = data => {
         const objectToSend = {
             ...data,
@@ -144,7 +148,6 @@ const CreateForm = () => {
             }
         }
     }
-
     return (
         <div className="pre-form create-form">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -408,7 +411,7 @@ const CreateForm = () => {
                                                 },
                                                 validate: {
                                                     positive: value => new Date().getFullYear() - value >= 18 || 'Возраст должен быть больше 18',
-                                                    lessThan: value => new Date().getFullYear() - value <= 65 || 'Возраст должен быть меньше 65',
+                                                    lessThan: value => (new Date().getFullYear() - value) + Math.floor(parsedData.term / 12) <= 65 || 'Возраст должен быть меньше 65',
                                                 }
                                             })} />
                                             {errors.birthday_year && <span className="error-message">{errors.birthday_year.message}</span>}
