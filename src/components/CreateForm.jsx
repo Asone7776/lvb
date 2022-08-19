@@ -12,6 +12,7 @@ import { passCreateFormData } from '../redux/slices/policeSlice';
 import CustomModal from './CustomModal';
 import { axiosAuth } from '../axios-instances';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 const CreateForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -60,6 +61,17 @@ const CreateForm = () => {
     const allFields = watch();
     const savedFields = watch(['holder', 'email']);
     const prefix = watch(['organization_prefix']);
+    const birthday = watch(['birthday_day', 'birthday_month', 'birthday_year']);
+    useEffect(() => {
+        let term = parsedData ? parsedData.term : 12;
+        let currentDate = moment();
+        let birthDate = moment(`${birthday[2]}-${birthday[1]}-${birthday[0]}`);
+        let difference = currentDate.diff(birthDate, 'years') + +(term / 12).toFixed(2);
+        if (!difference || typeof difference === NaN) return;
+        if (difference >= 65) {
+            failureNotify('Возраст страхователя должен быть меньше 65');
+        }
+    }, [birthday]);
     useEffect(() => {
         if (prefix[0] && prefix[0].__isNew__) {
             setCompanyOptions((prevState) => {
@@ -411,7 +423,7 @@ const CreateForm = () => {
                                                 },
                                                 validate: {
                                                     positive: value => new Date().getFullYear() - value >= 18 || 'Возраст должен быть больше 18',
-                                                    lessThan: value => (new Date().getFullYear() - value) + Math.floor(parsedData.term / 12) <= 65 || 'Возраст должен быть меньше 65',
+                                                    lessThan: value => (new Date().getFullYear() - value) + +(parsedData.term / 12).toFixed(2) <= 65 || 'Возраст должен быть меньше 65',
                                                 }
                                             })} />
                                             {errors.birthday_year && <span className="error-message">{errors.birthday_year.message}</span>}

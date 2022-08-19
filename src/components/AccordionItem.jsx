@@ -146,8 +146,8 @@ const AccordionItem = ({ item, onStatusChange }) => {
                         <div className="col-5">
                             <div className="item">
                                 <div className="sub-heading">Полис</div>
-                                {item.policy_url && (
-                                    <a target={"_blank"} href={item.policy_url}>{item.policy_url}</a>
+                                {item.buy_url && (
+                                    <a target={"_blank"} href={item.buy_url}>{item.buy_url}</a>
                                 )}
                             </div>
                         </div>
