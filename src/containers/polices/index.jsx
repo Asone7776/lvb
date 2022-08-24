@@ -11,10 +11,14 @@ import OrderFilters from '../../components/OrderFilters';
 import { getUsers } from "../../redux/actions/usersActions";
 import OrdersPagination from "../../components/OrdersPagination";
 import { resetStatus } from '../../redux/slices/orderSlice';
+import { axiosAuth } from "../../axios-instances";
+import { failureNotify, successNotify } from "../../notifications";
+import { downloadFile } from "../../ functions";
 const PolicyPage = () => {
     const dispatch = useDispatch();
     const orders = useSelector((state) => state.orders);
     const users = useSelector((state) => state.users);
+    const [excelLoading, setExcelLoading] = useState(false);
     const navigate = useNavigate();
     const [filterProps, setFilterProps] = useState({
         paginated: true,
@@ -56,6 +60,37 @@ const PolicyPage = () => {
         })
     };
 
+    const getExcelData = async () => {
+        setExcelLoading(true);
+        const { search, users, from, to, status } = filterProps;
+        const params = {
+            search,
+            users,
+            from,
+            to,
+            status
+        }
+        try {
+            const response = await axiosAuth.get('/orders_export', {
+                params,
+                responseType: "blob",
+            });
+            const data = response.data;
+            const urlCreator = window.URL || window.webkitURL;
+            const fileUrl = urlCreator.createObjectURL(data);
+            const filename = 'Отчёт'.replace("attachment; filename=", "");
+            downloadFile(fileUrl, filename);
+            successNotify('Отчёт выгружен');
+        } catch (error) {
+            if (error.response.data && error.response.data.errors) {
+                failureNotify(error.response.data.errors);
+            }
+        }
+        finally {
+            setExcelLoading(false);
+        }
+    }
+
     if (!orders.loading && orders.data.length === 0 && Object.keys(filterProps).length === 0) {
         return (
             <div className="vertical-center">
@@ -72,7 +107,7 @@ const PolicyPage = () => {
                             <TopInfo title={"Полисы страхования"} titleNew={'Создать новый'} onNewPressed={() => {
                                 navigate('/admin/pre-create');
                             }} />
-                            <OrderFilters users={users} onFilterChange={onTopFiltersChange} onDateRange={onDateRange} />
+                            <OrderFilters users={users} onFilterChange={onTopFiltersChange} onDateRange={onDateRange} onExport={getExcelData} excelLoading={excelLoading} />
                             <Accordion loading={orders.loading} list={orders.data.data} />
                             {orders.data.total > 20 && (
                                 <OrdersPagination last_page={orders.data.last_page} onFilterChange={onFilterChange} initialPage={filterProps.page} />

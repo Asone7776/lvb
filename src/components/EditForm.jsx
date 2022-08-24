@@ -11,6 +11,7 @@ import CustomModal from './CustomModal';
 import { axiosAuth } from '../axios-instances';
 import { options, maleOptions } from '../constants';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 const EditForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
@@ -31,7 +32,11 @@ const EditForm = () => {
         defaultValues
     });
 
-
+    useEffect(() => {
+        if (!editData) {
+            navigate('/admin');
+        }
+    }, []);
 
 
     const allFields = watch();
@@ -334,10 +339,6 @@ const EditForm = () => {
                                                     value: 12,
                                                     message: "Максимальный месяц 12"
                                                 },
-                                                validate: {
-                                                    positive: value => new Date().getFullYear() - value >= 18 || 'Возраст должен быть больше 18',
-                                                    lessThan: value => new Date().getFullYear() - value <= 65 || 'Возраст должен быть меньше 65',
-                                                }
                                             })} />
                                             {errors.birthday_month && <span className="error-message">{errors.birthday_month.message}</span>}
                                         </div>
@@ -359,6 +360,10 @@ const EditForm = () => {
                                                     value: new Date().getFullYear(),
                                                     message: `Максимальный год ${new Date().getFullYear()}`
                                                 },
+                                                validate: {
+                                                    positive: value => new Date().getFullYear() - value >= 18 || 'Возраст должен быть больше 18',
+                                                    lessThan: value => (new Date().getFullYear() - value) + +(editData && editData.term / 12).toFixed(2) <= 65 || 'Возраст должен быть меньше 65',
+                                                }
                                             })} />
                                             {errors.birthday_year && <span className="error-message">{errors.birthday_year.message}</span>}
                                         </div>
@@ -618,7 +623,7 @@ const EditForm = () => {
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCardCreate holder={editData.holder} data={editData} complete={true} loading={loading} />
+                        <InfoCardCreate holder={editData && editData.holder} data={editData} complete={true} loading={loading} />
                     </div>
                 </div>
             </form>

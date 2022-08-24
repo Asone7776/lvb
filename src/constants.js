@@ -1,3 +1,6 @@
+import InvalidIcon from './components/Icons/InvalidIcon'
+import CardHolderIcon from './components/Icons/CardHolderIcon'
+import ProtectionIcon from './components/Icons/ProtectionIcon'
 export const companiesOptions = [
     { value: 'ООО', label: 'ООО' },
     { value: 'ИП', label: 'ИП' },
@@ -11,4 +14,25 @@ export const options = [
 export const maleOptions = [
     { value: '1', label: 'Мужской' },
     { value: '2', label: 'Женский' }
+];
+
+export const InsuranceProducts = [
+    {
+        icon: InvalidIcon,
+        subTitle: 'Полис страхования',
+        title: 'Страхование от несчастных случаев',
+        content: 'Страхования заемщиков кредитов от несчастных случаев и болезней'
+    },
+    {
+        icon: CardHolderIcon,
+        subTitle: 'Полис страхования',
+        title: 'Карточный сейф',
+        content: 'Страхование банковских карт'
+    },
+    {
+        icon: ProtectionIcon,
+        subTitle: 'Полис страхования',
+        title: 'Защита бизнеса Стандарт',
+        content: 'Комплексное страхование имущества ЮЛ Индивидуальный расчет'
+    },
 ];

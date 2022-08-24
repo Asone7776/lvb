@@ -10,6 +10,7 @@ import EditPolicy from "../containers/polices/edit";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { useSelector } from "react-redux";
 import NotFound from "../components/NotFound";
+// import Products from "../containers/polices/products";
 const RoutesComponent = () => {
     const user = useSelector((state) => state.currentUser.data);
     return (
@@ -28,6 +29,7 @@ const RoutesComponent = () => {
                         <Route path="/admin/pre-create" element={<PrePolicy />} />
                         <Route path="/admin/create" element={<CreatePolicy />} />
                         <Route path="/admin/edit/:id" element={<EditPolicy />} />
+                        {/* <Route path="/admin/products" element={<Products />} /> */}
                     </Route>
                 </Route>
                 <Route

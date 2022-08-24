@@ -1,0 +1,40 @@
+.products {
+}
+
+.product-card {
+    display: flex;
+    height: 100%;
+    border: none;
+    border-radius: rem(4);
+    .card-body {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        .icon {
+            margin-bottom: rem(20);
+        }
+        h5 {
+            color: $primary-color;
+            margin-bottom: rem(5);
+            font: {
+                family: "PT Sans Bold";
+                size: rem(12);
+            }
+        }
+        h4 {
+            font: {
+                family: "PT Sans Bold";
+                size: rem(20);
+            }
+            margin-bottom: rem(10);
+            line-height: rem(28);
+        }
+        p {
+            font: {
+                family: "PT Sans";
+                size: rem(12);
+            }
+            line-height: rem(20);
+        }
+    }
+}
