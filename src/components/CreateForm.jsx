@@ -6,18 +6,18 @@ import InfoCardCreate from './InfoCardCreate';
 import NumberFormat from 'react-number-format';
 import { emailPattern, requiredPattern } from '../ functions';
 import { successNotify, failureNotify } from '../notifications';
-import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
-import { passCreateFormData } from '../redux/slices/policeSlice';
 import CustomModal from './CustomModal';
 import { axiosAuth } from '../axios-instances';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { savePolicy } from '../redux/actions/policeActions';
 import moment from 'moment';
 const CreateForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
-    const [parsedData, setParsedData] = useState(null);
+    const preData = useSelector(state => state.police.preFormData);
+    const savedPolicy = useSelector(state => state.police.savedPolicy);
     const [modalIsOpen, setIsOpen] = useState(false);
     const [companyOptions, setCompanyOptions] = useState([
         { value: 'ООО', label: 'ООО' },
@@ -40,30 +40,61 @@ const CreateForm = () => {
             phone: "+7(___)___-__-__",
             credit_name: 'Банк Левобережный (ПАО) г.Новосибирск, Кирова, 48',
             organization_prefix: { value: 'ООО', label: 'ООО' },
+
+            surname: "Surname",
+            first_name: "Нейм",
+            second_name: "Second",
+            birthday_year: 2000,
+            birthday_month: 12,
+            birthday_day: 1,
+            passport_series: "7711",
+            passport_number: "123123",
+            passport_whom: "Whom",
+            passport_subvision_code: "123",
+            passport_year: 2001,
+            passport_month: 12,
+            passport_day: 10,
+            city: "Moscow",
+            street: "Street",
+            house: 124,
+            flat: 3,
+            index: "100500",
+            second_city: "Novosibirsk",
+            second_street: "Street 2",
+            second_house: 24,
+            second_flat: 1,
+            second_index: "100500",
+            phone: "+7 594 123 12 12",
+            email: "chemistry1026@ya.ru",
+            credit_name: "Bank bank",
+            credit_number: 12345,
+            credit_year: 2000,
+            credit_month: 12,
+            credit_day: 10,
+            organization_name: "OOO Organization Name",
+            inn: 3456782324,
+            kpp: 695001001,
+            ogrn: 1234567890123
         }
     });
 
     useEffect(() => {
-        let preData = Cookies.get('pre-data');
+        console.log(preData);
         if (preData) {
-            setParsedData(JSON.parse(preData));
-        } else {
-            setParsedData({
-                term: 12
-            })
+            if(preData.holder){
+                setValue('holder', preData.holder);
+            }
+        }else{
+            navigate('/admin');
         }
     }, []);
-    useEffect(() => {
-        if (parsedData && parsedData.holder) {
-            setValue('holder', parsedData.holder);
-        }
-    }, [parsedData]);
+
     const allFields = watch();
     const savedFields = watch(['holder', 'email']);
     const prefix = watch(['organization_prefix']);
     const birthday = watch(['birthday_day', 'birthday_month', 'birthday_year']);
     useEffect(() => {
-        let term = parsedData ? parsedData.term : 12;
+        let term = preData ? preData.term : 12;
         let currentDate = moment();
         let birthDate = moment(`${birthday[2]}-${birthday[1]}-${birthday[0]}`);
         let difference = currentDate.diff(birthDate, 'years') + +(term / 12).toFixed(2);
@@ -83,13 +114,18 @@ const CreateForm = () => {
             })
         }
     }, [prefix[0]]);
+    useEffect(()=>{
+        if(savedPolicy.data){
+            setIsOpen(true);
+        }
+    },[savedPolicy.data]);
     const onSubmit = data => {
         const objectToSend = {
             ...data,
-            limit: parsedData ? parsedData.limit : null,
-            'case-0': parsedData ? parsedData['case-0'] : null,
-            'case-1': parsedData ? parsedData['case-1'] : null,
-            term: parsedData ? parsedData.term : null,
+            limit: preData ? preData.limit : null,
+            'case-0': preData ? preData['case-0'] : null,
+            'case-1': preData ? preData['case-1'] : null,
+            term: preData ? preData.term : null,
             holder: data.holder.value,
             male: data.male.value,
         };
@@ -113,26 +149,14 @@ const CreateForm = () => {
         sendData(objectToSend);
     };
     const sendData = async (data) => {
-        setLoading(true);
-        try {
-            const response = await axiosAuth.post('save_policy_lb', data);
-            dispatch(passCreateFormData({
-                limit: parsedData ? parsedData.limit : null,
-                'case-0': parsedData ? parsedData['case-0'] : null,
-                'case-1': parsedData ? parsedData['case-1'] : null,
-                holder: savedFields[0] ? savedFields[0] : null,
-                email: savedFields[1] ? savedFields[1] : null,
-                ...response.data.data
-            }))
-            successNotify('Успешно');
-            setIsOpen(true);
-            setLoading(false);
-        } catch (error) {
-            setLoading(false);
-            if (error.response.data) {
-                failureNotify(error.response.data.errors);
-            }
-        }
+        dispatch(savePolicy({
+            ...data,
+            limit: preData ? preData.limit : null,
+            'case-0': preData ? preData['case-0'] : null,
+            'case-1': preData ? preData['case-1'] : null,
+            holder: savedFields[0] ? savedFields[0].value : null,
+            email: savedFields[1] ? savedFields[1] : null,
+        }));
     }
 
     const savePolice = async (id) => {
@@ -423,7 +447,7 @@ const CreateForm = () => {
                                                 },
                                                 validate: {
                                                     positive: value => new Date().getFullYear() - value >= 18 || 'Возраст должен быть больше 18',
-                                                    lessThan: value => (new Date().getFullYear() - value) + +(parsedData.term / 12).toFixed(2) <= 65 || 'Возраст должен быть меньше 65',
+                                                    lessThan: value => (new Date().getFullYear() - value) + +(preData.term / 12).toFixed(2) <= 65 || 'Возраст должен быть меньше 65',
                                                 }
                                             })} />
                                             {errors.birthday_year && <span className="error-message">{errors.birthday_year.message}</span>}
@@ -684,7 +708,7 @@ const CreateForm = () => {
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCardCreate holder={savedFields[0]} data={parsedData} complete={true} loading={loading} />
+                        <InfoCardCreate holder={savedFields[0]} data={preData} complete={true} loading={savedPolicy.loading} />
                     </div>
                 </div>
             </form>

@@ -4,9 +4,8 @@ import ParentSelect from './ParentSelect';
 import InputRange from './InputRange';
 import CaseItem from './CaseItem';
 import InfoCard from './InfoCard';
-import Cookies from 'js-cookie'
 import { useDispatch, useSelector } from 'react-redux';
-import { resetCalculatePolicy } from '../redux/slices/policeSlice';
+import { resetCalculatePolicy, passPreFormData } from '../redux/slices/policeSlice';
 import { calculatePolicy } from '../redux/actions/policeActions';
 const PreCreateForm = () => {
     const dispatch = useDispatch();
@@ -31,8 +30,7 @@ const PreCreateForm = () => {
     });
     const allFields = watch();
     const limitValue = watch("limit");
-    const termValue = watch("term");
-    
+
     useEffect(() => {
         register("limit");
         register("term");
@@ -48,7 +46,7 @@ const PreCreateForm = () => {
     };
     const cases = watch(['case-0', 'case-1']);
     const sendData = async (data) => {
-        Cookies.set('pre-data', JSON.stringify(data));
+        dispatch(passPreFormData(data));
         let objectToSend = {
             ...data,
             holder: data.holder ? data.holder.value : 0

@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import { formatPrice } from "../ functions";
 Modal.setAppElement('#root');
 const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete }) => {
-    const policeData = useSelector((state) => state.police.createFormData);
+    const policeData = useSelector((state) => state.police.savedPolicy.data);
+    // console.log(policeData);
     const [risk, setRisk] = useState('Смерть');
     useEffect(() => {
         if (policeData) {
@@ -39,13 +40,13 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete }) => {
                     <div className="col-6">
                         <div className="form-group">
                             <label>Страхователь</label>
-                            <h5>{policeData.order && policeData.order.insurer ? policeData.order.insurer : null}</h5>
+                            <h5>{policeData && policeData.order && policeData.order.insurer ? policeData.order.insurer : null}</h5>
                         </div>
                     </div>
                     <div className="col-6">
                         <div className="form-group">
                             <label>Тип страхования</label>
-                            <h5>{policeData.holder ? policeData.holder.label : null}</h5>
+                            <h5>{policeData && policeData.holder ? policeData.holder.label : null}</h5>
                         </div>
                     </div>
                 </div>
@@ -54,13 +55,13 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete }) => {
                     <div className="col-6">
                         <div className="form-group">
                             <label>Номер телефона</label>
-                            <h5>{policeData.order && policeData.order.phone ? policeData.order.phone : null}</h5>
+                            <h5>{policeData && policeData.order && policeData.order.phone ? policeData.order.phone : null}</h5>
                         </div>
                     </div>
                     <div className="col-6">
                         <div className="form-group">
                             <label>E-mail</label>
-                            <h5>{policeData.email ? policeData.email : null}</h5>
+                            <h5>{policeData && policeData.email ? policeData.email : null}</h5>
                         </div>
                     </div>
                 </div>
@@ -69,13 +70,13 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete }) => {
                     <div className="col-4">
                         <div className="form-group">
                             <label>Срок страхования</label>
-                            <h5>{policeData.order && policeData.order.term ? `${policeData.order.term} месяцев` : null}</h5>
+                            <h5>{policeData && policeData.order && policeData.order.term ? `${policeData.order.term} месяцев` : null}</h5>
                         </div>
                     </div>
                     <div className="col-4">
                         <div className="form-group">
                             <label>Сумма страхования</label>
-                            <h5>{policeData.limit ? `${formatPrice(policeData.limit)}₽` : null}</h5>
+                            <h5>{policeData && policeData.limit ? `${formatPrice(policeData.limit)}₽` : null}</h5>
                         </div>
                     </div>
                     <div className="col-4">
@@ -91,21 +92,21 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete }) => {
                         <div className="form-group">
                             <label>Стоимость полиса</label>
                             <div className="pre-price">
-                                <h5>{policeData.order && policeData.order.amount ? `${formatPrice(policeData.order.amount)}₽` : null}</h5>
+                                <h5>{policeData && policeData.order && policeData.order.amount ? `${formatPrice(policeData.order.amount)}₽` : null}</h5>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="row mb-3">
                     <div className="col-6">
-                        {policeData.order && policeData.order.policy_url ? (
+                        {policeData && policeData.order && policeData.order.policy_url ? (
                             <a target={'_blank'} href={policeData.order.policy_url} download className="btn btn-blue">
                                 Черновик полиса
                             </a>
                         ) : null}
                     </div>
                     <div className="col-6">
-                        {policeData.order && policeData.order.invoice_url ? (
+                        {policeData && policeData.order && policeData.order.invoice_url ? (
                             <a target={'_blank'} href={policeData.order.invoice_url} download className="btn btn-blue">
                                 Счёт на оплату
                             </a>
@@ -116,7 +117,7 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete }) => {
                 <div className="row">
                     <div className="col-6">
                         <button className="btn btn-primary-transparent" onClick={() => {
-                            if (policeData.order && policeData.order.id) {
+                            if (policeData && policeData.order && policeData.order.id) {
                                 onDelete(policeData.order.id);
                             }
                         }}>
@@ -125,7 +126,7 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete }) => {
                     </div>
                     <div className="col-6">
                         <button className="btn btn-primary" onClick={() => {
-                            if (policeData.order && policeData.order.id) {
+                            if (policeData && policeData.order && policeData.order.id) {
                                 onSaveClick(policeData.order.id);
                             }
                         }}>

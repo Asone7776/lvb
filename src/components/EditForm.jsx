@@ -70,14 +70,14 @@ const EditForm = () => {
         setLoading(true);
         try {
             const response = await axiosAuth.post(`update_policy_lb/${orderId}`, data);
-            dispatch(passCreateFormData({
-                limit: editData ? editData.limit : null,
-                'case-0': editData ? editData['case-0'] : null,
-                'case-1': editData ? editData['case-1'] : null,
-                holder: savedFields[0] ? savedFields[0] : null,
-                email: savedFields[1] ? savedFields[1] : null,
-                ...response.data.data
-            }))
+            // dispatch(passCreateFormData({
+            //     limit: editData ? editData.limit : null,
+            //     'case-0': editData ? editData['case-0'] : null,
+            //     'case-1': editData ? editData['case-1'] : null,
+            //     holder: savedFields[0] ? savedFields[0] : null,
+            //     email: savedFields[1] ? savedFields[1] : null,
+            //     ...response.data.data
+            // }))
             successNotify('Успешно');
             setIsOpen(true);
             setLoading(false);
