@@ -23,12 +23,14 @@ export const calculatePolicy = createAsyncThunk(
 export const savePolicy = createAsyncThunk(
     "police/savePolicy",
     async (data, { rejectWithValue }) => {
-        console.log('data', data);
-        const { limit, term, holder, male } = data;
+        const { limit, term, holder,email, male } = data;
         const case0 = data['case-0'];
         const case1 = data['case-1'];
         try {
-            const response = await axiosAuth.post('save_policy_lb', data);
+            const response = await axiosAuth.post('save_policy_lb', {
+                ...data,
+                holder: holder.value
+            });
             successNotify('Успешно');
             return {
                 ...response.data.data,
@@ -38,11 +40,45 @@ export const savePolicy = createAsyncThunk(
                 male,
                 'case-0': case0,
                 'case-1': case1,
+                email
             };
         } catch (error) {
-            if (error.response.data && error.response.data.error) {
-                failureNotify(error.response.data.error);
-                return rejectWithValue(error.response.data.error);
+            if (error.response.data && error.response.data.errors) {
+                failureNotify(error.response.data.errors);
+                return rejectWithValue(error.response.data.errors);
+            }
+            return rejectWithValue(error);
+        }
+    }
+);
+
+
+export const updatePolicy = createAsyncThunk(
+    "police/updatePolicy",
+    async (data, { rejectWithValue }) => {
+        const { orderId, limit, term, holder, email, male } = data;
+        const case0 = data['case-0'];
+        const case1 = data['case-1'];
+        try {
+            const response = await axiosAuth.post(`update_policy_lb/${orderId}`, {
+                ...data,
+                holder: holder.value
+            });
+            successNotify('Успешно');
+            return {
+                ...response.data.data,
+                limit,
+                term,
+                holder,
+                male,
+                'case-0': case0,
+                'case-1': case1,
+                email
+            };
+        } catch (error) {
+            if (error.response.data && error.response.data.errors) {
+                failureNotify(error.response.data.errors);
+                return rejectWithValue(error.response.data.errors);
             }
             return rejectWithValue(error);
         }

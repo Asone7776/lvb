@@ -79,7 +79,6 @@ const CreateForm = () => {
     });
 
     useEffect(() => {
-        console.log(preData);
         if (preData) {
             if(preData.holder){
                 setValue('holder', preData.holder);
@@ -154,7 +153,7 @@ const CreateForm = () => {
             limit: preData ? preData.limit : null,
             'case-0': preData ? preData['case-0'] : null,
             'case-1': preData ? preData['case-1'] : null,
-            holder: savedFields[0] ? savedFields[0].value : null,
+            holder: savedFields[0] ? savedFields[0] : null,
             email: savedFields[1] ? savedFields[1] : null,
         }));
     }
@@ -712,7 +711,7 @@ const CreateForm = () => {
                     </div>
                 </div>
             </form>
-            <CustomModal modalIsOpen={modalIsOpen} onClose={() => { setIsOpen(false) }} onDelete={(id) => deletePolicy(id)} onSaveClick={(id) => savePolice(id)} />
+            <CustomModal policeData={savedPolicy.data} modalIsOpen={modalIsOpen} onClose={() => { setIsOpen(false) }} onDelete={(id) => deletePolicy(id)} onSaveClick={(id) => savePolice(id)} />
         </div>
     );
 }

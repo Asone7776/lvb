@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { calculatePolicy, savePolicy } from '../actions/policeActions';
+import { calculatePolicy, savePolicy, updatePolicy } from '../actions/policeActions';
 import { maleOptions, options } from '../../constants';
 const initialState = {
     preFormData: null,
@@ -9,6 +9,11 @@ const initialState = {
         error: null
     },
     savedPolicy: {
+        loading: false,
+        data: null,
+        error: null
+    },
+    updatedPolicy: {
         loading: false,
         data: null,
         error: null
@@ -81,6 +86,28 @@ export const policeSlice = createSlice({
         })
         builder.addCase(savePolicy.rejected, (state, action) => {
             state.savedPolicy = {
+                loading: false,
+                data: null,
+                error: action.payload,
+            }
+        })
+        // Update policy
+        builder.addCase(updatePolicy.pending, (state) => {
+            state.updatedPolicy = {
+                loading: true,
+                data: null,
+                error: null,
+            }
+        })
+        builder.addCase(updatePolicy.fulfilled, (state, action) => {
+            state.updatedPolicy = {
+                loading: false,
+                data: action.payload,
+                error: null,
+            }
+        })
+        builder.addCase(updatePolicy.rejected, (state, action) => {
+            state.updatedPolicy = {
                 loading: false,
                 data: null,
                 error: action.payload,

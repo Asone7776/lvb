@@ -3,8 +3,8 @@ import Modal from 'react-modal';
 import { useSelector } from 'react-redux';
 import { formatPrice } from "../ functions";
 Modal.setAppElement('#root');
-const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete }) => {
-    const policeData = useSelector((state) => state.police.savedPolicy.data);
+const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete, policeData }) => {
+
     // console.log(policeData);
     const [risk, setRisk] = useState('Смерть');
     useEffect(() => {

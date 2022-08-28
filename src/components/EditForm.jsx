@@ -6,19 +6,19 @@ import NumberFormat from 'react-number-format';
 import { emailPattern, requiredPattern } from '../ functions';
 import { successNotify, failureNotify } from '../notifications';
 import { useDispatch, useSelector } from 'react-redux';
-import { passCreateFormData } from '../redux/slices/policeSlice';
 import CustomModal from './CustomModal';
 import { axiosAuth } from '../axios-instances';
 import { options, maleOptions } from '../constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { updatePolicy } from '../redux/actions/policeActions';
 const EditForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [orderId, setOrderId] = useState(id);
     const editData = useSelector(state => state.police.editPolice);
+    const updatedPolicy = useSelector(state => state.police.updatedPolicy);
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
     const [modalIsOpen, setIsOpen] = useState(false);
     const defaultValues = editData ? editData : {
         holder: { value: '0', label: 'Физическое лицо' },
@@ -28,19 +28,22 @@ const EditForm = () => {
         organization_prefix: { value: 'ООО', label: 'ООО' },
     }
 
-    const { control, setValue, watch, register, handleSubmit, formState: { errors } } = useForm({
+    const { control, watch, register, handleSubmit, formState: { errors } } = useForm({
         defaultValues
     });
-
+    const savedFields = watch(['holder', 'email']);
     useEffect(() => {
         if (!editData) {
             navigate('/admin');
         }
     }, []);
 
-
+    useEffect(() => {
+        if (updatedPolicy.data) {
+            setIsOpen(true);
+        }
+    }, [updatedPolicy.data]);
     const allFields = watch();
-    const savedFields = watch(['holder', 'email']);
 
     const onSubmit = data => {
         const objectToSend = {
@@ -67,26 +70,15 @@ const EditForm = () => {
         sendData(objectToSend);
     };
     const sendData = async (data) => {
-        setLoading(true);
-        try {
-            const response = await axiosAuth.post(`update_policy_lb/${orderId}`, data);
-            // dispatch(passCreateFormData({
-            //     limit: editData ? editData.limit : null,
-            //     'case-0': editData ? editData['case-0'] : null,
-            //     'case-1': editData ? editData['case-1'] : null,
-            //     holder: savedFields[0] ? savedFields[0] : null,
-            //     email: savedFields[1] ? savedFields[1] : null,
-            //     ...response.data.data
-            // }))
-            successNotify('Успешно');
-            setIsOpen(true);
-            setLoading(false);
-        } catch (error) {
-            setLoading(false);
-            if (error.response.data) {
-                failureNotify(error.response.data.errors);
-            }
-        }
+        dispatch(updatePolicy({
+            orderId,
+            ...data,
+            limit: editData ? editData.limit : null,
+            'case-0': editData ? editData['case-0'] : null,
+            'case-1': editData ? editData['case-1'] : null,
+            holder: savedFields[0] ? savedFields[0] : null,
+            email: savedFields[1] ? savedFields[1] : null,
+        }))
     }
 
     const savePolice = async (id) => {
@@ -623,11 +615,11 @@ const EditForm = () => {
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCardCreate holder={editData && editData.holder} data={editData} complete={true} loading={loading} />
+                        <InfoCardCreate holder={editData && editData.holder} data={editData} complete={true} loading={updatedPolicy.loading} />
                     </div>
                 </div>
             </form>
-            <CustomModal modalIsOpen={modalIsOpen} onClose={() => { setIsOpen(false) }} onDelete={(id) => {
+            <CustomModal policeData={updatedPolicy.data} modalIsOpen={modalIsOpen} onClose={() => { setIsOpen(false) }} onDelete={(id) => {
                 setOrderId(id);
                 setIsOpen(false)
             }} onSaveClick={(id) => savePolice(id)} />
