@@ -29,10 +29,14 @@ export const InsuranceProducts = [
         title: 'Карточный сейф',
         content: 'Страхование банковских карт'
     },
-    {
-        icon: ProtectionIcon,
-        subTitle: 'Полис страхования',
-        title: 'Защита бизнеса Стандарт',
-        content: 'Комплексное страхование имущества ЮЛ Индивидуальный расчет'
-    },
+    // {
+    //     icon: ProtectionIcon,
+    //     subTitle: 'Полис страхования',
+    //     title: 'Защита бизнеса Стандарт',
+    //     content: 'Комплексное страхование имущества ЮЛ Индивидуальный расчет'
+    // },
+];
+export const dashboardPathNames = [
+    '/admin/dashboard/statistics',
+    '/admin/dashboard/products',
 ];

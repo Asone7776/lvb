@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Accordion from "../../components/Accordion";
 import TopInfo from "../../components/TopInfo";
 import { useEffect } from "react";
-import { getOrders } from "../../redux/actions/orderActions";
+import { getFirstOrders } from "../../redux/actions/orderActions";
 import { useDispatch, useSelector } from "react-redux";
 import OrderFilters from '../../components/OrderFilters';
 import { getUsers } from "../../redux/actions/usersActions";
@@ -25,7 +25,7 @@ const PolicyPage = () => {
         page: 1
     });
     useEffect(() => {
-        dispatch(getOrders(filterProps));
+        dispatch(getFirstOrders(filterProps));
     }, [filterProps, orders.changeStatus.success]);
 
     useEffect(() => {

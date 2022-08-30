@@ -11,7 +11,7 @@ import CustomModal from './CustomModal';
 import { axiosAuth } from '../axios-instances';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { savePolicy } from '../redux/actions/policeActions';
+import { saveAccidentPolicy } from '../redux/actions/policeActions';
 import moment from 'moment';
 const CreateForm = () => {
     const navigate = useNavigate();
@@ -148,7 +148,7 @@ const CreateForm = () => {
         sendData(objectToSend);
     };
     const sendData = async (data) => {
-        dispatch(savePolicy({
+        dispatch(saveAccidentPolicy({
             ...data,
             limit: preData ? preData.limit : null,
             'case-0': preData ? preData['case-0'] : null,

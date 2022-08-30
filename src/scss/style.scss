@@ -694,6 +694,7 @@ p {
     .current-user {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
         .user-email {
             padding-right: rem(30);
             font: {
@@ -703,6 +704,12 @@ p {
         }
         .btn {
             font-family: "PT Sans Bold";
+        }
+    }
+    &.dashboard-header {
+        padding-bottom: 0;
+        .lvb-logo {
+            margin-bottom: rem(13);
         }
     }
 }
@@ -1097,6 +1104,11 @@ p {
         //     z-index: 200;
         // }
     }
+    &.dashboard-filters{
+        h3{
+            font-size: rem(24);
+        }
+    }
 }
 
 .pagination {
@@ -1144,4 +1156,5 @@ p {
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
-@import 'products';
+@import "products";
+@import "dashboard-navigation";

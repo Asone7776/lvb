@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { calculatePolicy, savePolicy, updatePolicy } from '../actions/policeActions';
+import { calculatePolicy, saveAccidentPolicy, updateAccidentPolicy, saveCardSafePolicy, updateCardSafePolicy } from '../actions/policeActions';
 import { maleOptions, options } from '../../constants';
 const initialState = {
     preFormData: null,
@@ -70,21 +70,21 @@ export const policeSlice = createSlice({
             }
         })
         // Save policy
-        builder.addCase(savePolicy.pending, (state) => {
+        builder.addCase(saveAccidentPolicy.pending, (state) => {
             state.savedPolicy = {
                 loading: true,
                 data: null,
                 error: null,
             }
         })
-        builder.addCase(savePolicy.fulfilled, (state, action) => {
+        builder.addCase(saveAccidentPolicy.fulfilled, (state, action) => {
             state.savedPolicy = {
                 loading: false,
                 data: action.payload,
                 error: null,
             }
         })
-        builder.addCase(savePolicy.rejected, (state, action) => {
+        builder.addCase(saveAccidentPolicy.rejected, (state, action) => {
             state.savedPolicy = {
                 loading: false,
                 data: null,
@@ -92,21 +92,21 @@ export const policeSlice = createSlice({
             }
         })
         // Update policy
-        builder.addCase(updatePolicy.pending, (state) => {
+        builder.addCase(updateAccidentPolicy.pending, (state) => {
             state.updatedPolicy = {
                 loading: true,
                 data: null,
                 error: null,
             }
         })
-        builder.addCase(updatePolicy.fulfilled, (state, action) => {
+        builder.addCase(updateAccidentPolicy.fulfilled, (state, action) => {
             state.updatedPolicy = {
                 loading: false,
                 data: action.payload,
                 error: null,
             }
         })
-        builder.addCase(updatePolicy.rejected, (state, action) => {
+        builder.addCase(updateAccidentPolicy.rejected, (state, action) => {
             state.updatedPolicy = {
                 loading: false,
                 data: null,

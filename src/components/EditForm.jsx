@@ -11,7 +11,7 @@ import { axiosAuth } from '../axios-instances';
 import { options, maleOptions } from '../constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { updatePolicy } from '../redux/actions/policeActions';
+import { updateAccidentPolicy } from '../redux/actions/policeActions';
 const EditForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
@@ -70,7 +70,7 @@ const EditForm = () => {
         sendData(objectToSend);
     };
     const sendData = async (data) => {
-        dispatch(updatePolicy({
+        dispatch(updateAccidentPolicy({
             orderId,
             ...data,
             limit: editData ? editData.limit : null,

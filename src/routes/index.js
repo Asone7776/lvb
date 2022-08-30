@@ -10,7 +10,8 @@ import EditPolicy from "../containers/polices/edit";
 import ProtectedRoute from "../components/ProtectedRoute";
 import { useSelector } from "react-redux";
 import NotFound from "../components/NotFound";
-// import Products from "../containers/polices/products";
+import Dashboard from "../containers/polices/dashboard";
+import Products from "../containers/polices/products";
 const RoutesComponent = () => {
     const user = useSelector((state) => state.currentUser.data);
     return (
@@ -24,12 +25,15 @@ const RoutesComponent = () => {
                 <Route
                     element={<AdminLayout />}
                 >
-                    <Route path="/admin" element={<ProtectedRoute user={user} />}>
-                        <Route path="/admin" element={<PolicyPage />} />
-                        <Route path="/admin/pre-create" element={<PrePolicy />} />
-                        <Route path="/admin/create" element={<CreatePolicy />} />
-                        <Route path="/admin/edit/:id" element={<EditPolicy />} />
-                        {/* <Route path="/admin/products" element={<Products />} /> */}
+                    <Route path="admin" element={<ProtectedRoute user={user} />}>
+                        <Route index element={<PolicyPage />} />
+                        <Route path="dashboard">
+                            <Route path="statistics" element={<Dashboard />} />
+                            <Route path="products" element={<Products />} />
+                        </Route>
+                        <Route path="pre-create" element={<PrePolicy />} />
+                        <Route path="create" element={<CreatePolicy />} />
+                        <Route path="edit/:id" element={<EditPolicy />} />
                     </Route>
                 </Route>
                 <Route

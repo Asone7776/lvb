@@ -69,7 +69,7 @@ const OrderFilters = ({ users, onFilterChange, onDateRange, onExport, excelLoadi
                     <FilterSelect
                         defaultValue={[]}
                         placeholder={'Пользователи'}
-                        isMulti options={users.data} onChange={(val) => {
+                        isMulti options={users && users.data} onChange={(val) => {
                             let valueToSend = null
                             if (val.length > 0) {
                                 valueToSend = val.map((item) => item.value).join();

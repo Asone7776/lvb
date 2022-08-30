@@ -2,7 +2,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 export const axiosAuth = axios.create({
-    baseURL: "https://vsk-trust.ru/api/"
+    baseURL: "https://vsk-trust.ru/api/lb"
 });
 
 axiosAuth.interceptors.response.use(
@@ -27,6 +27,6 @@ axiosAuth.interceptors.request.use(function (request) {
 
 
 export const axiosDefault = axios.create({
-    baseURL: "https://vsk-trust.ru/api/"
+    baseURL: "https://vsk-trust.ru/api/lb"
 });
 
