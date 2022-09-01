@@ -1,6 +1,6 @@
 import InvalidIcon from './components/Icons/InvalidIcon'
 import CardHolderIcon from './components/Icons/CardHolderIcon'
-import ProtectionIcon from './components/Icons/ProtectionIcon'
+// import ProtectionIcon from './components/Icons/ProtectionIcon'
 export const companiesOptions = [
     { value: 'ООО', label: 'ООО' },
     { value: 'ИП', label: 'ИП' },
@@ -21,13 +21,15 @@ export const InsuranceProducts = [
         icon: InvalidIcon,
         subTitle: 'Полис страхования',
         title: 'Страхование от несчастных случаев',
-        content: 'Страхования заемщиков кредитов от несчастных случаев и болезней'
+        content: 'Страхования заемщиков кредитов от несчастных случаев и болезней',
+        link: '/admin/accident'
     },
     {
         icon: CardHolderIcon,
         subTitle: 'Полис страхования',
         title: 'Карточный сейф',
-        content: 'Страхование банковских карт'
+        content: 'Страхование банковских карт',
+        link: '/admin/cardsafe'
     },
     // {
     //     icon: ProtectionIcon,
@@ -37,6 +39,6 @@ export const InsuranceProducts = [
     // },
 ];
 export const dashboardPathNames = [
-    '/admin/dashboard/statistics',
-    '/admin/dashboard/products',
+    '/admin',
+    '/admin/products',
 ];

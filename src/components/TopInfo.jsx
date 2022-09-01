@@ -1,5 +1,6 @@
 import React from "react";
-const TopInfo = ({ title, titleNew = 'Сохранить', onNewPressed, onCancelPressed }) => {
+import BackIcon from './Icons/BackIcon'
+const TopInfo = ({ title, titleNew = 'Сохранить', onNewPressed, onCancelPressed, onBackPressed }) => {
     return (
         <div className="row info-top-header">
             {!onNewPressed && !onCancelPressed ? (
@@ -10,12 +11,17 @@ const TopInfo = ({ title, titleNew = 'Сохранить', onNewPressed, onCance
                 </div>
             ) : (
                 <>
-                    <div className="col-6">
+                    <div className="col-8 d-flex">
+                        {onBackPressed ? (
+                            <button onClick={onBackPressed} className="back-btn">
+                                <BackIcon />
+                            </button>
+                        ) : null}
                         <h3 className="default-heading">
                             {title}
                         </h3>
                     </div>
-                    <div className="col-6 text-right">
+                    <div className="col-4 text-right">
                         {onNewPressed && (
                             <button className="btn btn-primary" onClick={onNewPressed}>
                                 {titleNew}

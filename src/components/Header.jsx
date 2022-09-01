@@ -4,7 +4,7 @@ import { resetUser } from "../redux/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { dashboardPathNames } from '../constants';
-import DashboardNavigation from "./DashboardNavigation";
+// import DashboardNavigation from "./DashboardNavigation";
 import cn from "classnames";
 const Header = () => {
     const location = useLocation();
@@ -22,11 +22,11 @@ const Header = () => {
                     <div className="col-3">
                         <LvbLogo linkTo={'/admin'} />
                     </div>
-                    {dashboardHeader && (
+                    {/* {dashboardHeader && (
                         <div className="col-4">
                             <DashboardNavigation pathname={location.pathname} />
                         </div>
-                    )}
+                    )} */}
                     <div className="col-3">
                         <div className="current-user">
                             <span className="user-email">{user && user.email}</span>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 const ProductCard = ({ item }) => {
     return (
         <div className="card product-card">
@@ -12,7 +13,9 @@ const ProductCard = ({ item }) => {
                     <p>{item.content}</p>
                 </div>
                 <div className="bottom">
-                    <button className="btn btn-primary">Оформить</button>
+                    <Link to={item.link}>
+                        <button className="btn btn-primary">Оформить</button>
+                    </Link>
                 </div>
             </div>
         </div>

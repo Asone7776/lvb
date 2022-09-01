@@ -44,7 +44,10 @@ export const policeSlice = createSlice({
                 data: null,
                 error: null,
             }
-        }
+        },
+        resetSavedData: (state) => {
+            state.savedPolicy = initialState.savedPolicy;
+        },
     },
     extraReducers: (builder) => {
         //Calculate policy
@@ -113,9 +116,54 @@ export const policeSlice = createSlice({
                 error: action.payload,
             }
         })
+
+        // Save cardsafe policy
+        builder.addCase(saveCardSafePolicy.pending, (state) => {
+            state.savedPolicy = {
+                loading: true,
+                data: null,
+                error: null,
+            }
+        })
+        builder.addCase(saveCardSafePolicy.fulfilled, (state, action) => {
+            state.savedPolicy = {
+                loading: false,
+                data: action.payload,
+                error: null,
+            }
+        })
+        builder.addCase(saveCardSafePolicy.rejected, (state, action) => {
+            state.savedPolicy = {
+                loading: false,
+                data: null,
+                error: action.payload,
+            }
+        })
+        // Update policy
+        builder.addCase(updateCardSafePolicy.pending, (state) => {
+            state.updatedPolicy = {
+                loading: true,
+                data: null,
+                error: null,
+            }
+        })
+        builder.addCase(updateCardSafePolicy.fulfilled, (state, action) => {
+            state.updatedPolicy = {
+                loading: false,
+                data: action.payload,
+                error: null,
+            }
+        })
+        builder.addCase(updateCardSafePolicy.rejected, (state, action) => {
+            state.updatedPolicy = {
+                loading: false,
+                data: null,
+                error: action.payload,
+            }
+        })
     },
 })
 
-export const { passPreFormData, resetCalculatePolicy, saveEditData, resetEditData } = policeSlice.actions;
+export const { passPreFormData, resetCalculatePolicy, saveEditData, resetEditData, resetSavedData } = policeSlice.actions;
 
 export default policeSlice.reducer;

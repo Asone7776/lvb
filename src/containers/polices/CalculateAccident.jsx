@@ -1,18 +1,15 @@
-import React from "react";
 import TopInfo from "../../components/TopInfo";
-import CreateForm from "../../components/CreateForm";
+import PreCreateForm from "../../components/PreCreateForm";
 import { useNavigate } from "react-router-dom";
-const CreatePolicy = () => {
+const CalculateAccident = () => {
     const navigate = useNavigate();
     return (
         <div className="information">
             <div className="container">
                 <div className="row d-flex justify-content-center">
                     <div className="col-9">
-                        <TopInfo title={"Новый полис"} onCancelPressed={() => {
-                            navigate('/admin/pre-create');
-                        }} />
-                        <CreateForm />
+                        <TopInfo title={"Расчёт стоимости полиса"} onCancelPressed={() => {navigate('/admin/accident')}} />
+                        <PreCreateForm linkToCreate={'/admin/create-accident'} />
                     </div>
                 </div>
             </div>
@@ -20,4 +17,4 @@ const CreatePolicy = () => {
     );
 }
 
-export default CreatePolicy;
+export default CalculateAccident;

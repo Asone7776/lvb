@@ -17,6 +17,7 @@ export const getSecondOrders = createAsyncThunk(
         const response = await axiosAuth.get('second/orders', {
             params
         });
+        console.log(response.data);
         return response.data;
     }
 );

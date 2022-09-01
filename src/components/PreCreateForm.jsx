@@ -7,7 +7,7 @@ import InfoCard from './InfoCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetCalculatePolicy, passPreFormData } from '../redux/slices/policeSlice';
 import { calculatePolicy } from '../redux/actions/policeActions';
-const PreCreateForm = () => {
+const PreCreateForm = ({linkToCreate}) => {
     const dispatch = useDispatch();
     const calculatePolicyData = useSelector((state) => state.police.calculatePolicy);
     const options = [
@@ -118,7 +118,7 @@ const PreCreateForm = () => {
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCard success={!!calculatePolicyData.data} allFields={allFields} complete={true} loading={calculatePolicyData.loading} price={calculatePolicyData.data} />
+                        <InfoCard success={!!calculatePolicyData.data} allFields={allFields} complete={true} loading={calculatePolicyData.loading} price={calculatePolicyData.data} linkToCreate={linkToCreate} />
                     </div>
                 </div>
             </form>

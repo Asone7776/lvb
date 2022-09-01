@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import NoDocument from "../../components/NoDocument";
 import { useNavigate } from "react-router-dom";
 import Accordion from "../../components/Accordion";
 import TopInfo from "../../components/TopInfo";
-import { useEffect } from "react";
 import { getFirstOrders } from "../../redux/actions/orderActions";
 import { useDispatch, useSelector } from "react-redux";
 import OrderFilters from '../../components/OrderFilters';
@@ -14,7 +13,7 @@ import { resetStatus } from '../../redux/slices/orderSlice';
 import { axiosAuth } from "../../axios-instances";
 import { failureNotify, successNotify } from "../../notifications";
 import { downloadFile } from "../../ functions";
-const PolicyPage = () => {
+const AccidentPolicyPage = () => {
     const dispatch = useDispatch();
     const orders = useSelector((state) => state.orders);
     const users = useSelector((state) => state.users);
@@ -104,8 +103,10 @@ const PolicyPage = () => {
                 <div className="container">
                     <div className="row d-flex justify-content-center">
                         <div className="col-9">
-                            <TopInfo title={"Полисы страхования"} titleNew={'Создать новый'} onNewPressed={() => {
-                                navigate('/admin/pre-create');
+                            <TopInfo title={"Страховние от несчастных случаев"} titleNew={'Создать новый'} onBackPressed={() => {
+                                navigate('/admin');
+                            }} onNewPressed={() => {
+                                navigate('/admin/calculate-accident');
                             }} />
                             <OrderFilters users={users} onFilterChange={onTopFiltersChange} onDateRange={onDateRange} onExport={getExcelData} excelLoading={excelLoading} />
                             <Accordion loading={orders.loading} list={orders.data.data} />
@@ -120,4 +121,4 @@ const PolicyPage = () => {
     );
 }
 
-export default PolicyPage;
+export default AccidentPolicyPage;

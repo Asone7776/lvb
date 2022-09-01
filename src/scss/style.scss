@@ -747,6 +747,11 @@ p {
     padding-bottom: rem(60);
     &.list-wrapper {
         .info-top-header {
+            .back-btn{
+                border:none;
+                background-color: transparent;
+                margin-right: rem(20);
+            }
             .btn {
                 padding-left: rem(40);
                 padding-right: rem(40);

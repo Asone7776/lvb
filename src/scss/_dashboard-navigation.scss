@@ -31,3 +31,63 @@
         }
     }
 }
+.dashboard-page {
+    .dashboard-stats {
+        .row {
+            &.dash-top-row {
+                margin-top: rem(30);
+            }
+            margin-top: rem(20);
+        }
+        .card {
+            padding: rem(20);
+            border: none;
+            &.dashboard-card {
+                font: {
+                    family: "PT Sans Bold";
+                    size: rem(18);
+                }
+                .dash-info {
+                    margin-bottom: rem(10);
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+            &.mini-card {
+                .heading {
+                    margin-bottom: rem(10);
+                }
+                font: {
+                    family: "PT Sans";
+                    size: rem(18);
+                }
+                .value {
+                    display: flex;
+                    align-items: center;
+                    font: {
+                        family: "PT Sans Bold";
+                        size: rem(24);
+                    }
+                    .percent {
+                        margin-left: rem(15);
+                        color: #1958fa;
+                        // display: inline;
+                        font: {
+                            size: rem(14);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .all-polices {
+        margin-top: rem(30);
+        h4 {
+            font: {
+                family: "PT Sans Bold";
+                size: rem(18);
+            }
+            margin-bottom: rem(20);
+        }
+    }
+}

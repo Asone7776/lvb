@@ -36,7 +36,11 @@ const AccordionItem = ({ item, onStatusChange }) => {
             policy_number: item.policy_number,
             ...item.form
         }));
-        navigate(`/admin/edit/${item.id}`);
+        if(item.form_type === null){
+            navigate(`/admin/edit-accident/${item.id}`);
+        }else{
+            navigate(`/admin/edit-cardsafe/${item.id}`);
+        }
     }
     return (
         <div className="card">
@@ -46,9 +50,15 @@ const AccordionItem = ({ item, onStatusChange }) => {
                         <div className="col id">
                             {item.policy_number}
                         </div>
-                        <div className="col col-3 risk text-right">
-                            {risk}
-                        </div>
+                        {item.form_type === null ? (
+                            <div className="col col-3 risk text-right">
+                                {risk}
+                            </div>
+                        ) : (
+                            <div className="col col-3 risk text-right">
+                                {item.limit_amount ? `${formatPrice(item.limit_amount)}₽` : null}
+                            </div>
+                        )}
                         <div className="col col-2 date text-center">
                             {item.created_at ? formatDate(item.created_at) : null}
                         </div>
@@ -72,94 +82,154 @@ const AccordionItem = ({ item, onStatusChange }) => {
             <div id={`collapse-${item.id}`} className="collapse" aria-labelledby={`heading-${item.id}`}>
                 <div className="card-body">
                     <div className="divider"></div>
-                    <div className="row">
-                        <div className="col-5">
-                            <div className="item">
-                                <div className="sub-heading">Тип страхования</div>
-                                <div className="heading">{risk}</div>
+                    {item.form_type === null ? (
+                        <>
+                            <div className="row">
+                                <div className="col-5">
+                                    <div className="item">
+                                        <div className="sub-heading">Тип страхования</div>
+                                        <div className="heading">{risk}</div>
+                                    </div>
+                                </div>
+                                <div className="col-3">
+                                    <div className="item">
+                                        <div className="sub-heading">Срок страхования</div>
+                                        <div className="heading">{item.term ? `${item.term} месяцев` : null}</div>
+                                    </div>
+                                </div>
+                                <div className="col-4">
+                                    <div className="item">
+                                        <div className="sub-heading">Сумма страхования</div>
+                                        {item.limit_amount ? `${formatPrice(item.limit_amount)}₽` : null}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-3">
-                            <div className="item">
-                                <div className="sub-heading">Срок страхования</div>
-                                <div className="heading">{item.term ? `${item.term} месяцев` : null}</div>
+                            <div className="row">
+                                <div className="col-5">
+                                    <div className="item">
+                                        <div className="sub-heading">Страхователь</div>
+                                        <div className="heading">{item.insurer ? item.insurer : null}</div>
+                                    </div>
+                                </div>
+                                <div className="col-3">
+                                    <div className="item">
+                                        <div className="sub-heading">Паспорт</div>
+                                        <div className="heading">{item.passport ? item.passport : null}</div>
+                                    </div>
+                                </div>
+                                <div className="col-4">
+                                    <div className="item">
+                                        <div className="sub-heading">Номер телефона</div>
+                                        <div className="heading">{item.phone ? item.phone : null}</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-4">
-                            <div className="item">
-                                <div className="sub-heading">Сумма страхования</div>
-                                {item.limit_amount ? `${formatPrice(item.limit_amount)}₽` : null}
+                            <div className="row">
+                                <div className="col-5">
+                                    <div className="item">
+                                        <div className="sub-heading">E-mail</div>
+                                        <div className="heading">{item.email ? item.email : null}</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-5">
-                            <div className="item">
-                                <div className="sub-heading">Страхователь</div>
-                                <div className="heading">{item.insurer ? item.insurer : null}</div>
+                            <div className="divider"></div>
+                            <div className="row">
+                                <div className="col-5">
+                                    <div className="item">
+                                        <div className="sub-heading">Кредитный договор</div>
+                                        <div className="heading">{item.credit_number ? `№${item.credit_number}` : null}</div>
+                                    </div>
+                                </div>
+                                <div className="col-3">
+                                    <div className="item">
+                                        <div className="sub-heading">Кредитное учереждение</div>
+                                        <div className="heading">{item.credit_institution ? item.credit_institution : null}</div>
+                                    </div>
+                                </div>
+                                <div className="col-4">
+                                    <div className="item">
+                                        <div className="sub-heading">Адрес</div>
+                                        <div className="heading">{item.address ? item.address : null}</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-3">
-                            <div className="item">
-                                <div className="sub-heading">Паспорт</div>
-                                <div className="heading">{item.passport ? item.passport : null}</div>
+                            <div className="divider"></div>
+                            <div className="row">
+                                <div className="col-5">
+                                    <div className="item">
+                                        <div className="sub-heading">Полис</div>
+                                        {item.buy_url && (
+                                            <a target={"_blank"} href={item.buy_url}>{item.buy_url}</a>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="col-3">
+                                    <div className="item">
+                                        <div className="sub-heading">Счёт на оплату</div>
+                                        {item.invoice_url && (
+                                            <a target={"_blank"} href={item.invoice_url}>{item.invoice_url}</a>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-4">
-                            <div className="item">
-                                <div className="sub-heading">Номер телефона</div>
-                                <div className="heading">{item.phone ? item.phone : null}</div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="row">
+                                <div className="col-5">
+                                    <div className="item">
+                                        <div className="sub-heading">Стоимость полиса страхования</div>
+                                        {item.amount ? `${formatPrice(item.amount)}₽` : null}
+                                    </div>
+                                </div>
+                                <div className="col-4">
+                                    <div className="item">
+                                        <div className="sub-heading">Сумма страхования</div>
+                                        {item.limit_amount ? `${formatPrice(item.limit_amount)}₽` : null}
+                                    </div>
+                                </div>
+                                <div className="col-3">
+                                    <div className="item">
+                                        <div className="sub-heading">Страхователь</div>
+                                        <div className="heading">{item.insurer ? item.insurer : null}</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-5">
-                            <div className="item">
-                                <div className="sub-heading">E-mail</div>
-                                <div className="heading">{item.email ? item.email : null}</div>
+                            <div className="row">
+                                <div className="col-5">
+                                    <div className="item">
+                                        <div className="sub-heading">Номер телефона</div>
+                                        <div className="heading">{item.phone ? item.phone : null}</div>
+                                    </div>
+                                </div>
+                                <div className="col-4">
+                                    <div className="item">
+                                        <div className="sub-heading">E-mail</div>
+                                        <div className="heading">{item.email ? item.email : null}</div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className="divider"></div>
-                    <div className="row">
-                        <div className="col-5">
-                            <div className="item">
-                                <div className="sub-heading">Кредитный договор</div>
-                                <div className="heading">{item.credit_number ? `№${item.credit_number}` : null}</div>
+                            <div className="divider"></div>
+                            <div className="row">
+                                <div className="col-5">
+                                    <div className="item">
+                                        <div className="sub-heading">Полис</div>
+                                        {item.buy_url && (
+                                            <a target={"_blank"} href={item.buy_url}>{item.buy_url}</a>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="col-3">
+                                    <div className="item">
+                                        <div className="sub-heading">Счёт на оплату</div>
+                                        {item.invoice_url && (
+                                            <a target={"_blank"} href={item.invoice_url}>{item.invoice_url}</a>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-3">
-                            <div className="item">
-                                <div className="sub-heading">Кредитное учереждение</div>
-                                <div className="heading">{item.credit_institution ? item.credit_institution : null}</div>
-                            </div>
-                        </div>
-                        <div className="col-4">
-                            <div className="item">
-                                <div className="sub-heading">Адрес</div>
-                                <div className="heading">{item.address ? item.address : null}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="divider"></div>
-                    <div className="row">
-                        <div className="col-5">
-                            <div className="item">
-                                <div className="sub-heading">Полис</div>
-                                {item.buy_url && (
-                                    <a target={"_blank"} href={item.buy_url}>{item.buy_url}</a>
-                                )}
-                            </div>
-                        </div>
-                        <div className="col-3">
-                            <div className="item">
-                                <div className="sub-heading">Счёт на оплату</div>
-                                {item.invoice_url && (
-                                    <a target={"_blank"} href={item.invoice_url}>{item.invoice_url}</a>
-                                )}
-                            </div>
-                        </div>
-                    </div>
+                        </>
+                    )}
                     <div className="row">
                         <div className="col-6">
                             <div className="item">
@@ -195,9 +265,9 @@ const AccordionItem = ({ item, onStatusChange }) => {
                             ) : null}
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </div >
+            </div >
+        </div >
     );
 }
 

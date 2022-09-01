@@ -3,7 +3,7 @@ import cn from "classnames";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../ functions";
 import Spinner from "./Spinner";
-const InfoCard = ({ allFields, complete, onSubmit, price, loading, success }) => {
+const InfoCard = ({ allFields, complete, onSubmit, price, loading, success,linkToCreate }) => {
     const [risk, setRisk] = useState('Смерть');
     useEffect(() => {
         formatRisk(allFields['case-0'], allFields['case-1']);
@@ -53,7 +53,7 @@ const InfoCard = ({ allFields, complete, onSubmit, price, loading, success }) =>
                     ) : 'Рассчитать'}
                 </button>
                 {success && (
-                    <Link to={'/admin/create'}>
+                    <Link to={linkToCreate}>
                         <button disabled={loading} className={cn('btn', { 'btn-primary': !complete, 'btn-blue': complete, 'loading': loading })} onClick={onSubmit}>
                             Оформить полис
                         </button>

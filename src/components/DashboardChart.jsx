@@ -63,6 +63,7 @@ export const data = {
         },
     ],
 };
+
 const plugins = [
     {
         afterDraw: chart => {

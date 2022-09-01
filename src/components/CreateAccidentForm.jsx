@@ -12,8 +12,9 @@ import { axiosAuth } from '../axios-instances';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { saveAccidentPolicy } from '../redux/actions/policeActions';
+import { resetSavedData } from '../redux/slices/policeSlice';
 import moment from 'moment';
-const CreateForm = () => {
+const CreateAccidentForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const preData = useSelector(state => state.police.preFormData);
@@ -21,7 +22,6 @@ const CreateForm = () => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [companyOptions, setCompanyOptions] = useState([
         { value: 'ООО', label: 'ООО' },
-        { value: 'ИП', label: 'ИП' },
         { value: 'АО', label: 'АО' },
     ]);
 
@@ -41,50 +41,53 @@ const CreateForm = () => {
             credit_name: 'Банк Левобережный (ПАО) г.Новосибирск, Кирова, 48',
             organization_prefix: { value: 'ООО', label: 'ООО' },
 
-            surname: "Surname",
-            first_name: "Нейм",
-            second_name: "Second",
-            birthday_year: 2000,
-            birthday_month: 12,
-            birthday_day: 1,
-            passport_series: "7711",
-            passport_number: "123123",
-            passport_whom: "Whom",
-            passport_subvision_code: "123",
-            passport_year: 2001,
-            passport_month: 12,
-            passport_day: 10,
-            city: "Moscow",
-            street: "Street",
-            house: 124,
-            flat: 3,
-            index: "100500",
-            second_city: "Novosibirsk",
-            second_street: "Street 2",
-            second_house: 24,
-            second_flat: 1,
-            second_index: "100500",
-            phone: "+7 594 123 12 12",
-            email: "chemistry1026@ya.ru",
-            credit_name: "Bank bank",
-            credit_number: 12345,
-            credit_year: 2000,
-            credit_month: 12,
-            credit_day: 10,
-            organization_name: "OOO Organization Name",
-            inn: 3456782324,
-            kpp: 695001001,
-            ogrn: 1234567890123
+            // surname: "Surname",
+            // first_name: "Нейм",
+            // second_name: "Second",
+            // birthday_year: 2000,
+            // birthday_month: 12,
+            // birthday_day: 1,
+            // passport_series: "7711",
+            // passport_number: "123123",
+            // passport_whom: "Whom",
+            // passport_subvision_code: "123",
+            // passport_year: 2001,
+            // passport_month: 12,
+            // passport_day: 10,
+            // city: "Moscow",
+            // street: "Street",
+            // house: 124,
+            // flat: 3,
+            // index: "100500",
+            // second_city: "Novosibirsk",
+            // second_street: "Street 2",
+            // second_house: 24,
+            // second_flat: 1,
+            // second_index: "100500",
+            // phone: "+7 594 123 12 12",
+            // email: "chemistry1026@ya.ru",
+            // credit_name: "Bank bank",
+            // credit_number: 12345,
+            // credit_year: 2000,
+            // credit_month: 12,
+            // credit_day: 10,
+            // organization_name: "OOO Organization Name",
+            // inn: 3456782324,
+            // kpp: 695001001,
+            // ogrn: 1234567890123
         }
     });
 
     useEffect(() => {
         if (preData) {
-            if(preData.holder){
+            if (preData.holder) {
                 setValue('holder', preData.holder);
             }
-        }else{
+        } else {
             navigate('/admin');
+        }
+        return () => {
+            dispatch(resetSavedData());
         }
     }, []);
 
@@ -113,11 +116,11 @@ const CreateForm = () => {
             })
         }
     }, [prefix[0]]);
-    useEffect(()=>{
-        if(savedPolicy.data){
+    useEffect(() => {
+        if (savedPolicy.data) {
             setIsOpen(true);
         }
-    },[savedPolicy.data]);
+    }, [savedPolicy.data]);
     const onSubmit = data => {
         const objectToSend = {
             ...data,
@@ -716,4 +719,4 @@ const CreateForm = () => {
     );
 }
 
-export default CreateForm;
+export default CreateAccidentForm;

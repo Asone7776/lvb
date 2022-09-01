@@ -1,29 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Modal from 'react-modal';
 import { formatPrice } from "../ functions";
 Modal.setAppElement('#root');
-const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete, policeData }) => {
-
-    const [risk, setRisk] = useState('Смерть');
-    useEffect(() => {
-        if (policeData) {
-            formatRisk(policeData['case-0'], policeData['case-1']);
-        }
-    }, [policeData]);
-    const formatRisk = (death, invalid) => {
-        if (death && !invalid) {
-            setRisk('Смерть')
-        }
-        if (invalid && !death) {
-            setRisk('Инвалидность')
-        }
-        if (death && invalid) {
-            setRisk('Смерть,Инвалидность');
-        }
-        if (!death && !invalid) {
-            setRisk('Не указан');
-        }
-    }
+const CustomCardSafeModal = ({ modalIsOpen, onClose, onSaveClick, onDelete, policeData }) => {
+    console.log(policeData);
     return (
         <div>
             <Modal
@@ -33,16 +13,22 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete, policeData }
                 overlayClassName="custom-modal-overlay"
             >
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-group">
                             <label>Страхователь</label>
-                            <h5>{policeData && policeData.order && policeData.order.insurer ? policeData.order.insurer : null}</h5>
+                            <h5>{policeData && policeData.order ? `${policeData.order.insurer}` : null}</h5>
                         </div>
                     </div>
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-group">
-                            <label>Тип страхования</label>
-                            <h5>{policeData && policeData.holder ? policeData.holder.label : null}</h5>
+                            <label>ИНН</label>
+                            <h5>{policeData && policeData.order && policeData.order.form ? policeData.order.form.inn : null}</h5>
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <div className="form-group">
+                            <label>КПП</label>
+                            <h5>{policeData && policeData.order && policeData.order.form ? policeData.order.form.kpp : null}</h5>
                         </div>
                     </div>
                 </div>
@@ -57,34 +43,19 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete, policeData }
                     <div className="col-6">
                         <div className="form-group">
                             <label>E-mail</label>
-                            <h5>{policeData && policeData.email ? policeData.email : null}</h5>
+                            <h5>{policeData && policeData.order && policeData.order.email ? policeData.order.email : null}</h5>
                         </div>
                     </div>
                 </div>
                 <div className="divider"></div>
                 <div className="row">
-                    <div className="col-4">
-                        <div className="form-group">
-                            <label>Срок страхования</label>
-                            <h5>{policeData && policeData.order && policeData.order.term ? `${policeData.order.term} месяцев` : null}</h5>
-                        </div>
-                    </div>
-                    <div className="col-4">
+                    <div className="col-6">
                         <div className="form-group">
                             <label>Сумма страхования</label>
-                            <h5>{policeData && policeData.limit ? `${formatPrice(policeData.limit)}₽` : null}</h5>
+                            <h5>{policeData && policeData.order.limit_amount ? `${formatPrice(policeData.order.limit_amount)}₽` : null}</h5>
                         </div>
                     </div>
-                    <div className="col-4">
-                        <div className="form-group">
-                            <label>Страховой риск</label>
-                            <h5>{risk}</h5>
-                        </div>
-                    </div>
-                </div>
-                <div className="divider"></div>
-                <div className="row">
-                    <div className="col-12">
+                    <div className="col-6">
                         <div className="form-group">
                             <label>Стоимость полиса</label>
                             <div className="pre-price">
@@ -93,6 +64,7 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete, policeData }
                         </div>
                     </div>
                 </div>
+                <div className="divider"></div>
                 <div className="row mb-3">
                     <div className="col-6">
                         {policeData && policeData.order && policeData.order.policy_url ? (
@@ -136,4 +108,4 @@ const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete, policeData }
     );
 }
 
-export default CustomModal;
+export default CustomCardSafeModal;

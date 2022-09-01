@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import TopInfo from "../../components/TopInfo";
-import EditForm from "../../components/EditForm";
+import EditCardSafeForm from "../../components/EditCardSafeForm";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetEditData } from "../../redux/slices/policeSlice";
-const EditPolicy = () => {
+const EditCardSafePolicy = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const editData = useSelector(state => state.police.editPolice);
@@ -22,11 +22,11 @@ const EditPolicy = () => {
                 <div className="row d-flex justify-content-center">
                     <div className="col-9">
                         <TopInfo title={`Редактировать полис ${editData && editData.policy_number}`} onNewPressed={() => {
-                            navigate('/admin/pre-create');
+                            navigate('/admin/cardsafe');
                         }} onCancelPressed={() => {
-                            navigate('/admin/pre-create');
+                            navigate('/admin/cardsafe');
                         }} />
-                        <EditForm />
+                        <EditCardSafeForm />
                     </div>
                 </div>
             </div>
@@ -34,4 +34,4 @@ const EditPolicy = () => {
     );
 }
 
-export default EditPolicy;
+export default EditCardSafePolicy;

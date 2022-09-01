@@ -6,7 +6,24 @@ export const calculatePolicy = createAsyncThunk(
     "police/calculatePolicy",
     async (data, { rejectWithValue }) => {
         try {
-            const response = await axiosAuth.post('first/calculate_policy_lb', data);
+            const response = await axiosAuth.post('first/calculate_policy', data);
+            successNotify('Успешно');
+            return response.data.data;
+        } catch (error) {
+            if (error.response.data && error.response.data.error) {
+                failureNotify(error.response.data.error);
+                return rejectWithValue(error.response.data.error);
+            }
+            return rejectWithValue(error);
+        }
+    }
+);
+
+export const calculateSafeCardPolicy = createAsyncThunk(
+    "police/calculateSafeCardPolicy",
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await axiosAuth.post('second/calculate_policy', data);
             successNotify('Успешно');
             return response.data.data;
         } catch (error) {
@@ -27,7 +44,7 @@ export const saveAccidentPolicy = createAsyncThunk(
         const case0 = data['case-0'];
         const case1 = data['case-1'];
         try {
-            const response = await axiosAuth.post('first/save_policy_lb', {
+            const response = await axiosAuth.post('first/save_policy', {
                 ...data,
                 holder: holder.value
             });
@@ -60,7 +77,7 @@ export const updateAccidentPolicy = createAsyncThunk(
         const case0 = data['case-0'];
         const case1 = data['case-1'];
         try {
-            const response = await axiosAuth.post(`first/update_policy_lb/${orderId}`, {
+            const response = await axiosAuth.post(`first/update_policy/${orderId}`, {
                 ...data,
                 holder: holder.value
             });
@@ -89,25 +106,10 @@ export const updateAccidentPolicy = createAsyncThunk(
 export const saveCardSafePolicy = createAsyncThunk(
     "police/saveCardSafePolicy",
     async (data, { rejectWithValue }) => {
-        const { limit, term, holder, email, male } = data;
-        const case0 = data['case-0'];
-        const case1 = data['case-1'];
         try {
-            const response = await axiosAuth.post('second/save_policy_lb', {
-                ...data,
-                holder: holder.value
-            });
+            const response = await axiosAuth.post('second/save_policy', data);
             successNotify('Успешно');
-            return {
-                ...response.data.data,
-                limit,
-                term,
-                holder,
-                male,
-                'case-0': case0,
-                'case-1': case1,
-                email
-            };
+            return response.data.data;
         } catch (error) {
             if (error.response.data && error.response.data.errors) {
                 failureNotify(error.response.data.errors);
@@ -126,7 +128,7 @@ export const updateCardSafePolicy = createAsyncThunk(
         const case0 = data['case-0'];
         const case1 = data['case-1'];
         try {
-            const response = await axiosAuth.post(`second/update_policy_lb/${orderId}`, {
+            const response = await axiosAuth.post(`second/update_policy/${orderId}`, {
                 ...data,
                 holder: holder.value
             });
