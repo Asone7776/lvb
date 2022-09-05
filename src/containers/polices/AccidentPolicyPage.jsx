@@ -70,7 +70,7 @@ const AccidentPolicyPage = () => {
             status
         }
         try {
-            const response = await axiosAuth.get('/orders_export', {
+            const response = await axiosAuth.get('/first/orders_export', {
                 params,
                 responseType: "blob",
             });

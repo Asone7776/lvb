@@ -70,7 +70,7 @@ const CardSafePolicyPage = () => {
             status
         }
         try {
-            const response = await axiosAuth.get('/orders_export', {
+            const response = await axiosAuth.get('/second/orders_export', {
                 params,
                 responseType: "blob",
             });

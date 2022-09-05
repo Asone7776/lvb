@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import { formatPrice } from "../ functions";
 Modal.setAppElement('#root');
 const CustomCardSafeModal = ({ modalIsOpen, onClose, onSaveClick, onDelete, policeData }) => {
-    console.log(policeData);
     return (
         <div>
             <Modal

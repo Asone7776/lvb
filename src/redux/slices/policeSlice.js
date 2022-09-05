@@ -48,6 +48,9 @@ export const policeSlice = createSlice({
         resetSavedData: (state) => {
             state.savedPolicy = initialState.savedPolicy;
         },
+        resetUpdatedData: (state) => {
+            state.updatedPolicy = initialState.updatedPolicy;
+        },
     },
     extraReducers: (builder) => {
         //Calculate policy
@@ -164,6 +167,6 @@ export const policeSlice = createSlice({
     },
 })
 
-export const { passPreFormData, resetCalculatePolicy, saveEditData, resetEditData, resetSavedData } = policeSlice.actions;
+export const { passPreFormData, resetCalculatePolicy, saveEditData, resetEditData, resetSavedData, resetUpdatedData } = policeSlice.actions;
 
 export default policeSlice.reducer;

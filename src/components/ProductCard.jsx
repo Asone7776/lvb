@@ -9,13 +9,20 @@ const ProductCard = ({ item }) => {
                         <item.icon />
                     </div>
                     <h5>{item.subTitle}</h5>
-                    <h4>{item.title}</h4>
+                    <h4 dangerouslySetInnerHTML={{ __html: item.title }}></h4>
                     <p>{item.content}</p>
                 </div>
                 <div className="bottom">
-                    <Link to={item.link}>
-                        <button className="btn btn-primary">Оформить</button>
-                    </Link>
+                    {item.external ? (
+                        <a href={item.link} target='_blank'>
+                            <button className="btn btn-primary">Оформить</button>
+                        </a>
+                    ) : (
+                        <Link to={item.link}>
+                            <button className="btn btn-primary">Оформить</button>
+                        </Link>
+                    )}
+
                 </div>
             </div>
         </div>

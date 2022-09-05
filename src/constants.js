@@ -1,6 +1,6 @@
 import InvalidIcon from './components/Icons/InvalidIcon'
 import CardHolderIcon from './components/Icons/CardHolderIcon'
-// import ProtectionIcon from './components/Icons/ProtectionIcon'
+import ProtectionIcon from './components/Icons/ProtectionIcon'
 export const companiesOptions = [
     { value: 'ООО', label: 'ООО' },
     { value: 'ИП', label: 'ИП' },
@@ -22,21 +22,26 @@ export const InsuranceProducts = [
         subTitle: 'Полис страхования',
         title: 'Страхование от несчастных случаев',
         content: 'Страхования заемщиков кредитов от несчастных случаев и болезней',
-        link: '/admin/accident'
+        link: '/admin/accident',
+        external: false,
     },
     {
         icon: CardHolderIcon,
         subTitle: 'Полис страхования',
         title: 'Карточный сейф',
         content: 'Страхование банковских карт',
-        link: '/admin/cardsafe'
+        link: '/admin/cardsafe',
+        external: false,
     },
-    // {
-    //     icon: ProtectionIcon,
-    //     subTitle: 'Полис страхования',
-    //     title: 'Защита бизнеса Стандарт',
-    //     content: 'Комплексное страхование имущества ЮЛ Индивидуальный расчет'
-    // },
+    {
+        icon: ProtectionIcon,
+        subTitle: 'Полис страхования',
+        title: 'Защита бизнеса<br/>Пакеты',
+        content: 'Комплексное страхование имущества ЮЛ. Коробочные решения',
+        secondContent:'Коробочные решения',
+        link: 'https://vskcorp.ru/shield',
+        external: true,
+    },
 ];
 export const dashboardPathNames = [
     '/admin',

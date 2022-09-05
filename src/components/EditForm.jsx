@@ -12,6 +12,7 @@ import { options, maleOptions } from '../constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { updateAccidentPolicy } from '../redux/actions/policeActions';
+import { resetEditData, resetUpdatedData } from '../redux/slices/policeSlice';
 const EditForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
@@ -35,6 +36,9 @@ const EditForm = () => {
     useEffect(() => {
         if (!editData) {
             navigate('/admin');
+        }
+        return () => {
+            dispatch(resetUpdatedData());
         }
     }, []);
 
@@ -71,8 +75,8 @@ const EditForm = () => {
     };
     const sendData = async (data) => {
         dispatch(updateAccidentPolicy({
-            orderId,
             ...data,
+            orderId,
             limit: editData ? editData.limit : null,
             'case-0': editData ? editData['case-0'] : null,
             'case-1': editData ? editData['case-1'] : null,

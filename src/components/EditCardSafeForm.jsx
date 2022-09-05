@@ -11,7 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { updateCardSafePolicy } from '../redux/actions/policeActions';
 import InputRange from './InputRange';
-import { resetSavedData } from '../redux/slices/policeSlice';
+import { resetEditData, resetSavedData, resetUpdatedData } from '../redux/slices/policeSlice';
 import CustomCardSafeModal from './CustomCardSafeModal';
 const EditCardSafeForm = () => {
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ const EditCardSafeForm = () => {
     const editData = useSelector(state => state.police.editPolice);
     const updatedPolicy = useSelector(state => state.police.updatedPolicy);
     const [modalIsOpen, setIsOpen] = useState(false);
-
+    console.log(editData);
     const defaultValues = editData ? {
         ...editData,
         legal_type: { value: editData.legal_type, label: editData.legal_type },
@@ -43,7 +43,7 @@ const EditCardSafeForm = () => {
 
     useEffect(() => {
         return () => {
-            dispatch(resetSavedData());
+            dispatch(resetUpdatedData());
         }
     }, []);
     useEffect(() => {

@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { saveCardSafePolicy } from '../redux/actions/policeActions';
 import InputRange from './InputRange';
+import InputRangeSteps from './InputRangeSteps';
 import { resetSavedData } from '../redux/slices/policeSlice';
 import CustomCardSafeModal from './CustomCardSafeModal';
 const CreateCardSafeForm = () => {
@@ -110,13 +111,14 @@ const CreateCardSafeForm = () => {
                             <div className="card-body">
                                 <div className="form-group">
                                     <h5>Страховая сумма (рубли)</h5>
-                                    <InputRange
+                                    <InputRangeSteps
                                         withInput={false}
                                         step={'200000'}
                                         suffix={''}
                                         needToFormat={true}
                                         defaultValue={sumValue}
                                         min={400000}
+                                        middle={600000}
                                         max={800000}
                                         onChangeValue={(value) => { setValue('sum', value ? value : 400000) }}
                                     />
