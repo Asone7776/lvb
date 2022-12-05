@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { formatPrice } from '../ functions';
+import { formatPrice } from '../functions';
 
 const InputRangeSteps = ({ middle, onChangeValue, suffix, needToFormat, min, max, defaultValue, step }) => {
     const [currentValue, setCurrentValue] = useState(defaultValue);

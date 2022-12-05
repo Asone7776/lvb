@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { Link } from "react-router-dom";
-import { formatPrice } from "../ functions";
+import { formatPrice } from "../functions";
 import Spinner from "./Spinner";
 const InfoCard = ({ allFields, complete, onSubmit, price, loading, success,linkToCreate }) => {
     const [risk, setRisk] = useState('Смерть');

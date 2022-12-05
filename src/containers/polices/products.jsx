@@ -12,7 +12,7 @@ const Products = () => {
                         </div>
                         <div className="row">
                             {InsuranceProducts && InsuranceProducts.map((item, index) => (
-                                <div className="col-4" key={index}>
+                                <div className="col-4" style={{ marginBottom: 30 }} key={index}>
                                     <ProductCard item={item} />
                                 </div>
                             ))}

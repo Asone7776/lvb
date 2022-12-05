@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from 'react-modal';
-import { formatPrice } from "../ functions";
+import { formatPrice } from "../functions";
 Modal.setAppElement('#root');
 const CustomModal = ({ modalIsOpen, onClose, onSaveClick, onDelete, policeData }) => {
 

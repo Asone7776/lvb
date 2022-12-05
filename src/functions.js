@@ -1,8 +1,24 @@
 import moment from "moment";
+
+export const minPattern = (val = 10) => {
+    return {
+        value: val,
+        message: `Минимальная длина ${val}`
+    }
+};
+
+export const maxPattern = (val = 10) => {
+    return {
+        value: val,
+        message: `Максимальная длина ${val}`
+    }
+};
+
 export const requiredPattern = {
     value: true,
     message: "Поле обязательно для заполнения"
 };
+
 export const emailPattern = {
     value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     message: 'Введите корректный e-mail'
@@ -109,3 +125,7 @@ export const downloadFile = (url, filename) => {
     downloadLink.click();
     document.body.removeChild(downloadLink);
 };
+
+export const prepareOrgName = (prefix, name) => {
+    return `${prefix} ${name}`;
+}

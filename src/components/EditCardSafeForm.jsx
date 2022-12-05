@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import ParentCreateSelect from './ParentCreateSelect';
 import InfoCardSafeCreate from './InfoCardSafeCreate';
 import NumberFormat from 'react-number-format';
-import { emailPattern, requiredPattern } from '../ functions';
+import { emailPattern, requiredPattern } from '../functions';
 import { successNotify, failureNotify } from '../notifications';
 import { useDispatch } from 'react-redux';
 import { axiosAuth } from '../axios-instances';

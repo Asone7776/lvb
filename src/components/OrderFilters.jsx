@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FilterSelect from "./FilterSelect";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { withDebounce } from '../ functions';
+import { withDebounce } from '../functions';
 import { setDefaultLocale } from "react-datepicker";
 import ru from 'date-fns/locale/ru';
 import Spinner from '../components/Spinner';

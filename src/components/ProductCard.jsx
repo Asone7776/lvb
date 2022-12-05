@@ -1,6 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { saveItem } from '../redux/slices/safeSlice';
+import { useNavigate } from 'react-router-dom';
+import { tariffs } from '../constants';
 const ProductCard = ({ item }) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const saveSafeItem = () => {
+        if (item.orderNo != null) {
+            dispatch(saveItem(tariffs[item.orderNo]));
+            navigate('/admin/calculate');
+        }
+        if (item.link) {
+            if (item.external) {
+                window.open(item.link, '_blank');
+            } else {
+                navigate(item.link);
+            }
+        }
+    }
     return (
         <div className="card product-card">
             <div className="card-body">
@@ -13,16 +32,7 @@ const ProductCard = ({ item }) => {
                     <p>{item.content}</p>
                 </div>
                 <div className="bottom">
-                    {item.external ? (
-                        <a href={item.link} target='_blank'>
-                            <button className="btn btn-primary">Оформить</button>
-                        </a>
-                    ) : (
-                        <Link to={item.link}>
-                            <button className="btn btn-primary">Оформить</button>
-                        </Link>
-                    )}
-
+                    <button className="btn btn-primary" onClick={saveSafeItem}>Оформить</button>
                 </div>
             </div>
         </div>

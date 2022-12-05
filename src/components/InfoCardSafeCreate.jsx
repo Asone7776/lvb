@@ -1,6 +1,6 @@
 import React from "react";
 import cn from "classnames";
-import { formatPrice } from "../ functions";
+import { formatPrice } from "../functions";
 import Spinner from "./Spinner";
 const InfoCardCreate = ({ loading, data, complete }) => {
     return (

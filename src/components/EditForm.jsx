@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import ParentSelect from './ParentSelect';
 import InfoCardCreate from './InfoCardCreate';
 import NumberFormat from 'react-number-format';
-import { emailPattern, requiredPattern } from '../ functions';
+import { emailPattern, requiredPattern } from '../functions';
 import { successNotify, failureNotify } from '../notifications';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomModal from './CustomModal';

@@ -3,8 +3,9 @@ import BackIcon from './Icons/BackIcon'
 const TopInfo = ({ title, titleNew = 'Сохранить', onNewPressed, onCancelPressed, onBackPressed }) => {
     return (
         <div className="row info-top-header">
-            {!onNewPressed && !onCancelPressed ? (
+            {!onNewPressed && !onCancelPressed && !onBackPressed ? (
                 <div className="col-12">
+                    
                     <h3 className="default-heading">
                         {title}
                     </h3>

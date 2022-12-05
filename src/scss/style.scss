@@ -747,8 +747,8 @@ p {
     padding-bottom: rem(60);
     &.list-wrapper {
         .info-top-header {
-            .back-btn{
-                border:none;
+            .back-btn {
+                border: none;
                 background-color: transparent;
                 margin-right: rem(20);
             }
@@ -1109,8 +1109,8 @@ p {
         //     z-index: 200;
         // }
     }
-    &.dashboard-filters{
-        h3{
+    &.dashboard-filters {
+        h3 {
             font-size: rem(24);
         }
     }
@@ -1160,6 +1160,113 @@ p {
     border-left-color: rgb(206, 212, 218);
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.calculate-form {
+    .with-checkbox {
+        display: flex;
+        justify-content: space-between;
+        h4 {
+            font-size: rem(18);
+            padding-left: rem(40);
+        }
+        .summ {
+            font-size: rem(14);
+        }
+    }
+}
+
+.content {
+    .top-heading {
+        margin-bottom: rem(30);
+        h3 {
+            color: $black;
+        }
+    }
+    h3 {
+        margin-bottom: rem(5);
+    }
+}
+
+.info-item {
+    a {
+        word-break: break-word;
+    }
+    h4 {
+        font-size: rem(14);
+        margin-bottom: rem(10);
+    }
+    span {
+        font-size: rem(12);
+        color: rgba($black, 0.5);
+        margin-bottom: rem(8);
+        display: block;
+    }
+    h3 {
+        font-size: rem(16);
+        margin-bottom: rem(10);
+    }
+}
+
+.tariff-card {
+    padding: rem(20);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: rem(30);
+    border: none;
+    h3 {
+        font-size: rem(20);
+        margin-bottom: rem(15);
+    }
+    h4 {
+        font-size: rem(16);
+        margin-bottom: rem(10);
+    }
+
+    .risks {
+        ul {
+            list-style-type: none;
+            li {
+                display: flex;
+                margin-bottom: rem(5);
+                align-items: center;
+                .risk-icon {
+                    padding-right: rem(5);
+                }
+                p {
+                    margin-bottom: 0;
+                    line-height: rem(18);
+                    font: {
+                        size: rem(12);
+                    }
+                }
+            }
+        }
+    }
+    .price {
+        h5 {
+            font-size: rem(12);
+            margin-bottom: rem(5);
+            color: $black;
+        }
+        font-size: rem(24);
+        margin-bottom: rem(20);
+    }
+}
+.franshize {
+    margin-top: rem(30);
+    .card {
+        border: none;
+        padding: rem(20);
+        h3 {
+            margin-bottom: rem(10);
+            font-size: rem(20);
+        }
+        p {
+            line-height: rem(24);
+            margin-bottom: 0;
+        }
+    }
 }
 @import "products";
 @import "dashboard-navigation";

@@ -152,3 +152,57 @@ export const updateCardSafePolicy = createAsyncThunk(
         }
     }
 );
+
+
+export const calculateDvPolicy = createAsyncThunk(
+    "police/calculateDvPolicy",
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await axiosAuth.post('third/calculate', data);
+            successNotify('Успешно');
+            return response.data.data;
+        } catch (error) {
+            if (error.response.data && error.response.data.errors) {
+                failureNotify(error.response.data.errors);
+                return rejectWithValue(error.response.data.errors);
+            }
+            return rejectWithValue(error);
+        }
+    }
+);
+
+
+export const savePolicy = createAsyncThunk(
+    "police/saveDVPolicy",
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await axiosAuth.post('third/save_policy', data);
+            successNotify('Успешно');
+            return response.data.data;
+        } catch (error) {
+            if (error.response.data && error.response.data.errors) {
+                failureNotify(error.response.data.errors);
+                return rejectWithValue(error.response.data.errors);
+            }
+            return rejectWithValue(error);
+        }
+    }
+);
+
+export const updatePolicy = createAsyncThunk(
+    "police/updateDVPolicy",
+    async (data, { rejectWithValue }) => {
+        const { id, ...fields } = data;
+        try {
+            const response = await axiosAuth.post(`third/update_policy/${id}`, fields);
+            successNotify('Успешно обновлено');
+            return response.data.data;
+        } catch (error) {
+            if (error.response.data && error.response.data.errors) {
+                failureNotify(error.response.data.errors);
+                return rejectWithValue(error.response.data.errors);
+            }
+            return rejectWithValue(error);
+        }
+    }
+);

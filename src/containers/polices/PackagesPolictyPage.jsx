@@ -4,7 +4,7 @@ import NoDocument from "../../components/NoDocument";
 import { useNavigate } from "react-router-dom";
 import Accordion from "../../components/Accordion";
 import TopInfo from "../../components/TopInfo";
-import { getSecondOrders } from "../../redux/actions/orderActions";
+import { getThirdOrders } from "../../redux/actions/orderActions";
 import { useDispatch, useSelector } from "react-redux";
 import OrderFilters from '../../components/OrderFilters';
 import { getUsers } from "../../redux/actions/usersActions";
@@ -13,7 +13,7 @@ import { resetStatus } from '../../redux/slices/orderSlice';
 import { axiosAuth } from "../../axios-instances";
 import { failureNotify, successNotify } from "../../notifications";
 import { downloadFile } from "../../functions";
-const CardSafePolicyPage = () => {
+const PackagesPolicyPage = () => {
     const dispatch = useDispatch();
     const orders = useSelector((state) => state.orders);
     const users = useSelector((state) => state.users);
@@ -24,7 +24,7 @@ const CardSafePolicyPage = () => {
         page: 1
     });
     useEffect(() => {
-        dispatch(getSecondOrders(filterProps));
+        dispatch(getThirdOrders(filterProps));
     }, [filterProps, orders.changeStatus.success]);
 
     useEffect(() => {
@@ -70,7 +70,7 @@ const CardSafePolicyPage = () => {
             status
         }
         try {
-            const response = await axiosAuth.get('/second/orders_export', {
+            const response = await axiosAuth.get('/third/orders_export', {
                 params,
                 responseType: "blob",
             });
@@ -103,10 +103,10 @@ const CardSafePolicyPage = () => {
                 <div className="container">
                     <div className="row d-flex justify-content-center">
                         <div className="col-9">
-                            <TopInfo title={"Карточный сейф"} titleNew={'Создать новый'} onBackPressed={() => {
+                            <TopInfo title={"Защита бизнеса. Пакеты"} titleNew={'Создать новый'} onBackPressed={() => {
                                 navigate('/admin');
                             }} onNewPressed={() => {
-                                navigate('/admin/create-cardsafe');
+                                navigate('/admin/packages-list');
                             }} />
                             <OrderFilters users={users} onFilterChange={onTopFiltersChange} onDateRange={onDateRange} onExport={getExcelData} excelLoading={excelLoading} />
                             <Accordion loading={orders.loading} list={orders.data.data} />
@@ -121,4 +121,4 @@ const CardSafePolicyPage = () => {
     );
 }
 
-export default CardSafePolicyPage;
+export default PackagesPolicyPage;

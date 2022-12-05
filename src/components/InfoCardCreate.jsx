@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
-import { formatPrice } from "../ functions";
+import { formatPrice } from "../functions";
 import Spinner from "./Spinner";
 const InfoCardCreate = ({ holder, loading, data, complete }) => {
     const [risk, setRisk] = useState('Смерть');

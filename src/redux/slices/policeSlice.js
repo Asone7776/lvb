@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { calculatePolicy, saveAccidentPolicy, updateAccidentPolicy, saveCardSafePolicy, updateCardSafePolicy } from '../actions/policeActions';
+import { calculatePolicy, saveAccidentPolicy, updateAccidentPolicy, saveCardSafePolicy, updateCardSafePolicy, calculateDvPolicy, savePolicy, updatePolicy } from '../actions/policeActions';
 import { maleOptions, options } from '../../constants';
 const initialState = {
     preFormData: null,
@@ -18,7 +18,25 @@ const initialState = {
         data: null,
         error: null
     },
-    editPolice: null
+    editPolice: null,
+    // From DV Bank
+    calculatedPolicy: {
+        loading: false,
+        data: null,
+        error: null
+    },
+    savedDvPolicy: {
+        loading: false,
+        data: null,
+        error: null,
+        success: false
+    },
+    updatedDvPolicy: {
+        loading: false,
+        error: null,
+        success: false
+    },
+    holdedPolice: null,
 }
 
 export const policeSlice = createSlice({
@@ -51,6 +69,30 @@ export const policeSlice = createSlice({
         resetUpdatedData: (state) => {
             state.updatedPolicy = initialState.updatedPolicy;
         },
+        // From DV Bank
+        holdPolice: (state, action) => {
+            state.holdedPolice = action.payload;
+        },
+        resetCalculatedPolicy: (state) => {
+            state.calculatedPolicy.loading = false;
+            state.calculatedPolicy.data = null;
+            state.calculatedPolicy.error = null;
+        },
+        resetSaveSuccess: (state) => {
+            state.savedDvPolicy.success = false;
+        },
+        resetSavedDVPolicy: (state) => {
+            state.savedDvPolicy.loading = false;
+            state.savedDvPolicy.data = null;
+            state.savedDvPolicy.error = null;
+            state.savedDvPolicy.success = false;
+        },
+        resetUpdateDVPolicy: (state) => {
+            state.updatedDvPolicy.loading = false;
+            state.updatedDvPolicy.success = false;
+            state.updatedDvPolicy.error = null;
+        },
+
     },
     extraReducers: (builder) => {
         //Calculate policy
@@ -164,9 +206,63 @@ export const policeSlice = createSlice({
                 error: action.payload,
             }
         })
+        // calculate
+        builder.addCase(calculateDvPolicy.pending, (state) => {
+            state.calculatedPolicy.loading = true;
+            state.calculatedPolicy.error = null;
+        })
+        builder.addCase(calculateDvPolicy.fulfilled, (state, action) => {
+            state.calculatedPolicy.loading = false;
+            state.calculatedPolicy.data = action.payload;
+            state.calculatedPolicy.error = null;
+        })
+        builder.addCase(calculateDvPolicy.rejected, (state, action) => {
+            state.calculatedPolicy.loading = false;
+            state.calculatedPolicy.error = action.payload;
+            state.calculatedPolicy.data = null;
+        })
+        // Create
+        builder.addCase(savePolicy.pending, (state) => {
+            state.savedDvPolicy.loading = true;
+            state.savedDvPolicy.data = null;
+            state.savedDvPolicy.error = null;
+            state.savedDvPolicy.success = false;
+        })
+        builder.addCase(savePolicy.fulfilled, (state, action) => {
+            state.savedDvPolicy.loading = false;
+            state.savedDvPolicy.data = action.payload;
+            state.savedDvPolicy.error = null;
+            state.savedDvPolicy.success = true;
+        })
+        builder.addCase(savePolicy.rejected, (state, action) => {
+            state.savedDvPolicy.loading = false;
+            state.savedDvPolicy.data = null;
+            state.savedDvPolicy.error = action.payload;
+            state.savedDvPolicy.success = false;
+        })
+        // Update
+        builder.addCase(updatePolicy.pending, (state) => {
+            state.updatedDvPolicy.loading = true;
+            state.updatedDvPolicy.error = null;
+            state.updatedDvPolicy.success = false;
+        })
+        builder.addCase(updatePolicy.fulfilled, (state, action) => {
+            state.updatedDvPolicy.loading = false;
+            state.updatedDvPolicy.success = true;
+            state.updatedDvPolicy.error = null;
+            state.savedDvPolicy.loading = false;
+            state.savedDvPolicy.data = action.payload;
+            state.savedDvPolicy.error = null;
+            state.savedDvPolicy.success = true;
+        })
+        builder.addCase(updatePolicy.rejected, (state, action) => {
+            state.updatedDvPolicy.loading = false;
+            state.updatedDvPolicy.error = action.payload;
+            state.updatedDvPolicy.success = false;
+        })
     },
 })
 
-export const { passPreFormData, resetCalculatePolicy, saveEditData, resetEditData, resetSavedData, resetUpdatedData } = policeSlice.actions;
+export const { passPreFormData, resetCalculatePolicy, saveEditData, resetEditData, resetSavedData, resetUpdatedData, resetCalculatedPolicy, resetSaveSuccess, resetSavedDVPolicy, resetUpdateDVPolicy, holdPolice } = policeSlice.actions;
 
 export default policeSlice.reducer;

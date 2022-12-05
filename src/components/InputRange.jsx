@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useState } from 'react';
-import { formatPrice } from '../ functions';
+import { formatPrice } from '../functions';
 import InputNumber from 'rc-input-number';
 
 const InputRange = ({ withInput = false, onChangeValue, suffix, needToFormat, min, max, defaultValue, step, ...rest }) => {

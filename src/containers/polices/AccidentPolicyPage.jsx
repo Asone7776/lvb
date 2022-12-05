@@ -12,7 +12,7 @@ import OrdersPagination from "../../components/OrdersPagination";
 import { resetStatus } from '../../redux/slices/orderSlice';
 import { axiosAuth } from "../../axios-instances";
 import { failureNotify, successNotify } from "../../notifications";
-import { downloadFile } from "../../ functions";
+import { downloadFile } from "../../functions";
 const AccidentPolicyPage = () => {
     const dispatch = useDispatch();
     const orders = useSelector((state) => state.orders);

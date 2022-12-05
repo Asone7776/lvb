@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getFirstOrders, getSecondOrders, changeStatus } from '../actions/orderActions';
+import { getFirstOrders, getSecondOrders, changeStatus, getThirdOrders } from '../actions/orderActions';
 const ordersSlice = createSlice({
     name: 'orders',
     initialState: {
@@ -72,6 +72,21 @@ const ordersSlice = createSlice({
                 success: false,
                 error: action.payload
             }
+        })
+        builder.addCase(getThirdOrders.pending, (state) => {
+            state.loading = true;
+            state.data = [];
+            state.error = null;
+        })
+        builder.addCase(getThirdOrders.fulfilled, (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+            state.error = null;
+        })
+        builder.addCase(getThirdOrders.rejected, (state, action) => {
+            state.loading = false;
+            state.data = [];
+            state.error = action.payload;
         })
     }
 });

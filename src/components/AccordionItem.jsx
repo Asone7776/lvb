@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import cn from "classnames";
-import { formatPrice, formatDate, getStatusName } from "../ functions";
+import { formatPrice, formatDate, getStatusName } from "../functions";
 import { saveEditData } from "../redux/slices/policeSlice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";

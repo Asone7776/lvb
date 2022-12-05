@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { requiredPattern, emailPattern } from "../ functions";
+import { requiredPattern, emailPattern } from "../functions";
 import { login } from '../redux/actions/userActions';
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "js-cookie";
