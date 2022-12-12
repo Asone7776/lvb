@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import cn from "classnames";
 import { formatPrice, formatDate, getStatusName } from "../functions";
-import { saveEditData } from "../redux/slices/policeSlice";
+import { saveEditData, holdPolice } from "../redux/slices/policeSlice";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 const AccordionItem = ({ item, onStatusChange }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -36,10 +37,15 @@ const AccordionItem = ({ item, onStatusChange }) => {
             policy_number: item.policy_number,
             ...item.form
         }));
-        if(item.form_type === null){
+        dispatch(holdPolice(item));
+        if (item.form_type === null) {
             navigate(`/admin/edit-accident/${item.id}`);
-        }else{
+        }
+        if (item.form_type === 1) {
             navigate(`/admin/edit-cardsafe/${item.id}`);
+        }
+        if (item.form_type === 2) {
+            navigate(`/admin/edit-dv/${item.id}`);
         }
     }
     return (

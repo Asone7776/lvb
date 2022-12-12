@@ -14,7 +14,7 @@ const TariffCard = ({ tariff, onSelect }) => {
                 <h3>{tariff.tariffName}</h3>
                 <div className="divider"></div>
                 <div className="risks">
-                    <h4>Риски</h4>
+                    <h4>Объекты страхования</h4>
                     <ul>
                         {tariff.risks && tariff.risks.map((risk, index) => (
                             <li className='risk-item' key={`risk-${index}`}>

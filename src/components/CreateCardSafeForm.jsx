@@ -3,14 +3,13 @@ import { useForm, Controller } from "react-hook-form";
 import ParentCreateSelect from './ParentCreateSelect';
 import InfoCardSafeCreate from './InfoCardSafeCreate';
 import NumberFormat from 'react-number-format';
-import { emailPattern, requiredPattern } from '../functions';
+import { emailPattern, requiredPattern, minPattern, maxPattern } from '../functions';
 import { successNotify, failureNotify } from '../notifications';
 import { useDispatch } from 'react-redux';
 import { axiosAuth } from '../axios-instances';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { saveCardSafePolicy } from '../redux/actions/policeActions';
-import InputRange from './InputRange';
 import InputRangeSteps from './InputRangeSteps';
 import { resetSavedData } from '../redux/slices/policeSlice';
 import CustomCardSafeModal from './CustomCardSafeModal';
@@ -22,6 +21,7 @@ const CreateCardSafeForm = () => {
     const [companyOptions, setCompanyOptions] = useState([
         { value: 'OOO', label: 'OOO' },
         { value: 'AO', label: 'AO' },
+        { value: 'IP', label: 'ИП' },
     ]);
 
     const { control, setValue, watch, register, handleSubmit, formState: { errors } } = useForm({
@@ -49,6 +49,7 @@ const CreateCardSafeForm = () => {
 
     const allFields = watch();
     const prefix = watch(['legal_type']);
+    const currentType = prefix && prefix[0] && prefix[0].value;
     useEffect(() => {
         if (prefix[0] && prefix[0].__isNew__) {
             setCompanyOptions((prevState) => {
@@ -157,15 +158,12 @@ const CreateCardSafeForm = () => {
                                     <div className="col-6">
                                         <div className="form-group">
                                             <input className='form-control' type="text" placeholder='ИНН' {...register('inn', {
-                                                required: requiredPattern,
+                                                required: currentType === "IP" ? false : requiredPattern,
                                                 minLength: {
                                                     value: 10,
                                                     message: 'Минимальная длина 10'
                                                 },
-                                                maxLength: {
-                                                    value: 10,
-                                                    message: 'Максимальная длина 10'
-                                                }
+                                                maxLength: currentType === "IP" ? maxPattern(12) : maxPattern(10)
                                             })} />
                                             {errors.inn && <span className="error-message">{errors.inn.message}</span>}
                                         </div>
@@ -173,15 +171,9 @@ const CreateCardSafeForm = () => {
                                     <div className="col-6">
                                         <div className="form-group">
                                             <input className='form-control' type="text" placeholder='КПП' {...register('kpp', {
-                                                required: requiredPattern,
-                                                minLength: {
-                                                    value: 9,
-                                                    message: 'Минимальная длина 9'
-                                                },
-                                                maxLength: {
-                                                    value: 9,
-                                                    message: 'Максимальная длина 9'
-                                                }
+                                                required: currentType === "IP" ? false : requiredPattern,
+                                                minLength: minPattern(9),
+                                                maxLength: maxPattern(12)
                                             })} />
                                             {errors.kpp && <span className="error-message">{errors.kpp.message}</span>}
                                         </div>

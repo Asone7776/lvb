@@ -21,14 +21,14 @@ const CompletePolice = () => {
     const sendToInsurer = async () => {
         setSendLoading(true);
         try {
-            const response = await axiosAuth.get(`third/orders_send/${police.data.order.id}`);
+            const response = await axiosAuth.get(`third/orders/send/${police.data.order.id}`);
             successNotify(response.data.data);
             setSendLoading(false);
             dispatch(resetSavedDVPolicy());
             navigate('/admin');
         } catch (error) {
             setSendLoading(false);
-            dispatch(resetSavedDVPolicy());
+            // dispatch(resetSavedDVPolicy());
             if (error.response.data && error.response.data.errors) {
                 failureNotify(error.response.data.errors);
             }
@@ -40,16 +40,11 @@ const CompletePolice = () => {
             const response = await axiosAuth.delete(`third/orders/${police.data.order.id}`);
             successNotify(response.data.data);
             setCancelLoading(false);
-            dispatch(resetSavedDVPolicy());
         } catch (error) {
             setCancelLoading(false);
-            dispatch(resetSavedDVPolicy());
             if (error.response.data && error.response.data.errors) {
                 failureNotify(error.response.data.errors);
             }
-        }
-        finally{
-            navigate('/admin');
         }
     }
     const editOrder = async () => {
@@ -57,9 +52,9 @@ const CompletePolice = () => {
         navigate(`/admin/edit-dv/${police.data?.order.id}`);
     }
     useEffect(() => {
-        // if (!police.data || !safe) {
-        //     navigate('/admin');
-        // }
+        if (!police.data || !safe) {
+            navigate('/admin');
+        }
         return () => {
             dispatch(resetSavedDVPolicy());
             dispatch(resetUpdateDVPolicy());
@@ -121,14 +116,14 @@ const CompletePolice = () => {
                                         </button>
                                     </div>
                                     <div className="col-6">
-                                        <button onClick={sendToInsurer} className={cn('btn btn-primary w-100', { 'loading': sendLoading })}>
+                                        <button onClick={sendToInsurer} style={{ height: '100%' }} className={cn('btn btn-primary w-100', { 'loading': sendLoading })}>
                                             {sendLoading ? (
                                                 <Spinner />
                                             ) : 'Отправить страхователю'}
                                         </button>
                                     </div>
                                     <div className="col-6 mt-4">
-                                        <button className={cn('btn btn-primary-transparent w-100', { 'loading': cancelLoading })} onClick={cancelOrder}>
+                                        <button className={cn('btn btn-primary-transparent w-100', { 'loading': cancelLoading })} onClick={cancelOrder} style={{ height: '100%' }}>
                                             {cancelLoading ? (
                                                 <Spinner />
                                             ) : 'Отменить'}

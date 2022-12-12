@@ -39,6 +39,14 @@ export const InsuranceProducts = [
         subTitle: 'Полис страхования',
         title: 'Защита бизнеса<br/>Пакеты',
         content: 'Комплексное страхование имущества ЮЛ. Коробочные решения',
+        link: '/admin/packages',
+        external: false,
+    },
+    {
+        icon: ProtectionIcon,
+        subTitle: 'Полис страхования',
+        title: 'Защита бизнеса Стандарт',
+        content: 'Комплексное страхование имущества ЮЛ Индивидуальный расчет',
         secondContent: 'Коробочные решения',
         link: 'https://vskcorp.ru/shield',
         external: true,
@@ -51,14 +59,7 @@ export const InsuranceProducts = [
     //     link: '/admin/calculate',
     //     external: false,
     // },
-    {
-        icon: ProtectionIcon,
-        subTitle: 'Полис страхования',
-        title: 'Защита бизнеса Стандарт',
-        content: 'Комплексное страхование имущества ЮЛ Индивидуальный расчет',
-        link: '/admin/packages',
-        external: false,
-    },
+ 
 ];
 export const dashboardPathNames = [
     '/admin',

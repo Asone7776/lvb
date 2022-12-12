@@ -375,7 +375,7 @@ const EditDVForm = () => {
                         </div>
                     </div>
                     <div className="col-4">
-                    <InfoCardCreateDV submitTitle='Обновить полис' organization_name={prepareOrgName('', full_name[0] ? full_name[0] : '')} data={cardData} premium={editFormData && editFormData.amount ? Number(editFormData.amount) : undefined} loading={police.loading} />
+                        <InfoCardCreateDV submitTitle='Обновить полис' organization_name={prepareOrgName('', full_name[0] ? full_name[0] : '')} data={cardData} premium={editFormData && editFormData.amount ? Number(editFormData.amount) : undefined} loading={police.loading} />
                     </div>
                 </div>
             </form >
