@@ -4,7 +4,6 @@ import { formatPrice } from '../functions';
 
 
 const TariffCard = ({ tariff, onSelect }) => {
-    console.log(tariff);
     const onSelectTariff = () => {
         onSelect(tariff);
     }
@@ -23,6 +22,9 @@ const TariffCard = ({ tariff, onSelect }) => {
                                 </div>
                                 <p>
                                     {risk.name}
+                                    <div className="risk-price">
+                                        {risk.price}
+                                    </div>
                                 </p>
                             </li>
                         ))}

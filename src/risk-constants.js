@@ -61,5 +61,6 @@ export const RISKS_DESCRIPTIONS = {
     BUSINESS_PROTECTION_CONSTRUCTIVE: 'Конструктивные элементы',
     BUSINESS_PROTECTION_PP: "Движимое имущество",
     INTERRUPTION_DESC: 'Убытки от перерыва в деятельности',
+    INTERRUPTION: 'Убытки от перерыва в деятельности',
     CIVIL_LIABILITY: 'Гражданская ответственность'
 }

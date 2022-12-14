@@ -449,7 +449,7 @@ const CreateAccidentForm = () => {
                                                 },
                                                 validate: {
                                                     positive: value => new Date().getFullYear() - value >= 18 || 'Возраст должен быть больше 18',
-                                                    lessThan: value => (new Date().getFullYear() - value) + +(preData.term / 12).toFixed(2) <= 65 || 'Возраст должен быть меньше 65',
+                                                    lessThan: value => (new Date().getFullYear() - value) + +(preData.term / 12).toFixed(2) <= 70 || 'Возраст должен быть меньше 70',
                                                 }
                                             })} />
                                             {errors.birthday_year && <span className="error-message">{errors.birthday_year.message}</span>}

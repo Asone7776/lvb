@@ -4,8 +4,9 @@ import { formatPrice, formatDate, getStatusName } from "../functions";
 import { saveEditData, holdPolice } from "../redux/slices/policeSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RISKS_DESCRIPTIONS } from "../risk-constants";
 
-const AccordionItem = ({ item, onStatusChange }) => {
+const AccordionItem = ({ isDv = false, item, onStatusChange }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [active, setActive] = useState(false);
@@ -56,15 +57,22 @@ const AccordionItem = ({ item, onStatusChange }) => {
                         <div className="col id">
                             {item.policy_number}
                         </div>
-                        {item.form_type === null ? (
+                        {isDv ? (
                             <div className="col col-3 risk text-right">
-                                {risk}
+                                Пакет
                             </div>
                         ) : (
-                            <div className="col col-3 risk text-right">
-                                {item.limit_amount ? `${formatPrice(item.limit_amount)}₽` : null}
-                            </div>
+                            item.form_type === null ? (
+                                <div className="col col-3 risk text-right">
+                                    {risk}
+                                </div>
+                            ) : (
+                                <div className="col col-3 risk text-right">
+                                    {item.limit_amount ? `${formatPrice(item.limit_amount)}₽` : null}
+                                </div>
+                            )
                         )}
+
                         <div className="col col-2 date text-center">
                             {item.created_at ? formatDate(item.created_at) : null}
                         </div>
@@ -181,6 +189,18 @@ const AccordionItem = ({ item, onStatusChange }) => {
                         </>
                     ) : (
                         <>
+                            {isDv ? (
+                                <div className="row">
+                                    {item && item.options.map((coverage, index) => (
+                                        <div className={index === 0 ? 'col-5' : index === 1 ? 'col-4' : 'col-3'} key={`options-${index}`} style={{ marginBottom: 10 }}>
+                                            <div className="item">
+                                                <div className="sub-heading">{RISKS_DESCRIPTIONS[coverage.code]}</div>
+                                                {coverage.sum ? `${formatPrice(coverage.sum)}₽` : null}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : null}
                             <div className="row">
                                 <div className="col-5">
                                     <div className="item">
@@ -188,12 +208,14 @@ const AccordionItem = ({ item, onStatusChange }) => {
                                         {item.amount ? `${formatPrice(item.amount)}₽` : null}
                                     </div>
                                 </div>
-                                <div className="col-4">
-                                    <div className="item">
-                                        <div className="sub-heading">Сумма страхования</div>
-                                        {item.limit_amount ? `${formatPrice(item.limit_amount)}₽` : null}
+                                {!isDv ? (
+                                    <div className="col-4">
+                                        <div className="item">
+                                            <div className="sub-heading">Сумма страхования</div>
+                                            {item.limit_amount ? `${formatPrice(item.limit_amount)}₽` : null}
+                                        </div>
                                     </div>
-                                </div>
+                                ) : null}
                                 <div className="col-3">
                                     <div className="item">
                                         <div className="sub-heading">Страхователь</div>

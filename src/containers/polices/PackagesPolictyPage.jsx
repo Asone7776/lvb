@@ -109,7 +109,7 @@ const PackagesPolicyPage = () => {
                                 navigate('/admin/packages-list');
                             }} />
                             <OrderFilters users={users} onFilterChange={onTopFiltersChange} onDateRange={onDateRange} onExport={getExcelData} excelLoading={excelLoading} />
-                            <Accordion loading={orders.loading} list={orders.data.data} />
+                            <Accordion isDv={true} loading={orders.loading} list={orders.data.data} />
                             {orders.data.total > 20 && (
                                 <OrdersPagination last_page={orders.data.last_page} onFilterChange={onFilterChange} initialPage={filterProps.page} />
                             )}
