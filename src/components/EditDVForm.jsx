@@ -28,9 +28,9 @@ const EditDVForm = () => {
     console.log('updated too', police);
     const [documentTypeOptions] = useState([
         { value: 'Устав', label: 'Устав' },
-        { value: 'Доверенность', label: 'Доверенность' },
-        { value: 'Свидетельство о государственной регистрации ФЛ в качестве ИП', label: 'ИП' },
-        { value: 'Лист записи ЕГРИП', label: 'Лист записи ЕГРИП' }
+        { value: 'Доверенность', label: 'Доверенность/ОГРН' },
+        // { value: 'Свидетельство о государственной регистрации ФЛ в качестве ИП', label: 'ИП' },
+        // { value: 'Лист записи ЕГРИП', label: 'Лист записи ЕГРИП' }
     ]);
     const { getValues, control, watch, register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {

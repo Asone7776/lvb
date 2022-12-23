@@ -97,7 +97,7 @@ const CompletePolice = () => {
                                     </div>
                                 </div>
                                 <div className="divider"></div>
-                                <div className="row">
+                                <div className="row mb-3">
                                     {police && police.data && police.data.order.buy_url ? (
                                         <div className="col-6">
                                             <InfoItem subTitle='Полис страхования' link={police && police.data && police.data.order.buy_url} />
@@ -106,6 +106,14 @@ const CompletePolice = () => {
                                     {police && police.data && police.data.order.invoice_url ? (
                                         <div className="col-6">
                                             <InfoItem subTitle='Счёт на оплату' link={police && police.data && police.data.order.invoice_url} />
+                                        </div>
+                                    ) : null}
+
+                                </div>
+                                <div className="row">
+                                    {police && police.data && police.data.order.policy_url ? (
+                                        <div className="col-6">
+                                            <InfoItem subTitle='Черновик' link={police && police.data && police.data.order.policy_url} />
                                         </div>
                                     ) : null}
                                 </div>

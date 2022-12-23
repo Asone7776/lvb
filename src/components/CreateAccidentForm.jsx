@@ -101,8 +101,8 @@ const CreateAccidentForm = () => {
         let birthDate = moment(`${birthday[2]}-${birthday[1]}-${birthday[0]}`);
         let difference = currentDate.diff(birthDate, 'years') + +(term / 12).toFixed(2);
         if (!difference || typeof difference === NaN) return;
-        if (difference >= 65) {
-            failureNotify('Возраст страхователя должен быть меньше 65');
+        if (difference >= 70) {
+            failureNotify('Возраст страхователя должен быть меньше 70');
         }
     }, [birthday]);
     useEffect(() => {

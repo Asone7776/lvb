@@ -191,7 +191,7 @@ const AccordionItem = ({ isDv = false, item, onStatusChange }) => {
                         <>
                             {isDv ? (
                                 <div className="row">
-                                    {item && item.options.map((coverage, index) => (
+                                    {item && item.options && item.options.map((coverage, index) => (
                                         <div className={index === 0 ? 'col-5' : index === 1 ? 'col-4' : 'col-3'} key={`options-${index}`} style={{ marginBottom: 10 }}>
                                             <div className="item">
                                                 <div className="sub-heading">{RISKS_DESCRIPTIONS[coverage.code]}</div>
