@@ -80,6 +80,7 @@ const EditDVForm = () => {
     const full_name = watch(['name']);
     const cardData = watch(['signer', 'legal_address', 'index', 'city', 'street', 'house', 'building', 'flat']);
     const currentLegalType = getValues('legal_type');
+    const currentType = prefix && prefix[0] && prefix[0].value;
     const onSubmit = (data) => {
         let risks = [];
         if (safe?.coverages) {
@@ -264,7 +265,7 @@ const EditDVForm = () => {
                                 {documentType && documentType[0]?.value !== documentTypes.DOCUMENT_TYPE_2 ? (
                                     <>
                                         <div className="form-group">
-                                            <h5>Дата доверенности</h5>
+                                            <h5>{currentType === "IP" ? "Дата регистрации свидетельства" : "Дата доверенности"}</h5>
                                             <Controller
                                                 name="attorney_date"
                                                 control={control}
@@ -285,7 +286,7 @@ const EditDVForm = () => {
                                 {documentType && documentType[0]?.value === documentTypes.DOCUMENT_TYPE_1 || documentType[0]?.value === documentTypes.DOCUMENT_TYPE_3 ? (
                                     <>
                                         <div className="form-group">
-                                            <h5>Доверенность</h5>
+                                            <h5>{currentType === "IP" ? "Номер сведетельства" : "Доверенность"}</h5>
                                             <input placeholder='Доверенность' className='form-control' type="text" {...register('attorney', {
                                                 required: requiredPattern
                                             })} />
