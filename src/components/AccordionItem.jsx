@@ -5,7 +5,8 @@ import { saveEditData, holdPolice } from "../redux/slices/policeSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RISKS_DESCRIPTIONS } from "../risk-constants";
-
+import { saveItem } from '../redux/slices/safeSlice';
+import { tariffs } from "../constants";
 const AccordionItem = ({ isDv = false, item, onStatusChange }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -46,6 +47,7 @@ const AccordionItem = ({ isDv = false, item, onStatusChange }) => {
             navigate(`/admin/edit-cardsafe/${item.id}`);
         }
         if (item.form_type === 2) {
+            dispatch(saveItem(tariffs[item.term]))
             navigate(`/admin/edit-dv/${item.id}`);
         }
     }
