@@ -10,9 +10,17 @@ import { axiosAuth } from '../axios-instances';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { saveCardSafePolicy } from '../redux/actions/policeActions';
-import InputRangeSteps from './InputRangeSteps';
 import { resetSavedData } from '../redux/slices/policeSlice';
 import CustomCardSafeModal from './CustomCardSafeModal';
+const prices = [
+    { value: 50000, label: '50 000' },
+    { value: 100000, label: '100 000' },
+    { value: 200000, label: '200 000' },
+    { value: 400000, label: '400 000' },
+    { value: 600000, label: '600 000' },
+    { value: 800000, label: '800 000' },
+];
+
 const CreateCardSafeForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -29,7 +37,7 @@ const CreateCardSafeForm = () => {
             phone: "+7(___)___-__-__",
             legal_type: { value: 'OOO', label: 'OOO' },
             // name:'organization',
-            sum: 400000,
+            sum: prices[3],
             // email: "asone7776@gmail.com",
             // inn: 3456782324,
             // kpp: 695001001,
@@ -72,7 +80,8 @@ const CreateCardSafeForm = () => {
     const sendData = async (data) => {
         const dataToSend = {
             ...data,
-            legal_type: data.legal_type ? data.legal_type.value : null
+            legal_type: data.legal_type ? data.legal_type.value : null,
+            sum: data.sum ? data.sum.value : null
         }
         dispatch(saveCardSafePolicy(dataToSend));
     }
@@ -112,7 +121,21 @@ const CreateCardSafeForm = () => {
                             <div className="card-body">
                                 <div className="form-group">
                                     <h5>Страховая сумма (рубли)</h5>
-                                    <InputRangeSteps
+
+                                    <Controller
+                                        name="sum"
+                                        control={control}
+                                        render={({ field }) => {
+                                            return (
+                                                <ParentCreateSelect
+                                                    name="sum"
+                                                    options={prices}
+                                                    {...field}
+                                                />
+                                            );
+                                        }}
+                                    />
+                                    {/* <InputRangeSteps
                                         withInput={false}
                                         step={'200000'}
                                         suffix={''}
@@ -122,7 +145,7 @@ const CreateCardSafeForm = () => {
                                         middle={600000}
                                         max={800000}
                                         onChangeValue={(value) => { setValue('sum', value ? value : 400000) }}
-                                    />
+                                    /> */}
                                 </div>
                             </div>
                         </div>
@@ -204,7 +227,7 @@ const CreateCardSafeForm = () => {
                         </div>
                     </div>
                     <div className="col-4">
-                        <InfoCardSafeCreate data={allFields} complete={true} loading={savedPolicy.loading} />
+                        <InfoCardSafeCreate data={{ ...allFields, sum: allFields.sum.value }} complete={true} loading={savedPolicy.loading} />
                     </div>
                 </div>
             </form>
